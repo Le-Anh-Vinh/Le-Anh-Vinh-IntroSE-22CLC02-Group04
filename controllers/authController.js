@@ -1,8 +1,10 @@
 import db from '../config/db.js';
 import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
 import MyError from '../cerror.js';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
-import auth from '../firebase.js';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import auth from '../config/auth.js';
+import admin from '../config/admin.js';
+
 
 const authController = {
     getAll: async (req, res, next) => {
@@ -13,58 +15,48 @@ const authController = {
         }
     },
 
-    getLogin: (req, res, next) => {
+    getAuthentication: (req, res, next) => {
         try {
-            res.render('login', { title: 'Login' });
+            res.render('authentication');
         } catch (error) {
             next(new MyError(404, "Can't found log in page"));
         }
     },
 
-    getSignup: (req, res, next) => {
+    signup: async (req, res, next) => {
         try {
-            res.render('signup', { title: 'Signup' });
+            const formInput = req.body; // {email: "", password: "", name = ""}
+
+            const userRecord = await admin.auth().createUser({
+                email: formInput.email,
+                password: formInput.password,
+                displayName: formInput.name
+            });
+
+            await admin.auth().setCustomUserClaims(userRecord.uid, { role: 'user' });
+
         } catch (error) {
-            next(new MyError(404, "Can't found sign up page"));
+            res.status(500).json({ status: false, error: error.message });
         }
     },
 
-    signup: (req, res, next) => {
+    login: async (req, res, next) => {
         try {
             const formInput = req.body; // {email: "", password: ""}
 
-            createUserWithEmailAndPassword(auth, formInput.email, formInput.password)
-                .then((userCredential) => {
-                    const user = userCredential.user;
-                    console.log("User signed up:", user);
-                    res.status(200).send("User signed up successfully");
-                })
-                .catch((error) => {
-                    console.error("Error signing up:", error);
-                    next(new MyError(401, "Invalid signup request"));
-                });
+            const userCredential = await signInWithEmailAndPassword(auth, formInput.email, formInput.password)
+            if (userCredential) {
+                const user = userCredential.user;
+                const idToken = await user.getIdToken(); 
+                const decodedToken = await admin.auth().verifyIdToken(idToken);
+                const role = decodedToken.role;
+                res.json({ success: true, user: user, role: role });
+            }
+            else {
+                next(new MyError(401, "Invalid login request"));
+            }
         } catch (error) {
-            console.error("Error in signup:", error);
-            next(new MyError(500, "There was something wrong with signup"));
-        }
-    },
-
-    login: (req, res, next) => {
-        try {
-            const formInput = req.body; // {email: "", password: ""}
-
-            signInWithEmailAndPassword(auth, formInput.email, formInput.password)
-                .then((userCredential) => {
-                    const user = userCredential.user;
-                    console.log("User signed in:", user);
-                    res.status(200).send("User signed in successfully");
-                })
-                .catch((error) => {
-                    console.error("Error signing in:", error);
-                    next(new MyError(401, "Invalid login request"));
-                });
-        } catch (error) {
-            console.error("Error in login:", error);
+            res.json({ success: false, error: error });
             next(new MyError(500, "There was something wrong with login"));
         }
     }
