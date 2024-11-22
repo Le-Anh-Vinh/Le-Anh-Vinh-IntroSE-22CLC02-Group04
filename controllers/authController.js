@@ -1,8 +1,7 @@
-import db from '../config/db.js';
+import { db, auth } from '../config/db.js';
 import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
 import MyError from '../cerror.js';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
-import auth from '../firebase.js';
 
 const authController = {
     getAll: async (req, res, next) => {
