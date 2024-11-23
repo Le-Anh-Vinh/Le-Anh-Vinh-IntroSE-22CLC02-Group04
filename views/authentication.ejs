@@ -382,8 +382,6 @@
                     body: JSON.stringify(user),
                 });
 
-                console.log(response);
-
                 if (response.ok) {
                     alert('Signup successfully!');
                 } else {
@@ -459,7 +457,7 @@
                 <span>Password</span>
                 <input type="password" id="loginPassword" />
             </label>
-            <a href="" class="forgot-pass">Forgot password?</a>
+            <a href="/forget_password" class="forgot-pass">Forgot password?</a>
             <button type="button" class="submit" id="loginButton" onclick="login(event)">Sign In</button>
 
         </div>

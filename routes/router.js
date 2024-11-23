@@ -9,9 +9,11 @@ const router = express.Router();
 router.get('/', mainController.getAll);
 //auth
 router.get('/auth', authController.getAuthentication);
+router.get('/forget_password', authController.getForgetPassword);
 router.post('/signup', authController.signup);
-router.post('/login', authController.login)
-router.post('/changepass', authController.changePassword)
+router.post('/login', authController.login);
+router.post('/forget_password', authController.resetPassword);
+router.post('/change_password', authController.changePassword);
 //store
 
 //admin

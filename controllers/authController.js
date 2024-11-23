@@ -1,6 +1,6 @@
 import productData from '../models/products.js';
 import MyError from '../cerror.js';
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import auth from '../config/auth.js';
 import admin from '../config/admin.js';
 
@@ -16,7 +16,7 @@ const authController = {
 
     getForgetPassword: (req, res, next) => {
         try {
-            res.render('authentication');
+            res.render('forgotPass');
         } catch (error) {
             next(new MyError(404, "Can't found log in page"));
         }
@@ -65,10 +65,12 @@ const authController = {
         }
     },
 
-    forgetPassword: async (req, res, next) => {
+    resetPassword: async (req, res, next) => {
         try {
             const { email } = req.body;
-            admin.auth().generatePasswordResetLink(email);
+            console.log(email);
+            await sendPasswordResetEmail(auth, email);
+            res.json({status: true});
         } catch (error) {
             res.status(500).json({ success: false, error: error.message });
         }
