@@ -1,5 +1,4 @@
-import db from '../config/db.js';
-import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
+import productData from '../models/products.js';
 import MyError from '../cerror.js';
 
 const adminController = {};

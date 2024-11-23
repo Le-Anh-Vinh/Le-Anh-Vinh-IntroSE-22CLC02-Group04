@@ -1,5 +1,4 @@
-import db from '../config/db.js';
-import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
+import productData from '../models/products.js';
 import MyError from '../cerror.js';
 
 const mainController = {
@@ -7,7 +6,10 @@ const mainController = {
         //get uid => auth/main
         //get role => phân hệ
         try {
-            res.render('home');
+            const products = await productData.all();
+            console.log(products);
+
+            res.render('home' , { products });
         } catch (error) {
             next(new MyError(404, "Can't found Home page"));
         }
