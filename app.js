@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import config from "./config/config.js";
-import authRouter from "./routes/authRouter.js";
+import router from "./routes/router.js";
 
 const app = express();
 
@@ -16,7 +16,7 @@ app.set("views", "./views");
 
 app.use(express.static("./public"));
 
-app.use('/', authRouter);
+app.use('/', router);
 
 app.use((err, req, res, next) => {
     const status = err.statusCode || 404;
