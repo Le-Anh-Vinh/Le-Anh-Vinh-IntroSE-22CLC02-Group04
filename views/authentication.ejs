@@ -299,15 +299,19 @@
         }
 
         .forgot-pass {
-            margin-top: 15px;
+            margin-top: 22px;
             text-align: center;
             font-size: 14px;
             color: #6c6b6b;
             font-weight: 400;
+            cursor: pointer;
+            position: absolute;
+            right: 262px;
+            text-decoration: none;
         }
 
         .submit {
-            margin-top: 40px;
+            margin-top: 60px;
             margin-bottom: 20px;
             background: #b48b52;
             text-transform: uppercase;
@@ -455,7 +459,7 @@
                 <span>Password</span>
                 <input type="password" id="loginPassword" />
             </label>
-            <p class="forgot-pass">Forgot password?</p>
+            <a href="" class="forgot-pass">Forgot password?</a>
             <button type="button" class="submit" id="loginButton" onclick="login(event)">Sign In</button>
 
         </div>
@@ -486,16 +490,20 @@
             <div class="form sign-up">
                 <h2>Create your Account</h2>
                 <label>
-                    <span>Email</span>
+                    <span>Name</span>
                     <input type="text" id="signupName" />
                 </label>
                 <label>
-                    <span>Password</span>
+                    <span>Email</span>
                     <input type="email" id="signupEmail" />
                 </label>
                 <label>
-                    <span>Confirm Password</span>
+                    <span>Password</span>
                     <input type="password" id="signupPassword" />
+                </label>
+                <label>
+                    <span>Confirm Password</span>
+                    <input type="ConfirmPassword" id="ConfirmSignupPassword" />
                 </label>
                 <button type="button" class="submit" id="signupButton" onclick="signup(event)">Sign Up</button>
 
