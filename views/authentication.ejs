@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEase - Shope with Ease</title>
+    <style>
+        *,
+        *:before,
+        *:after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+            background: #ffffff;
+        }
+
+        input,
+        button {
+            border: none;
+            outline: none;
+            background: none;
+            font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+        }
+
+        .tip {
+            font-size: 20px;
+            margin: 40px auto 50px;
+            text-align: center;
+        }
+
+        .cont {
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            width: 900px;
+            height: 550px;
+            margin: 50px auto 100px;
+            background: #ffd36d;
+            box-shadow: -10px -10px 15px rgba(255, 255, 255, 0.3), 10px 10px 15px rgba(70, 70, 70, 0.15), inset -10px -10px 15px rgba(255, 255, 255, 0.3), inset 10px 10px 15px rgba(70, 70, 70, 0.15);
+        }
+
+        .form {
+            position: relative;
+            width: 640px;
+            height: 100%;
+            -webkit-transition: -webkit-transform 1.2s ease-in-out;
+            transition: -webkit-transform 1.2s ease-in-out;
+            transition: transform 1.2s ease-in-out;
+            transition: transform 1.2s ease-in-out, -webkit-transform 1.2s ease-in-out;
+            padding: 50px 30px 0;
+        }
+
+        .sub-cont {
+            overflow: hidden;
+            position: absolute;
+            left: 640px;
+            top: 0;
+            width: 900px;
+            height: 100%;
+            padding-left: 260px;
+            background: #fdc84e;
+            -webkit-transition: -webkit-transform 1.2s ease-in-out;
+            transition: -webkit-transform 1.2s ease-in-out;
+            transition: transform 1.2s ease-in-out;
+            transition: transform 1.2s ease-in-out, -webkit-transform 1.2s ease-in-out;
+        }
+
+        .cont.s--signup .sub-cont {
+            -webkit-transform: translate3d(-640px, 0, 0);
+            transform: translate3d(-640px, 0, 0);
+        }
+
+        button {
+            display: block;
+            margin: 0 auto;
+            width: 260px;
+            height: 36px;
+            border-radius: 30px;
+            color: #fff;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .img {
+            overflow: hidden;
+            z-index: 2;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 260px;
+            height: 100%;
+            padding-top: 360px;
+        }
+
+        .img:before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 900px;
+            height: 100%;
+            background-image: url("ext.jpg");
+            opacity: .8;
+            background-size: cover;
+            -webkit-transition: -webkit-transform 1.2s ease-in-out;
+            transition: transform 1.2s ease-in-out;
+            transition: transform 1.2s ease-in-out, -webkit-transform 1.2s ease-in-out;
+        }
+
+        .img:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(195, 129, 15, 0.6);
+        }
+
+        .cont.s--signup .img:before {
+            -webkit-transform: translate3d(640px, 0, 0);
+            transform: translate3d(640px, 0, 0);
+        }
+
+        .img__text {
+            z-index: 2;
+            position: absolute;
+            left: 0;
+            top: 50px;
+            width: 100%;
+            padding: 0 20px;
+            text-align: center;
+            color: #fff;
+            -webkit-transition: -webkit-transform 1.2s ease-in-out;
+            transition: -webkit-transform 1.2s ease-in-out;
+            transition: transform 1.2s ease-in-out;
+            transition: transform 1.2s ease-in-out, -webkit-transform 1.2s ease-in-out;
+        }
+
+        .img__text h2 {
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+
+        .img__text p {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .cont.s--signup .img__text.m--up {
+            -webkit-transform: translateX(520px);
+            transform: translateX(520px);
+        }
+
+        .img__text.m--in {
+            -webkit-transform: translateX(-520px);
+            transform: translateX(-520px);
+        }
+
+        .cont.s--signup .img__text.m--in {
+            -webkit-transform: translateX(0);
+            transform: translateX(0);
+        }
+
+        .img__btn {
+            overflow: hidden;
+            z-index: 2;
+            position: relative;
+            width: 100px;
+            height: 36px;
+            margin: 0 auto;
+            background: transparent;
+            color: #fff;
+            text-transform: uppercase;
+            font-size: 15px;
+            cursor: pointer;
+            top: 35px;
+        }
+
+        .img__btn:after {
+            content: '';
+            z-index: 2;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid #fff;
+            border-radius: 30px;
+        }
+
+        .img__btn span {
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: -webkit-box;
+            display: flex;
+            -webkit-box-pack: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            -webkit-transition: -webkit-transform 1.2s;
+            transition: -webkit-transform 1.2s;
+            transition: transform 1.2s;
+            transition: transform 1.2s, -webkit-transform 1.2s;
+        }
+
+        .img__btn span.m--in {
+            -webkit-transform: translateY(-72px);
+            transform: translateY(-72px);
+        }
+
+        .cont.s--signup .img__btn span.m--in {
+            -webkit-transform: translateY(0);
+            transform: translateY(0);
+        }
+
+        .cont.s--signup .img__btn span.m--up {
+            -webkit-transform: translateY(72px);
+            transform: translateY(72px);
+        }
+
+        .img__logo{
+            position: absolute;
+            display: block;
+            width: 220px;
+            height: 125px;;
+            top: 170px;
+            right: 20px;
+            background-color: #7e6a4e;
+            overflow: hidden;
+            z-index: 2;
+            background-color: transparent;
+            -webkit-transition: -webkit-transform 1.2s ease-in-out;
+            transition: -webkit-transform 1.2s ease-in-out;
+            transition: transform 1.2s ease-in-out;
+            transition: transform 1.2s ease-in-out, -webkit-transform 1.2s ease-in-out;
+        }
+
+        .cont.s--signup .img__logo.m--up {
+            -webkit-transform: translateX(520px);
+            transform: translateX(520px);
+        }
+
+        .img__logo.m--in {
+            -webkit-transform: translateX(-520px);
+            transform: translateX(-520px);
+        }
+
+        .cont.s--signup .img__logo.m--in {
+            -webkit-transform: translateX(0);
+            transform: translateX(0);
+        }
+
+        .logo_img{
+            position: absolute;
+            display: block;
+            margin: 20px auto; 
+            width: 220px;
+            height:auto;
+            
+        }
+
+        h2 {
+            width: 100%;
+            font-size: 26px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            width: 260px;
+            margin: 25px auto 0;
+            text-align: center;
+        }
+
+        label span {
+            font-size: 12px;
+            color: #000000;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        input {
+            display: block;
+            width: 100%;
+            margin-top: 5px;
+            padding-bottom: 5px;
+            font-size: 16px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .forgot-pass {
+            margin-top: 22px;
+            text-align: center;
+            font-size: 14px;
+            color: #6c6b6b;
+            font-weight: 400;
+            cursor: pointer;
+            position: absolute;
+            right: 262px;
+            text-decoration: none;
+        }
+
+        .submit {
+            margin-top: 60px;
+            margin-bottom: 20px;
+            background: #b48b52;
+            text-transform: uppercase;
+        }
+
+        .fb-btn {
+            border: 2px solid #d3dae9;
+            color: #8fa1c7;
+        }
+
+        .fb-btn span {
+            font-weight: bold;
+            color: #455a81;
+        }
+
+        .sign-in {
+            -webkit-transition-timing-function: ease-out;
+            transition-timing-function: ease-out;
+        }
+
+        .cont.s--signup .sign-in {
+            -webkit-transition-timing-function: ease-in-out;
+            transition-timing-function: ease-in-out;
+            -webkit-transition-duration: 1.2s;
+            transition-duration: 1.2s;
+            -webkit-transform: translate3d(640px, 0, 0);
+            transform: translate3d(640px, 0, 0);
+        }
+
+        .sign-up {
+            -webkit-transform: translate3d(-900px, 0, 0);
+            transform: translate3d(-900px, 0, 0);
+        }
+
+        .cont.s--signup .sign-up {
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+        }
+    </style>
+
+    <script defer>
+        const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+        async function signup(event) {
+            event.preventDefault();
+            const signupButton = document.getElementById('signupButton');
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const name = document.getElementById('signupName').value;
+
+            if (password.length < 8 || !regexEmail.test(email)) {
+                alert("Your password/email is invalid");
+                return;
+            }
+
+            const user = {
+                email: email,
+                password: password,
+                name: name
+            };
+
+            try {
+                signupButton.disabled = true;
+                signupButton.innerText = "Submitting...";
+                const response = await fetch('/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(user),
+                });
+
+                console.log(response);
+
+                if (response.ok) {
+                    alert('Signup successfully!');
+                } else {
+                    const error = await response.json();
+                    console.log(error)
+                    alert(`Failed to signup, Reason: ${error.error || 'Unknown error'}`);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while submitting the form.');
+            } finally {
+                signupButton.disabled = false;
+                signupButton.innerText = "Submit";
+            }
+        }
+
+        async function login(event) {
+            event.preventDefault();
+            const loginButton = document.getElementById('loginButton');
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            if (!regexEmail.test(email)) {
+                alert("Invalid email format.");
+                return;
+            }
+            if (password === "") {
+                alert("Password cannot be empty.");
+                return;
+            }
+
+            const user = { email: email, password: password };
+
+            try {
+                loginButton.disabled = true;
+                loginButton.innerText = "Submitting...";
+
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(user),
+                });
+
+                if (response.ok) {
+                    const { user, role } = await response.json();
+                    console.log(role);
+                    console.log(user.displayName);
+                    alert('Login successfully!');
+                } else {
+                    const error = await response.json();
+                    alert(`Failed to login, error: ${error.message || 'Unknown error'}`);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while submitting the form.');
+            } finally {
+                loginButton.disabled = false;
+                loginButton.innerText = "Submit";
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="cont">
+        <div class="form sign-in">
+            <h2>Welcome</h2>
+            <label>
+                <span>Email</span>
+                <input type="email" id="loginEmail" />
+            </label>
+            <label>
+                <span>Password</span>
+                <input type="password" id="loginPassword" />
+            </label>
+            <a href="" class="forgot-pass">Forgot password?</a>
+            <button type="button" class="submit" id="loginButton" onclick="login(event)">Sign In</button>
+
+        </div>
+        <div class="sub-cont">
+            <div class="img">
+                <div class="img__text m--up">
+
+                    <h3>Don't have an account? Please Sign up!<h3>
+                </div>
+                <div class="img__text m--in">
+
+                    <h3>If you already has an account, just sign in.<h3>
+                </div>
+
+                <div class="img__logo m--up">
+                    <img src="./img/logo.png" alt="Logo" class="logo_img">
+                </div>
+
+                <div class="img__logo m--in">
+                    <img src="./img/logo.png" alt="Logo" class="logo_img">
+                </div>
+
+                <div class="img__btn">
+                    <span class="m--up">Sign Up</span>
+                    <span class="m--in">Sign In</span>
+                </div>
+            </div>
+            <div class="form sign-up">
+                <h2>Create your Account</h2>
+                <label>
+                    <span>Name</span>
+                    <input type="text" id="signupName" />
+                </label>
+                <label>
+                    <span>Email</span>
+                    <input type="email" id="signupEmail" />
+                </label>
+                <label>
+                    <span>Password</span>
+                    <input type="password" id="signupPassword" />
+                </label>
+                <label>
+                    <span>Confirm Password</span>
+                    <input type="ConfirmPassword" id="ConfirmSignupPassword" />
+                </label>
+                <button type="button" class="submit" id="signupButton" onclick="signup(event)">Sign Up</button>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector('.img__btn').addEventListener('click', function () {
+            document.querySelector('.cont').classList.toggle('s--signup');
+        });
+    </script>
+</body>
+
+</html>
