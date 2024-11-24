@@ -2,8 +2,8 @@ import db from '../config/db.js';
 import { collection, addDoc, query, where, getDocs, updateDoc, doc } from 'firebase/firestore';
 import MyError from '../cerror.js';
 import averageRate from '../utils/rate/averageRate.js';
-import product from '../models/product.js';
-import productVar from '../models/product_variation.js';
+import productData from '../models/product.js';
+import variation from '../models/product_variation.js';
 import user from '../models/user.js';
 
 const productController = {
@@ -94,7 +94,7 @@ const productController = {
         try {
             const formInput = req.body;
             // handle product information
-            const productDoc = await product.one(formInput.productID);
+            const productDoc = await productData.one(formInput.productID);
             if (!productDoc) {
                 new MyError(404, "Product not found");
             }
@@ -116,7 +116,7 @@ const productController = {
             const storeRate = storeDoc.docs().rate;
 
             // handle product variation
-            const variantSnapshot = await productVar.productVariation(formInput.productID);
+            const variantSnapshot = await variation.productVariation(formInput.productID);
             // take all variant value if it exists
             const productVariants = [];
             if (!variantSnapshot) {
