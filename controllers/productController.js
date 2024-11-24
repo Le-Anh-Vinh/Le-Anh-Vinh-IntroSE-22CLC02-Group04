@@ -82,17 +82,9 @@ const productController = {
     //         next(new MyError(404, "There was something wrong with updating product"));
     //     }
     // }
-    getDetailProduct: async (req, res, next) => {
-        try {
-            res.render('detailProduct');
-        } catch (error) {
-            new MyError(404, "Can't found detail product page");
-        }
-    },
-
     detailProduct: async (req, res, next) => {
         try {
-            const formInput = req.body;
+            const formInput = req.params.productID;
             // handle product information
             const productDoc = await productData.one(formInput.productID);
             if (!productDoc) {
@@ -142,8 +134,7 @@ const productController = {
                 });
             }
             
-            res.status(200).json({
-                success: true,
+            res.render('detailProduct', {
                 productName: productName,
                 productPrice: productPrice,
                 productDescription: productDescription,
@@ -154,7 +145,7 @@ const productController = {
                 recentRates: recentRates,           //arr (3 lastest rate)
                 avgRate: avgRate,
                 relativeProducts: relativeProducts
-            })
+            });
         } catch (error) {
             res.json({ success: false, error: error });
             new MyError(500, "There was something wrong with product detail");
