@@ -16,7 +16,7 @@
 
         body {
             font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-            background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgb(182, 182, 107));
+            background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgb(182, 182, 107));
         }
 
         input,
@@ -227,11 +227,12 @@
             transform: translateY(72px);
         }
 
-        .img__logo{
+        .img__logo {
             position: absolute;
             display: block;
             width: 220px;
-            height: 125px;;
+            height: 125px;
+            ;
             top: 170px;
             right: 20px;
             background-color: #7e6a4e;
@@ -259,13 +260,13 @@
             transform: translateX(0);
         }
 
-        .logo_img{
+        .logo_img {
             position: absolute;
             display: block;
-            margin: 20px auto; 
+            margin: 20px auto;
             width: 220px;
-            height:auto;
-            
+            height: auto;
+
         }
 
         h2 {
@@ -351,7 +352,7 @@
             transform: translate3d(0, 0, 0);
         }
 
-        .checkbox{
+        .checkbox {
             display: flex;
             position: relative;
             width: 200px;
@@ -359,23 +360,23 @@
             margin-top: 8px;
         }
 
-        .sign-up__checkbox p{
+        .sign-up__checkbox p {
             margin-top: 8px;
         }
 
-        .customer_checkbox{
+        .customer_checkbox {
             height: 22px;
         }
 
-        .seller_checkbox{
+        .seller_checkbox {
             height: 22px;
         }
 
-        #signupButton{
+        #signupButton {
             margin-top: 30px;
         }
 
-        #loginButton{
+        #loginButton {
             margin-top: 60px;
         }
     </style>
@@ -386,24 +387,41 @@
         async function signup(event) {
             event.preventDefault();
             const signupButton = document.getElementById('signupButton');
+            const checkBox = document.querySelectorAll('.form input');
+
             const email = document.getElementById('signupEmail').value.trim();
             const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('ConfirmSignupPassword').value;
+            const role = document.querySelector('input[name="option1"]:checked').value;
             const name = document.getElementById('signupName').value;
 
-            if (password.length < 8 || !regexEmail.test(email)) {
-                alert("Your password/email is invalid");
+            if (!regexEmail.test(email)) {
+                alert("Your email is invalid");
+                return;
+            }
+
+            if (password.length < 8 || password !== confirmPassword) {
+                alert("Passwords invalid.");
+                return;
+            }
+
+            if (!role) {
+                alert("Please select a role.");
                 return;
             }
 
             const user = {
                 email: email,
                 password: password,
-                name: name
+                name: name,
+                role: role
             };
 
             try {
                 signupButton.disabled = true;
                 signupButton.innerText = "Submitting...";
+                checkBox.forEach(input => input.disabled = true);
+
                 const response = await fetch('/signup', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -423,6 +441,7 @@
             } finally {
                 signupButton.disabled = false;
                 signupButton.innerText = "Submit";
+                checkBox.forEach(input => input.disabled = false);
             }
         }
 
@@ -515,22 +534,7 @@
             </div>
             <div class="form sign-up">
                 <h2>Create your Account</h2>
-                <label>
-                    <span>You are a </span>
-                </label>
-                
-                <label class="checkbox">
-                    <div class="sign-up__checkbox">
-                        <input type="radio" name="option1" value="1" class="customer_checkbox">
-                        <span>customer</span>
-                    </div>
 
-                    <div class="sign-up__checkbox">
-                        <input type="radio" name="option1" value="1" class="seller_checkbox">
-                        <span>seller</span>
-                    </div>
-                     
-                </label>
                 <label>
                     <span>Name</span>
                     <input type="text" id="signupName" />
@@ -545,7 +549,23 @@
                 </label>
                 <label>
                     <span>Confirm Password</span>
-                    <input type="ConfirmPassword" id="ConfirmSignupPassword" />
+                    <input type="password" id="ConfirmSignupPassword" />
+                </label>
+                <label>
+                    <span>You are a </span>
+                </label>
+
+                <label class="checkbox">
+                    <div class="sign-up__checkbox">
+                        <input type="radio" name="option1" value="user" class="customer_checkbox">
+                        <span>customer</span>
+                    </div>
+
+                    <div class="sign-up__checkbox">
+                        <input type="radio" name="option1" value="store" class="seller_checkbox">
+                        <span>seller</span>
+                    </div>
+
                 </label>
                 <button type="button" class="submit" id="signupButton" onclick="signup(event)">Sign Up</button>
 

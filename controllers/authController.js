@@ -32,7 +32,9 @@ const authController = {
                 displayName: formInput.name
             });
 
-            await admin.auth().setCustomUserClaims(userRecord.uid, { role: 'user' });
+            
+
+            await admin.auth().setCustomUserClaims(userRecord.uid, { role: formInput.role });
 
         } catch (error) {
             res.status(500).json({ status: false, error: error.message });
