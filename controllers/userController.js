@@ -11,7 +11,7 @@ const mainController = {
         try {
             const products = await productData.all();
 
-            res.render('home', { products });
+            res.render('home', products);
         } catch (error) {
             next(new MyError(404, "Can't found Home page"));
         }
@@ -22,7 +22,7 @@ const mainController = {
             const id = req.params.id;
             const product = await productData.get(id);
 
-            res.render('product', { product });
+            res.render('product', product);
         } catch (error) {
             next(new MyError(404, "Can't found Home page"));
         }
@@ -35,10 +35,13 @@ const mainController = {
 
             if (data.role == 'user') {
                 const { uid, ...user } = data;
-                res.render('userProfile', { user });
+                res.render('userProfile', user);
+                console.log(user);
             } else if (data.role === 'store') {
                 const { store_id, ...store } = data;
-                res.render('shopProfile', { store });
+                res.render('shopProfile', store);
+            } else {
+                res.render('adminProfile', data);
             }
         } catch (error) {
             next(new MyError(404, "Can't found Home page"));
