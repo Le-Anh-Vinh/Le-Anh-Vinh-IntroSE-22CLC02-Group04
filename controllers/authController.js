@@ -1,11 +1,8 @@
 import userData from '../models/users.js';
-import cartData from '../models/carts.js';
 import MyError from '../cerror.js';
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import auth from '../config/auth.js';
 import admin from '../config/admin.js';
-import { Timestamp } from 'firebase-admin/firestore';
-
 
 const authController = {
     getAuthentication: (req, res, next) => {
@@ -89,7 +86,7 @@ const authController = {
 
                 newUser = {
                     uid: uid,
-                    display_name: displayName,
+                    username: displayName,
                     name: name,
                     email: email,
                     info: {
