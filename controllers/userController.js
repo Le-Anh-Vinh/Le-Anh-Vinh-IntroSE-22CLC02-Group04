@@ -1,5 +1,6 @@
 import productData from '../models/products.js';
-import rateData from '../models/rating.js';
+import cartData from '../models/carts.js';
+import orderData from '../models/oders.js';
 import userData from '../models/users.js';
 import MyError from '../cerror.js';
 
@@ -8,9 +9,7 @@ const mainController = {
         //get uid => auth/main
         //get role => phân hệ
         try {
-            
             const products = await productData.all();
-            console.log(products);
 
             res.render('home', { products });
         } catch (error) {
@@ -20,8 +19,8 @@ const mainController = {
 
     getProduct: async (req, res, next) => {
         try {
-            const id = parseInt(req.params.id);
-            const product = await productData.one(id);
+            const id = req.params.id;
+            const product = await productData.get(id);
 
             res.render('product', { product });
         } catch (error) {
@@ -31,10 +30,16 @@ const mainController = {
 
     getProfile: async (req, res, next) => {
         try {
-            const id = parseInt(req.params.id);
-            const product = await userData.one(id);
+            const id = req.params.id;
+            const data = await userData.get(id);
 
-            res.render('user_profile', { product });
+            if (data.role == 'user') {
+                const { uid, ...user } = data;
+                res.render('userProfile', { user });
+            } else if (data.role === 'store') {
+                const { store_id, ...store } = data;
+                res.render('shopProfile', { store });
+            }
         } catch (error) {
             next(new MyError(404, "Can't found Home page"));
         }
@@ -63,18 +68,10 @@ const mainController = {
             next(new MyError(404, "Can't found Home page"));
         }
     },
-    
+
     addToCart: async (req, res, next) => { },
 
-    addRating: async (req, res, next) => {
-        try {
-            const review = req.body;
-            await rateData.add(review);
-            res.json({status: true});
-        } catch (error) {
-            res.status(500).json({ status: false, error: error.message });
-        }
-    },
+    addRating: async (req, res, next) => { },
 
     viewHistoryOrder: async (req, res, next) => { },
     addNewAddress: async (req, res, next) => { },

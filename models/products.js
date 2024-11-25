@@ -69,7 +69,7 @@ const productData = {
         }
     },
 
-    add: async (product) => {
+    new: async (product) => {
         try {
             const productRef = await addDoc(collection(db, 'product'), product);
             const product_id = productRef.id;
