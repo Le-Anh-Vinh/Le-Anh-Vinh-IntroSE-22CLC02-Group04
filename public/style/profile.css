@@ -6,7 +6,8 @@ body{
     margin-top:20px;
     color: #1a202c;
     text-align: left;
-    background: linear-gradient(45deg, rgba(238, 174, 202, 1) 0%, rgb(182, 182, 107));
+    /* background: linear-gradient(45deg, rgba(238, 174, 202, 1) 0%, rgb(182, 182, 107)); */
+    background-color: #f5e095d6;
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
 }
 
@@ -22,7 +23,7 @@ body{
     margin-left: 150px;
     margin-right: 150px;
     display: flex;
-    background-color: #e9d17b;
+    background-color: #ffe689;
 }
 
 .main-card {
