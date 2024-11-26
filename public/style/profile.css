@@ -69,12 +69,14 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 68px;
+    height: 48px;
+    margin-top: 52px;
 }
 
 .button__purchased-history{
     background-color: #edc26d;
-    height: 30px;
+    height: 40px;
+    margin-top: 12px;
     border-color: #e7ac37;
     border-width: 2px;
     font-size: 18px;
@@ -84,7 +86,7 @@ body{
     background-color: #e3b250;
 }
 
-.button__delete_acc--user{
+/* .button__delete_acc--user{
     background-color: #ffa0a0;
     height: 30px;
     border-color: #fc8989;
@@ -107,7 +109,7 @@ body{
 
 .button__delete_acc--user:hover{
     background-color: #fa8282
-}
+} */
 
 .avatar{
     display: flex;
