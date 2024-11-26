@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style/profile.css">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="main-body">
+                    <div class="main-card">
+                    <div class="main-card__content">
+                        <div class="avatar">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="avatar-img" width="150">
+                        </div>
+                        <div class="main-card__infor">
+                            <h4 class="user-name"><%= user.username %></h4>
+                            <p class="current_address"><%= user.info[0].address %></p>
+                            <div class="button">
+                                <button class="button__purchased-history">Xem lịch sử mua hàng</button>
+                                <button class="button__delete_acc--user">Xóa tài khoản</button>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="second-card">
+                        <div class="row">
+                            <div class="label">
+                                <h4>Họ Tên</h4>
+                            </div>
+                            <div class="display">
+                                <%= user.name %>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="label">
+                                <h4>Email</h4>
+                            </div>
+                            <div class="display">
+                                <%= user.email %>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="label">
+                                <h4>Số điện thoại</h4>
+                            </div>
+                            <div class="display">
+                                <%= user.info[0].phone %>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="label">
+                                <h4>Giới tính</h4>
+                            </div>
+                            <div class="display">
+                                ???
+                            </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <div class="change-infor-btn-container">
+                                <button class="change-infor">Cập nhật thông tin người dùng</button>
+                            </div>
+                        </div>
+                        </div>
+                    
+                    
+                </div>
+                </div>
+                
+                
+
+        </div>
+    </div>
+</body>
+</html>

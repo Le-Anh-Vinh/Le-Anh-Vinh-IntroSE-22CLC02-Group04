@@ -1,0 +1,159 @@
+html, body{
+    height: 100%;
+}
+
+body{
+    margin-top:20px;
+    color: #1a202c;
+    text-align: left;
+    background: linear-gradient(45deg, rgba(238, 174, 202, 1) 0%, rgb(182, 182, 107));
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+}
+
+.grid{
+    width: 1200px;
+    max-width: 100%;
+
+    margin: 0 auto;
+}
+
+.main-body {
+    padding: 15px;
+    margin-left: 150px;
+    margin-right: 150px;
+    display: flex;
+    background-color: #e9d17b;
+}
+
+.main-card {
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+}
+
+.main-card__content{
+    margin-top: 10px;
+}
+
+.second-card {
+    flex: 3;
+    margin-left: 30px;
+}
+
+.label h4{
+    margin: 16px 0px 4px 0px;
+}
+
+.display{
+    margin-bottom: -6px;
+    margin-top: 15px;
+    flex: 2;
+}
+
+.label{
+    flex: 1;
+}
+
+.current_address{
+    margin-top: -10px;
+}
+
+.user-name{
+    font-size: 18px;
+}
+
+.button{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 68px;
+}
+
+.button__purchased-history{
+    background-color: #edc26d;
+    height: 30px;
+    border-color: #e7ac37;
+    border-width: 2px;
+    font-size: 18px;
+}
+
+.button__purchased-history:hover{
+    background-color: #e3b250;
+}
+
+.button__delete_acc--user{
+    background-color: #ffa0a0;
+    height: 30px;
+    border-color: #fc8989;
+    border-width: 2px;
+    font-size: 18px;
+}
+
+.button__delete_acc--shop{
+    background-color: #ffa0a0;
+    height: 36px;
+    border-color: #fc8989;
+    border-width: 2px;
+    font-size: 18px;
+    margin-top: 31px;
+}
+
+.button__delete_acc--shop:hover{
+    background-color: #fa8282
+}
+
+.button__delete_acc--user:hover{
+    background-color: #fa8282
+}
+
+.avatar{
+    display: flex;
+    background-color: #fff;
+    width: 206px;
+    height: 150px;
+    margin: auto;
+    border-radius: 50px;
+    justify-content: center;
+}
+
+.change-infor-btn-container{
+    margin-top: 16px;
+}
+
+.change-infor{
+    width: 100%;
+    height: 36px;
+    margin-top: 14px;
+    font-size: 20px;
+    font-weight: 600;
+    background-color: #edc26d;
+    border-color: #e7ac37;
+}
+
+.change-infor:hover{
+    background-color: #e3b250;
+}
+
+.row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    
+}
+
+.rating {
+    flex: 2;
+    gap: 5px;
+  }
+
+.star {
+    font-size: 30px;
+    color: lightgray;
+  }
+
+.star.selected {
+    color: #e9bc2b;
+  }
