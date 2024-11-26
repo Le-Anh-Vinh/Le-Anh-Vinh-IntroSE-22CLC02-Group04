@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\config",
+    "\\controllers",
+    "\\public",
+    "\\routes",
+    "\\views"
+  ],
+  "SelectedNode": "\\views\\productDetails.ejs",
+  "PreviewInSolutionExplorer": false
+}
