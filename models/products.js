@@ -1,43 +1,121 @@
-//models
 import db from '../config/db.js';
-import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
+import {     collection, doc, query, where, getDocs, updateDoc, deleteDoc, addDoc, getDoc, arrayUnion } from 'firebase/firestore';
 
 const productData = {
-    all: async () => {  
-        const querySnapshot = await getDocs(collection(db, 'product'));
-        const products = querySnapshot.docs.map(doc => doc.data());
-        return products;
+    all: async () => {
+        try {
+            const querySnapshot = await getDocs(collection(db, 'product'));
+            return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        } catch (e) {
+            console.error("Error fetching all products: ", e);
+            return [];
+        }
     },
-    one: async (id) => {
-        const { data } = await module.exports.all();
-        return data.find(product => product.id === id);
+
+    get: async (id) => {
+        try {
+            const productRef = doc(db, 'product', id);
+            const docSnap = await getDoc(productRef);
+            if (docSnap.exists()) {
+                return { id: docSnap.id, ...docSnap.data() };
+            } else {
+                throw new Error("No such document!");
+            }
+        } catch (e) {
+            console.error("Error fetching product: ", e);
+            return null;
+        }
     },
-    search: async (query) => {
-        const { data } = await productData.all();
-        return data.filter(product =>
-            product.name.toLowerCase().includes(query.toLowerCase()) ||
-            product.category.toLowerCase().includes(query.toLowerCase()));
+
+    search: async (queryStr, field = 'all') => {
+        try {
+            const productRef = collection(db, 'product');
+            let q;
+
+            if (field === 'category' || field === 'name') {
+                q = query(productRef, where(field, '>=', queryStr), where(field, '<=', queryStr + '\uf8ff'));
+            } else {
+                const querySnapshot = await getDocs(productRef);
+                const products = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+                return products.filter((product) =>
+                    product.name.toLowerCase().includes(queryStr.toLowerCase()) ||
+                    product.category.toLowerCase().includes(queryStr.toLowerCase())
+                );
+            }
+
+            const querySnapshot = await getDocs(q);
+            return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        } catch (e) {
+            console.error("Error searching products: ", e);
+            return [];
+        }
     },
-    searchCategory: async (query) => {
-        const { data } = await productData.all();
-        return data.filter(product => product.category.toLowerCase().includes(query.toLowerCase()));
+
+    searchAndFilter: async (queryStr = '', field = 'all', filters = []) => {
+        try {
+            let results = await productData.search(queryStr, field);
+
+            results = filters.reduce((filteredData, { field, from, to }) => {
+                return filteredData.filter((item) =>
+                    (from === undefined || item[field] >= from) &&
+                    (to === undefined || item[field] <= to)
+                );
+            }, results);
+
+            return results;
+        } catch (e) {
+            console.error("Error in search and filter: ", e);
+            return [];
+        }
     },
-    //filterData(data, 'price', 12000, 100000)
-    //filterData(data, 'star', 4, 5)
-    filterData: async (data, criteria, from = 0, to = Infinity) => {
-        return data.filter(product => product[criteria] >= from && product[criteria] <= to);
+
+    new: async (product) => {
+        try {
+            const productRef = await addDoc(collection(db, 'product'), product);
+            const product_id = productRef.id;
+            await updateDoc(productRef, { product_id });
+            return { status: true, id: productRef.id };
+        } catch (e) {
+            console.error("Error adding product: ", e);
+            return { status: false, error: e.message };
+        }
     },
-    // in case using pagination
-    paginate: (data, page, perPage) => {
-        const total_pages = Math.ceil(data.length / perPage);
-        const start = (page - 1) * perPage;
-        const end = start + perPage;
-        
-        return {
-            data: data.slice(start, end),
-            current_page: page,
-            total_pages: total_pages,
-        };
+
+    update: async (id, newUpdate) => {
+        try {
+            const productRef = doc(db, 'product', id);
+            const productSnap = await getDoc(productRef);
+            if (productSnap.exists()) {
+                const existingData = productSnap.data();
+                const updatedReviews = arrayUnion(...(existingData.reviews || []), ...(newUpdate.reviews || []));
+                newUpdate.reviews = updatedReviews;
+                newUpdate.rate = productData.calRate(updatedReviews);
+                await updateDoc(productRef, newUpdate);
+                return { status: true };
+            } else {
+                throw new Error("No such document!");
+            }
+        } catch (e) {
+            console.error("Error updating product: ", e);
+            return { status: false, error: e.message };
+        }
+    },
+
+    calRate: (reviews) => {
+        if (!reviews || reviews.length === 0) return 0;
+        const total = reviews.reduce((acc, review) => acc + (review.value || 0), 0);
+        return total / reviews.length;
+    },
+
+    delete: async (id) => {
+        try {
+            const productRef = doc(db, 'product', id);
+            await deleteDoc(productRef);
+            return { status: true };
+        } catch (e) {
+            console.error("Error deleting product: ", e);
+            return { status: false, error: e.message };
+        }
     },
 };
 

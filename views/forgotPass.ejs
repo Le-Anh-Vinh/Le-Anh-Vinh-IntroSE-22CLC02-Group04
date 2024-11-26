@@ -3,18 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="forgotPass.css">
+    <link rel="stylesheet" href="./style/forgotPass.css">
     <title>Document</title>
+    <script defer>
+        const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+        async function resetPassword(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const button = document.getElementById('submitBtn').value;
+
+            if(!regexEmail.test(email)){
+                alert("Your email is invalid!");
+                return;
+            }
+            try {
+                button.disabled = true;
+                button.innerText = "Submitting...";
+                
+                const response = await fetch('/forget_password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: email }),
+                });
+
+                if (response.ok) {
+                    alert("There's an email send to you to reset your password!");
+                } else {
+                    const error = await response.json();
+                    alert(`Failed to signup, Reason: ${error.error || 'Unknown error'}`);
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while submitting the form.');
+            } finally {
+                button.disabled = false;
+                button.innerText = "Submit";
+                // setTimeout(() => {
+                //     button.disabled = false;
+                //     button.innerText = "Submit";
+                // }, 15000);
+            }
+
+        }
+    </script>
 </head>
 <body>
     <main id="content" role="main" class="container">
         <div class="card">
             <div class="card-content">
                 <div class="text-center">
-                    <h1 class="title">Forgot password?</h1>
+                    <h1 clcass="title">Forgot password?</h1>
                     <p class="subtitle">
                         Remember your password?
-                        <a class="link" href="">Login here</a>
+                        <a class="link" href="/auth">Login here</a>
                     </p>
                 </div>
 
@@ -28,7 +71,7 @@
                                 </div>
                                 <p class="error-message" id="email-error">Please include a valid email address so we can get back to you</p>
                             </div>
-                            <button type="submit" class="btn">Reset password</button>
+                            <button type="submit" class="btn" id="submitBtn" onclick="resetPassword(event)">Reset password</button>
                         </div>
                     </form>
                 </div>
