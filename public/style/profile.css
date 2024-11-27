@@ -6,7 +6,7 @@ body{
     margin-top:20px;
     color: #1a202c;
     text-align: left;
-    background: linear-gradient(45deg, rgba(238, 174, 202, 1) 0%, rgb(182, 182, 107));
+    /* background: linear-gradient(45deg, rgba(238, 174, 202, 1) 0%, rgb(182, 182, 107)); */
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
 }
 
@@ -22,7 +22,9 @@ body{
     margin-left: 150px;
     margin-right: 150px;
     display: flex;
-    background-color: #e9d17b;
+    /* background-color: #e9d17b; */
+    background-color: #FFCF9D;
+    border-radius: 10px;
 }
 
 .main-card {
@@ -74,16 +76,18 @@ body{
 }
 
 .button__purchased-history{
-    background-color: #edc26d;
+    background-color: #da986f;
+    border-radius: 10px;
     height: 40px;
     margin-top: 12px;
     border-color: #e7ac37;
     border-width: 2px;
     font-size: 18px;
+    cursor: pointer;
 }
 
 .button__purchased-history:hover{
-    background-color: #e3b250;
+    background-color: #d88e5f;
 }
 
 /* .button__delete_acc--user{
@@ -131,12 +135,14 @@ body{
     margin-top: 14px;
     font-size: 20px;
     font-weight: 600;
-    background-color: #edc26d;
+    background-color: #dcac8e;
     border-color: #e7ac37;
+    border-radius: 10px;
+    cursor: pointer;
 }
 
 .change-infor:hover{
-    background-color: #e3b250;
+    background-color: #dea37f;
 }
 
 .row{
