@@ -85,10 +85,8 @@ const mainController = {
             if (gender) newData.gender = gender;
             if (info) newData.info = info;
 
-            console.log(uid);
-
             const user = await userData.update(uid, newData);
-            res.json({ user: user });
+            res.redirect('/auth');
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
