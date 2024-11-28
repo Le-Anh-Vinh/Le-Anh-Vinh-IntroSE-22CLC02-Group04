@@ -24,6 +24,7 @@
   </head>
   <body>
     <div class="app">
+      <!-- Header -->
       <header class="header">
         <div class="grid wide">
           <nav class="header__navbar hide-on-mobile-tablet">
@@ -45,81 +46,19 @@
               </li>
             </ul>
             <ul class="header__navbar-list">
-              <li class="header__navbar-item header__navbar-item--has-notify">
-                <a href="" class="header__navbar-item-link">
-                  <i class="header__navbar-icon far fa-bell"></i>
-                  Notification
-                </a>
-                <div class="header__notify">
-                  <header class="header__notify-header">
-                    <h3>Thông báo mới nhận</h3>
-                  </header>
-                  <ul class="header__notify-list">
-                    <li class="header__notify-item header__notify-item--viewed">
-                      <a href="" class="header__notify-link">
-                        <img
-                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRru8_9pNCvuDg6UZ2TekBtc5DoZSOVx3SzUA&s"
-                          alt=""
-                          class="header__notify-img"
-                        />
-                        <div class="header__notify-info">
-                          <span class="header__notify-name"
-                            >Thông báo 1</span
-                          >
-                          <span class="header__notify-description"
-                            >ND Thông báo 1</span
-                          >
-                        </div>
-                      </a>
-                    </li>
-                    <li class="header__notify-item">
-                      <a href="https://www.youtube.com/watch?v=tV8pPxh21vM" target="_blank"  class="header__notify-link">
-                        <img
-                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTN5Fmf_z2VgdCBxXuk09szrwk76Qm6v2yzeQ&s"
-                          alt=""
-                          class="header__notify-img"
-                        />
-                        <div class="header__notify-info">
-                          <span class="header__notify-name"
-                            >Chỗ này bấm được</span
-                          >
-                          <span class="header__notify-description"
-                            >Thua thì nín</span
-                          >
-                        </div>
-                      </a>
-                    </li>
-                    <li class="header__notify-item">
-                      <a href="" class="header__notify-link">
-                        <img
-                          src="https://upload.wikimedia.org/wikipedia/commons/1/1a/Faker_2020_interview.jpg"
-                          alt=""
-                          class="header__notify-img"
-                        />
-                        <div class="header__notify-info">
-                          <span class="header__notify-name"
-                            >Faker What was that</span
-                          >
-                          <span class="header__notify-description"
-                            >Siêu sale ngày 12/12/2024</span
-                          >
-                        </div>
-                      </a>
-                    </li>
-                  </ul>
-                  <div class="header__notify-footer">
-                    <a href="" class="header__notify-footer-btn">
-                      Xem tất cả
-                    </a>
-                  </div>
-                </div>
-              </li>
               <li class="header__navbar-item">
-                <a href="" class="header__navbar-item-non-link">
-                  <i class="header__navbar-icon fas fa-shopping-cart"></i>
-                    Cart
+                <a href="homepage.html" class="header__navbar-item-non-link">
+                  <i class="header__navbar-icon fas fa-home"></i>
+                    Homepage
                 </a>
               </li>
+            </li>
+            <li class="header__navbar-item">
+              <a href="" class="header__navbar-item-non-link">
+                <i class="header__navbar-icon fas fa-shopping-cart"></i>
+                  Cart
+              </a>
+            </li>
               <li class="header__navbar-item header__navbar-user">
                 <img
                   src="/public/img/user_img.png"
@@ -128,12 +67,12 @@
                 />
 
                 <span class="header__navbar-user-name">
-                  LMEO
+                  Lê Tấn Đạt
                 </span>
 
                 <ul class="header__navbar-user-menu">
                   <li class="header__navbar-user-item">
-                    <a href="">Tài khoản của tôi</a>
+                    <a href="userProfile.html">Tài khoản của tôi</a>
                   </li>
                   <li class="header__navbar-user-item">
                     <a href="">Địa chỉ của tôi</a>
@@ -200,21 +139,8 @@
             </div>
           </div>
         </div>
-        <ul class="header__sort-bar">
-          <li class="header__sort-item">
-            <a href="" class="header__sort-link">Liên Quan</a>
-          </li>
-          <li class="header__sort-item header__sort-item--active">
-            <a href="" class="header__sort-link">Mới nhất</a>
-          </li>
-          <li class="header__sort-item">
-            <a href="" class="header__sort-link">Bán chạy</a>
-          </li>
-          <li class="header__sort-item">
-            <a href="" class="header__sort-link">Giá</a>
-          </li>
-        </ul>
       </header>
+      <!-- Content -->
       <div class="app__container">
         <div class="grid wide">
           <div class="row sm-gutter app__content">
@@ -292,6 +218,7 @@
               </div>
 
               <!-- Product -->
+
               <div class="home-product">
                 <div class="row sm-gutter">
                   <!-- Product item -->
@@ -299,283 +226,9 @@
                     <a href="#" class="home-product-item">
                       <div
                         class="home-product-item__img"
-                        style = "background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxAmX7yWjNj91MVtQsEPloyMYURlXpEMseqg&s);"                      ></div>
+                        style = "background-image: url(https://i.postimg.cc/nhDw9K0y/Screenshot-2024-10-27-152329.png);"                      ></div>
                       <h4 class="home-product-item__name">
-                      woman yelling at cat meme
-                      </h4>
-                      <div class="home-product-item__price">
-                        <span class="home-product-item__price-current"
-                          >2.070.000đ</span
-                        >
-                      </div>
-                      <div class="home-product-item__action">
-                        <div class="home-product-item__rating">
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i class="fas fa-star"></i>
-                        </div>
-                        <div class="home-product-item__sold">44 Đã bán</div>
-                      </div>
-                      <div class="home-product-item__origin">
-                        <span class="home-product-item__brand">chau2h</span>
-                        <span class="home-product-item__origin-name"
-                          >Hàn Quắc</span
-                        >
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col l-2-4 m-4 c-6">
-                    <a href="#" class="home-product-item">
-                      <div
-                        class="home-product-item__img"
-                        style = "background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxAmX7yWjNj91MVtQsEPloyMYURlXpEMseqg&s);"                      ></div>
-                      <h4 class="home-product-item__name">
-                      woman yelling at cat meme
-                      </h4>
-                      <div class="home-product-item__price">
-                        <span class="home-product-item__price-current"
-                          >2.070.000đ</span
-                        >
-                      </div>
-                      <div class="home-product-item__action">
-                        <div class="home-product-item__rating">
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i class="fas fa-star"></i>
-                        </div>
-                        <div class="home-product-item__sold">44 Đã bán</div>
-                      </div>
-                      <div class="home-product-item__origin">
-                        <span class="home-product-item__brand">chau2h</span>
-                        <span class="home-product-item__origin-name"
-                          >Hàn Quắc</span
-                        >
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col l-2-4 m-4 c-6">
-                    <a href="#" class="home-product-item">
-                      <div
-                        class="home-product-item__img"
-                        style = "background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxAmX7yWjNj91MVtQsEPloyMYURlXpEMseqg&s);"
-                      ></div>
-                      <h4 class="home-product-item__name">
-                      woman yelling at cat meme
-                      </h4>
-                      <div class="home-product-item__price">
-                        <span class="home-product-item__price-current"
-                          >2.070.000đ</span
-                        >
-                      </div>
-                      <div class="home-product-item__action">
-                        <div class="home-product-item__rating">
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i class="fas fa-star"></i>
-                        </div>
-                        <div class="home-product-item__sold">44 Đã bán</div>
-                      </div>
-                      <div class="home-product-item__origin">
-                        <span class="home-product-item__brand">chau2h</span>
-                        <span class="home-product-item__origin-name"
-                          >Hàn Quắc</span
-                        >
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col l-2-4 m-4 c-6">
-                    <a href="#" class="home-product-item">
-                      <div
-                        class="home-product-item__img"
-                        style = "background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxAmX7yWjNj91MVtQsEPloyMYURlXpEMseqg&s);"                      ></div>
-                      <h4 class="home-product-item__name">
-                      woman yelling at cat meme
-                      </h4>
-                      <div class="home-product-item__price">
-                        <span class="home-product-item__price-current"
-                          >2.070.000đ</span
-                        >
-                      </div>
-                      <div class="home-product-item__action">
-                        <div class="home-product-item__rating">
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i class="fas fa-star"></i>
-                        </div>
-                        <div class="home-product-item__sold">44 Đã bán</div>
-                      </div>
-                      <div class="home-product-item__origin">
-                        <span class="home-product-item__brand">chau2h</span>
-                        <span class="home-product-item__origin-name"
-                          >Hàn Quắc</span
-                        >
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col l-2-4 m-4 c-6">
-                    <a href="#" class="home-product-item">
-                      <div
-                        class="home-product-item__img"
-                        style = "background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxAmX7yWjNj91MVtQsEPloyMYURlXpEMseqg&s);"                      ></div>
-                      <h4 class="home-product-item__name">
-                      woman yelling at cat meme
-                      </h4>
-                      <div class="home-product-item__price">
-                        <span class="home-product-item__price-current"
-                          >2.070.000đ</span
-                        >
-                      </div>
-                      <div class="home-product-item__action">
-                        <div class="home-product-item__rating">
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i class="fas fa-star"></i>
-                        </div>
-                        <div class="home-product-item__sold">44 Đã bán</div>
-                      </div>
-                      <div class="home-product-item__origin">
-                        <span class="home-product-item__brand">chau2h</span>
-                        <span class="home-product-item__origin-name"
-                          >Hàn Quắc</span
-                        >
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col l-2-4 m-4 c-6">
-                    <a href="#" class="home-product-item">
-                      <div
-                        class="home-product-item__img"
-                        style = "background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxAmX7yWjNj91MVtQsEPloyMYURlXpEMseqg&s);"                      ></div>
-                      <h4 class="home-product-item__name">
-                      woman yelling at cat meme
-                      </h4>
-                      <div class="home-product-item__price">
-                        <span class="home-product-item__price-current"
-                          >2.070.000đ</span
-                        >
-                      </div>
-                      <div class="home-product-item__action">
-                        <div class="home-product-item__rating">
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i class="fas fa-star"></i>
-                        </div>
-                        <div class="home-product-item__sold">44 Đã bán</div>
-                      </div>
-                      <div class="home-product-item__origin">
-                        <span class="home-product-item__brand">chau2h</span>
-                        <span class="home-product-item__origin-name"
-                          >Hàn Quắc</span
-                        >
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col l-2-4 m-4 c-6">
-                    <a href="#" class="home-product-item">
-                      <div
-                        class="home-product-item__img"
-                        style = "background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxAmX7yWjNj91MVtQsEPloyMYURlXpEMseqg&s);"                      ></div>
-                      <h4 class="home-product-item__name">
-                      woman yelling at cat meme
-                      </h4>
-                      <div class="home-product-item__price">
-                        <span class="home-product-item__price-current"
-                          >2.070.000đ</span
-                        >
-                      </div>
-                      <div class="home-product-item__action">
-                        <div class="home-product-item__rating">
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i
-                            class="home-product-item__star--gold fas fa-star"
-                          ></i>
-                          <i class="fas fa-star"></i>
-                        </div>
-                        <div class="home-product-item__sold">44 Đã bán</div>
-                      </div>
-                      <div class="home-product-item__origin">
-                        <span class="home-product-item__brand">chau2h</span>
-                        <span class="home-product-item__origin-name"
-                          >Hàn Quắc</span
-                        >
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col l-2-4 m-4 c-6">
-                    <a href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxAmX7yWjNj91MVtQsEPloyMYURlXpEMseqg&s" target = "_blank" class="home-product-item">
-                      <div
-                        class="home-product-item__img"
-                        style = "background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxAmX7yWjNj91MVtQsEPloyMYURlXpEMseqg&s);"                      ></div>
-                      <h4 class="home-product-item__name">
-                      Nhấn dô là mở ảnh
+                      Đời là bể khổ
                       </h4>
                       <div class="home-product-item__price">
                         <span class="home-product-item__price-current"
@@ -598,27 +251,21 @@
                           ></i>
                           <i class="fas fa-star"></i>
                         </div>
-                        <div class="home-product-item__sold">44 Đã bán</div>
-                      </div>
-                      <div class="home-product-item__origin">
-                        <span class="home-product-item__brand">chau2h</span>
-                        <span class="home-product-item__origin-name"
-                          >Hàn Quắc</span
-                        >
                       </div>
                     </a>
                   </div>
+                  
                   <div class="col l-2-4 m-4 c-6">
                     <a href="#" class="home-product-item">
                       <div
                         class="home-product-item__img"
-                        style = "background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxAmX7yWjNj91MVtQsEPloyMYURlXpEMseqg&s);"                      ></div>
+                        style = "background-image: url(https://i.postimg.cc/nhDw9K0y/Screenshot-2024-10-27-152329.png);"                      ></div>
                       <h4 class="home-product-item__name">
-                      woman yelling at cat meme
+                      Đời là bể khổ
                       </h4>
                       <div class="home-product-item__price">
                         <span class="home-product-item__price-current"
-                          >2.070.000đ</span
+                          >50.000đ</span
                         >
                       </div>
                       <div class="home-product-item__action">
@@ -637,13 +284,6 @@
                           ></i>
                           <i class="fas fa-star"></i>
                         </div>
-                        <div class="home-product-item__sold">44 Đã bán</div>
-                      </div>
-                      <div class="home-product-item__origin">
-                        <span class="home-product-item__brand">chau2h</span>
-                        <span class="home-product-item__origin-name"
-                          >Hàn Quắc</span
-                        >
                       </div>
                     </a>
                   </div>
@@ -651,13 +291,14 @@
                     <a href="#" class="home-product-item">
                       <div
                         class="home-product-item__img"
-                        style = "background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxAmX7yWjNj91MVtQsEPloyMYURlXpEMseqg&s);"                      ></div>
+                        style = "background-image: url(https://i.postimg.cc/nhDw9K0y/Screenshot-2024-10-27-152329.png);"
+                      ></div>
                       <h4 class="home-product-item__name">
-                      woman yelling at cat meme
+                      Đời là bể khổ
                       </h4>
                       <div class="home-product-item__price">
                         <span class="home-product-item__price-current"
-                          >2.070.000đ</span
+                          >50.000đ</span
                         >
                       </div>
                       <div class="home-product-item__action">
@@ -676,13 +317,230 @@
                           ></i>
                           <i class="fas fa-star"></i>
                         </div>
-                        <div class="home-product-item__sold">44 Đã bán</div>
                       </div>
-                      <div class="home-product-item__origin">
-                        <span class="home-product-item__brand">chau2h</span>
-                        <span class="home-product-item__origin-name"
-                          >Hàn Quắc</span
+                    </a>
+                  </div>
+                  <div class="col l-2-4 m-4 c-6">
+                    <a href="#" class="home-product-item">
+                      <div
+                        class="home-product-item__img"
+                        style = "background-image: url(https://i.postimg.cc/nhDw9K0y/Screenshot-2024-10-27-152329.png);"                      ></div>
+                      <h4 class="home-product-item__name">
+                      Đời là bể khổ
+                      </h4>
+                      <div class="home-product-item__price">
+                        <span class="home-product-item__price-current"
+                          >50.000đ</span
                         >
+                      </div>
+                      <div class="home-product-item__action">
+                        <div class="home-product-item__rating">
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i class="fas fa-star"></i>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="col l-2-4 m-4 c-6">
+                    <a href="#" class="home-product-item">
+                      <div
+                        class="home-product-item__img"
+                        style = "background-image: url(https://i.postimg.cc/nhDw9K0y/Screenshot-2024-10-27-152329.png);"                      ></div>
+                      <h4 class="home-product-item__name">
+                      Đời là bể khổ
+                      </h4>
+                      <div class="home-product-item__price">
+                        <span class="home-product-item__price-current"
+                          >50.000đ</span
+                        >
+                      </div>
+                      <div class="home-product-item__action">
+                        <div class="home-product-item__rating">
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i class="fas fa-star"></i>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="col l-2-4 m-4 c-6">
+                    <a href="#" class="home-product-item">
+                      <div
+                        class="home-product-item__img"
+                        style = "background-image: url(https://i.postimg.cc/nhDw9K0y/Screenshot-2024-10-27-152329.png);"                      ></div>
+                      <h4 class="home-product-item__name">
+                      Đời là bể khổ
+                      </h4>
+                      <div class="home-product-item__price">
+                        <span class="home-product-item__price-current"
+                          >50.000đ</span
+                        >
+                      </div>
+                      <div class="home-product-item__action">
+                        <div class="home-product-item__rating">
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i class="fas fa-star"></i>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="col l-2-4 m-4 c-6">
+                    <a href="#" class="home-product-item">
+                      <div
+                        class="home-product-item__img"
+                        style = "background-image: url(https://i.postimg.cc/nhDw9K0y/Screenshot-2024-10-27-152329.png);"                      ></div>
+                      <h4 class="home-product-item__name">
+                      Đời là bể khổ
+                      </h4>
+                      <div class="home-product-item__price">
+                        <span class="home-product-item__price-current"
+                          >50.000đ</span
+                        >
+                      </div>
+                      <div class="home-product-item__action">
+                        <div class="home-product-item__rating">
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i class="fas fa-star"></i>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="col l-2-4 m-4 c-6">
+                    <a href="#" target = "_blank" class="home-product-item">
+                      <div
+                        class="home-product-item__img"
+                        style = "background-image: url(https://i.postimg.cc/nhDw9K0y/Screenshot-2024-10-27-152329.png);"                      ></div>
+                      <h4 class="home-product-item__name">
+                      Đời là bể khổ
+                      </h4>
+                      <div class="home-product-item__price">
+                        <span class="home-product-item__price-current"
+                          >50.000đ</span
+                        >
+                      </div>
+                      <div class="home-product-item__action">
+                        <div class="home-product-item__rating">
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i class="fas fa-star"></i>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="col l-2-4 m-4 c-6">
+                    <a href="#" class="home-product-item">
+                      <div
+                        class="home-product-item__img"
+                        style = "background-image: url(https://i.postimg.cc/nhDw9K0y/Screenshot-2024-10-27-152329.png);"                      ></div>
+                      <h4 class="home-product-item__name">
+                      Đời là bể khổ
+                      </h4>
+                      <div class="home-product-item__price">
+                        <span class="home-product-item__price-current"
+                          >50.000đ</span
+                        >
+                      </div>
+                      <div class="home-product-item__action">
+                        <div class="home-product-item__rating">
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i class="fas fa-star"></i>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="col l-2-4 m-4 c-6">
+                    <a href="/product/" class="home-product-item">
+                      <div
+                        class="home-product-item__img"
+                        style = "background-image: url(https://i.postimg.cc/nhDw9K0y/Screenshot-2024-10-27-152329.png);"                      ></div>
+                      <h4 class="home-product-item__name">
+                      Đời là bể khổ
+                      </h4>
+                      <div class="home-product-item__price">
+                        <span class="home-product-item__price-current"
+                          >50.000đ</span
+                        >
+                      </div>
+                      <div class="home-product-item__action">
+                        <div class="home-product-item__rating">
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i
+                            class="home-product-item__star--gold fas fa-star"
+                          ></i>
+                          <i class="fas fa-star"></i>
+                        </div>
                       </div>
                     </a>
                   </div>
