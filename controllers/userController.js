@@ -11,7 +11,7 @@ const mainController = {
         try {
             const products = await productData.all();
 
-            res.render('home', {products});
+            res.render('home', { products });
         } catch (error) {
             next(new MyError(error.status, error.message));
         }
@@ -22,7 +22,7 @@ const mainController = {
             const id = req.params.id;
             const product = await productData.get(id);
 
-            res.render('product', {product});
+            res.render('product', { product });
         } catch (error) {
             next(new MyError(error.status, error.message));
         }
@@ -35,13 +35,13 @@ const mainController = {
 
             if (data.role == 'user') {
                 const { uid, ...user } = data;
-                res.render('userProfile', {user});
+                res.render('userProfile', { user });
                 console.log(user);
             } else if (data.role === 'store') {
                 const { store_id, ...store } = data;
-                res.render('shopProfile', {store});
+                res.render('shopProfile', { store });
             } else {
-                res.render('adminProfile', {data});
+                res.render('adminProfile', { data });
             }
         } catch (error) {
             next(new MyError(error.status, error.message));
@@ -75,6 +75,24 @@ const mainController = {
     viewHistoryOrder: async (req, res, next) => { },
     addNewAddress: async (req, res, next) => { },
     checkOut: async (req, res, next) => { },
+    changeUserInfo: async (req, res, next) => {
+        try {
+            const { uid, username, name, email, gender, info } = req.body;
+            const newData = {};
+            if (username) newData.username = displayName;
+            if (name) newData.name = name;
+            if (email) newData.email = email;
+            if (gender) newData.gender = gender;
+            if (info) newData.info = info;
+
+            console.log(uid);
+
+            const user = await userData.update(uid, newData);
+            res.json({ user: user });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
 };
 
 export default mainController;

@@ -227,11 +227,12 @@
             transform: translateY(72px);
         }
 
-        .img__logo{
+        .img__logo {
             position: absolute;
             display: block;
             width: 220px;
-            height: 125px;;
+            height: 125px;
+            ;
             top: 170px;
             right: 20px;
             background-color: #7e6a4e;
@@ -259,13 +260,13 @@
             transform: translateX(0);
         }
 
-        .logo_img{
+        .logo_img {
             position: absolute;
             display: block;
-            margin: 20px auto; 
+            margin: 20px auto;
             width: 220px;
-            height:auto;
-            
+            height: auto;
+
         }
 
         h2 {
@@ -377,42 +378,57 @@
 
         async function signup(event) {
             event.preventDefault();
+
             const signupButton = document.getElementById('signupButton');
             const email = document.getElementById('signupEmail').value.trim();
             const password = document.getElementById('signupPassword').value;
             const name = document.getElementById('signupName').value;
+            const roleElement = document.querySelector('input[name="option1"]:checked');
 
-            if (password.length < 8 || !regexEmail.test(email)) {
-                alert("Your password/email is invalid");
+            if (!regexEmail.test(email)) {
+                alert("Please enter a valid email address");
+                return;
+            }
+
+            if (password.length < 8) {
+                alert("Password must be at least 8 characters long.");
+                return;
+            }
+
+            if (!roleElement) {
+                alert("Please select a role.");
                 return;
             }
 
             const user = {
                 email: email,
                 password: password,
-                name: name
+                name: name,
+                role: roleElement.value
             };
 
             try {
                 signupButton.disabled = true;
                 signupButton.innerText = "Submitting...";
+
                 const response = await fetch('/signup', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(user),
                 });
 
-                console.log(response);
-
                 if (response.ok) {
                     alert('Signup successfully!');
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    }
                 } else {
                     const error = await response.json();
                     console.log(error)
                     alert(`Failed to signup, Reason: ${error.error || 'Unknown error'}`);
                 }
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error:', error.message);
                 alert('An error occurred while submitting the form.');
             } finally {
                 signupButton.disabled = false;

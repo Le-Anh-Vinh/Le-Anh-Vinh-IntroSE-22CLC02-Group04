@@ -128,6 +128,63 @@
             height: 22px;
         }
     </style>
+
+    <script defer>
+        async function Submit(event, uid) {
+        event.preventDefault();
+        console.log("User ID:", uid);
+        const fullname = document.getElementById('fullname').value;
+        const address = document.getElementById('address').value;
+        const phone = document.getElementById('phone').value;
+        const genderElement = document.querySelector('input[name="option1"]:checked');
+
+        // Validate gender selection
+        if (!genderElement) {
+            alert('Please select a gender');
+            return;
+        }
+        if (!fullname) {
+            alert('Please tell us your name!');
+            return;
+        }
+        if (!address) {
+            alert('Please enter initial address!');
+            return;
+        }
+        if (!phone) {
+            alert('Please enter initial phone number!');
+            return;
+        }
+
+        const gender = genderElement.value;
+
+        try {
+            const res = await fetch('/user/edit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    uid: uid,
+                    name: fullname,
+                    info: [{ address: address, phone: phone, name: fullname, default: true }],
+                    gender: gender,
+                }),
+            });
+
+            if(res.redirected) {
+                window.location.href = res.url;
+                return
+            }
+
+            if (!res.ok) {
+                const error = await res.json();
+                alert(`Error: ${error.message || 'Something went wrong'}`);
+            }
+        } catch (error) {
+            console.error('Error submitting the form:', error.message);
+            alert('Failed to update user information. Please try again later.');
+        }
+    }
+</script>
 </head>
 
 <body>
@@ -136,47 +193,41 @@
             <h2>Tell us more about you</h2>
             <label>
                 <span>fullname</span>
-                <input type="email" id="loginEmail" />
+                <input type="text" id="fullname" />
             </label>
             <label>
                 <span>address</span>
-                <input type="password" id="loginPassword" />
+                <input type="text" id="address" />
             </label>
             <label>
                 <span>Phone number</span>
-                <input type="password" id="loginPassword" />
+                <input type="text" id="phone" />
             </label>
             <label>
                 <span>Gender</span>
 
-                <label class="form__checkbox">
+                <label class="form__checkbox" id="gender">
                     <div class="checkbox">
-                        <input type="radio" name="option1" value="user" class="male_checkbox">
+                        <input type="radio" name="option1" value="male" class="male_checkbox">
                         <span>Male</span>
                     </div>
-    
+
                     <div class="checkbox">
-                        <input type="radio" name="option1" value="store" class="female_checkbox">
+                        <input type="radio" name="option1" value="female" class="female_checkbox">
                         <span>Female</span>
                     </div>
-    
+
                     <div class="checkbox">
-                        <input type="radio" name="option1" value="store" class="other_checkbox">
+                        <input type="radio" name="option1" value="other" class="other_checkbox">
                         <span>Other</span>
                     </div>
-    
+
                 </label>
             </label>
-            <button type="button" class="submit" id="loginButton" onclick="login(event)">That's all</button>
+            <button type="button" class="submit" id="loginButton" onclick="Submit(event, '<%= uid %>')">That's all</button>
 
         </div>
     </div>
-
-    <!-- <script>
-        document.querySelector('.img__btn').addEventListener('click', function () {
-            document.querySelector('.cont').classList.toggle('s--signup');
-        });
-    </script> -->
 </body>
 
 </html>
