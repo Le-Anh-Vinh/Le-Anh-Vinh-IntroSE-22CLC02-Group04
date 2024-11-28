@@ -8,7 +8,7 @@ import productController from '../controllers/productController.js';
 const router = express.Router();
 //user
 router.get('/', userController.getAll);
-router.get('/product/:id', userController.getProduct);
+// router.get('/product/:id', userController.getProduct);
 router.get('/profile/:id', userController.getProfile);
 router.get('/search/:query?', userController.search); // 'search/abc?MaxPrice=10000&minPrice=20000&rateFiler=4&page=1'
 

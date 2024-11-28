@@ -13,14 +13,14 @@
                     <div class="main-card">
                         <div class="main-card__content">
                             <div class="avatar">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="avatar-img" width="150">
+                                <img src="/img/shop_avatar.png" alt="">
                             </div>
                             <div class="main-card__infor">
                                 <h4 class="user-name"><%= store.name %></h4>
                                 <p class="current_address"><%= store.info[0].address %></p>
                             </div>
                             <div class="button">
-                                <button class="button__delete_acc--shop">Xóa tài khoản</button>
+                                <!-- <button class="button__delete_acc--shop">Xóa tài khoản</button> -->
                             </div>
                         </div>
                     </div>
@@ -28,7 +28,7 @@
                     <div class="second-card">
                         <div class="row">
                             <div class="label">
-                                <h4>Tên Shop</h4>
+                                <h4>Store Name</h4>
                             </div>
                             <div class="display">
                                 <%= store.info[0].name %>
@@ -46,7 +46,7 @@
                         <hr>
                         <div class="row">
                             <div class="label">
-                                <h4>Số điện thoại</h4>
+                                <h4>Phone Number</h4>
                             </div>
                             <div class="display">
                                 <%= store.info[0].phone %>
@@ -55,7 +55,7 @@
                         <hr>
                         <div class="row">
                             <div class="label">
-                                <h4>Đánh giá</h4>
+                                <h4>Rating</h4>
                             </div>
                             <div class="rating">
                                 <span class="star selected">&#9733;</span>
@@ -68,7 +68,7 @@
                         <hr>
                         <div class="row">
                             <div class="label">
-                                <h4>Ngày tham gia</h4>
+                                <h4>Join Date</h4>
                             </div>
                             <div class="display">
                                 <%= (() => {
@@ -86,7 +86,7 @@
                         <hr>
                         <div>
                             <div class="change-infor-btn-container">
-                                <button class="change-infor">Cập nhật thông tin cửa hàng</button>
+                                <button class="change-infor">Information Management</button>
                             </div>
                         </div>
                         </div>
@@ -100,5 +100,19 @@
 
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const uid = sessionStorage.getItem('uid');
+            const role = sessionStorage.getItem('role');
+
+            if (!uid || !role) {
+                window.location.href = '/auth';
+            } else {
+                console.log('User ID:', uid);
+                console.log('User Role:', role);
+
+            }
+        });
+    </script>
 </body>
 </html>

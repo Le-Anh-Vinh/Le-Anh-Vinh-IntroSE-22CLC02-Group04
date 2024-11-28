@@ -34,16 +34,13 @@ const productController = {
                 });
             }
             // take relative products
-            
-            res.render('productDetails', {
+            res.render('productDetail', {
                 product: productDoc,                // product information
                 store: storeDoc,                    // store information
                 relativeProducts: relativeProducts  // relative products
             });
         } catch (error) {
             res.json({ success: false, error: error });
-            console.error("Error:", error.message);
-            console.error("Stack:", error.stack);
             new MyError(500, "There was something wrong with product detail");
         }
     }   
