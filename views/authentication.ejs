@@ -52,7 +52,7 @@
             transition: -webkit-transform 1.2s ease-in-out;
             transition: transform 1.2s ease-in-out;
             transition: transform 1.2s ease-in-out, -webkit-transform 1.2s ease-in-out;
-            padding: 50px 30px 0;
+            padding: 30px 30px 0;
         }
 
         .sub-cont {
@@ -311,7 +311,7 @@
         }
 
         .submit {
-            margin-top: 60px;
+            margin-top: 40px;
             margin-bottom: 20px;
             background: #b48b52;
             text-transform: uppercase;
@@ -349,6 +349,26 @@
         .cont.s--signup .sign-up {
             -webkit-transform: translate3d(0, 0, 0);
             transform: translate3d(0, 0, 0);
+        }
+
+        .checkbox {
+            display: flex;
+            position: relative;
+            width: 200px;
+            justify-content: space-between;
+            margin-top: 8px;
+        }
+
+        .sign-up__checkbox p {
+            margin-top: 8px;
+        }
+
+        .customer_checkbox {
+            height: 22px;
+        }
+
+        .seller_checkbox {
+            height: 22px;
         }
     </style>
 
@@ -459,7 +479,7 @@
                 <span>Password</span>
                 <input type="password" id="loginPassword" />
             </label>
-            <a href="" class="forgot-pass">Forgot password?</a>
+            <a href="/forget_password" class="forgot-pass">Forgot password?</a>
             <button type="button" class="submit" id="loginButton" onclick="login(event)">Sign In</button>
 
         </div>
@@ -503,6 +523,23 @@
                 <label>
                     <span>Confirm Password</span>
                     <input type="ConfirmPassword" id="ConfirmSignupPassword" />
+                </label>
+
+                <label>
+                    <span>You are a </span>
+                </label>
+
+                <label class="checkbox">
+                    <div class="sign-up__checkbox">
+                        <input type="radio" name="option1" value="user" class="customer_checkbox">
+                        <span>customer</span>
+                    </div>
+
+                    <div class="sign-up__checkbox">
+                        <input type="radio" name="option1" value="store" class="seller_checkbox">
+                        <span>seller</span>
+                    </div>
+
                 </label>
                 <button type="button" class="submit" id="signupButton" onclick="signup(event)">Sign Up</button>
 
