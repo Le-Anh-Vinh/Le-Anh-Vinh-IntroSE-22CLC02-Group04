@@ -11,27 +11,27 @@
     <div class="container">
         <div class="main-body">
                     <div class="main-card">
-                    <div class="main-card__content">
-                        <div class="avatar">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="avatar-img" width="150">
+                        <div class="main-card__content">
+                            <div class="avatar">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="avatar-img" width="150">
+                            </div>
+                            <div class="main-card__infor">
+                                <h4 class="user-name"><%= store.name %></h4>
+                                <p class="current_address"><%= store.info[0].address %></p>
+                            </div>
+                            <div class="button">
+                                <button class="button__delete_acc--shop">Xóa tài khoản</button>
+                            </div>
                         </div>
-                        <div class="main-card__infor">
-                            <h4 class="user-name">TTG Shop</h4>
-                            <p class="current_address">District 5, Ho Chi Minh City, Viet Nam</p>
-                        </div>
-                        <!-- <div class="button">
-                            <button class="button__delete_acc--shop">Xóa tài khoản</button>
-                        </div> -->
-                    </div>
                     </div>
 
                     <div class="second-card">
                         <div class="row">
                             <div class="label">
-                                <h4>Shop name</h4>
+                                <h4>Tên Shop</h4>
                             </div>
                             <div class="display">
-                                TTG Shop
+                                <%= store.info[0].name %>
                             </div>
                         </div>
                         <hr>
@@ -40,22 +40,22 @@
                                 <h4>Email</h4>
                             </div>
                             <div class="display">
-                                abc@gmail.com
+                                <%= store.email %>
                             </div>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="label">
-                                <h4>Phone number</h4>
+                                <h4>Số điện thoại</h4>
                             </div>
                             <div class="display">
-                                (239) 816-9029
+                                <%= store.info[0].phone %>
                             </div>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="label">
-                                <h4>Rating</h4>
+                                <h4>Đánh giá</h4>
                             </div>
                             <div class="rating">
                                 <span class="star selected">&#9733;</span>
@@ -68,16 +68,25 @@
                         <hr>
                         <div class="row">
                             <div class="label">
-                                <h4>Join date</h4>
+                                <h4>Ngày tham gia</h4>
                             </div>
                             <div class="display">
-                                05 / 08 /2024
+                                <%= (() => {
+                                    const timestamp = store.join_date.seconds * 1000;
+                                    const date = new Date(timestamp);
+                                    const day = String(date.getDate()).padStart(2, '0');
+                                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                                    const year = date.getFullYear();
+                            
+                                    return `${day}/${month}/${year}`;
+                                })() %>
                             </div>
+                            
                         </div>
                         <hr>
                         <div>
                             <div class="change-infor-btn-container">
-                                <button class="change-infor">Update Shop Information</button>
+                                <button class="change-infor">Cập nhật thông tin cửa hàng</button>
                             </div>
                         </div>
                         </div>

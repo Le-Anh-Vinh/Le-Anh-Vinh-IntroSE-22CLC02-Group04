@@ -1,8 +1,9 @@
 import express from "express";
 import authController from '../controllers/authController.js';
 import userController from '../controllers/userController.js';
-import storeController from '../controllers/storeController.js';
-import adminController from '../controllers/adminController.js';
+// import storeController from '../controllers/storeController.js';
+// import adminController from '../controllers/adminController.js';
+import productController from '../controllers/productController.js';
 
 const router = express.Router();
 //user
@@ -23,5 +24,9 @@ router.post('/change_password', authController.changePassword);
 
 
 //admin
+
+
+// product
+router.get('/product/:id', productController.getDetailProduct);
  
 export default router;  

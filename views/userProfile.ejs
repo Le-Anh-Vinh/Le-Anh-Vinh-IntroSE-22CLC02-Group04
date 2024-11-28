@@ -16,11 +16,11 @@
                             <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="avatar-img" width="150">
                         </div>
                         <div class="main-card__infor">
-                            <h4 class="user-name">Lê Tấn Đạt</h4>
-                            <p class="current_address">District 5, Ho Chi Minh City, Viet Nam</p>
+                            <h4 class="user-name"><%= user.username %></h4>
+                            <p class="current_address"><%= user.info[0].address %></p>
                             <div class="button">
-                                <button class="button__purchased-history">View purchased history</button>
-                                <!-- <button class="button__delete_acc--user">Xóa tài khoản</button> -->
+                                <button class="button__purchased-history">Xem lịch sử mua hàng</button>
+                                <button class="button__delete_acc--user">Xóa tài khoản</button>
                             </div>
                         </div>
                     </div>
@@ -29,10 +29,10 @@
                     <div class="second-card">
                         <div class="row">
                             <div class="label">
-                                <h4>Name</h4>
+                                <h4>Họ Tên</h4>
                             </div>
                             <div class="display">
-                                Lê Tấn Đạt
+                                <%= user.name %>
                             </div>
                         </div>
                         <hr>
@@ -41,31 +41,22 @@
                                 <h4>Email</h4>
                             </div>
                             <div class="display">
-                                abc@gmail.com
+                                <%= user.email %>
                             </div>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="label">
-                                <h4>Phone number</h4>
+                                <h4>Số điện thoại</h4>
                             </div>
                             <div class="display">
-                                (239) 816-9029
+                                <%= user.info[0].phone %>
                             </div>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="label">
-                                <h4>Day of birth</h4>
-                            </div>
-                            <div class="display">
-                                05 / 08 / 2004
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="label">
-                                <h4>Gender</h4>
+                                <h4>Giới tính</h4>
                             </div>
                             <div class="display">
                                 ???
@@ -74,7 +65,7 @@
                         <hr>
                         <div>
                             <div class="change-infor-btn-container">
-                                <button class="change-infor">Update user information</button>
+                                <button class="change-infor">Cập nhật thông tin người dùng</button>
                             </div>
                         </div>
                         </div>

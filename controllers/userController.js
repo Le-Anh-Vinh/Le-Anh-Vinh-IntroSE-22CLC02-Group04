@@ -35,11 +35,10 @@ const mainController = {
 
             if (data.role == 'user') {
                 const { uid, ...user } = data;
-                res.render('userProfile', user);
-                console.log(user);
+                res.render('userProfile', { user: user });
             } else if (data.role === 'store') {
                 const { store_id, ...store } = data;
-                res.render('shopProfile', store);
+                res.render('shopProfile', { store: store });
             } else {
                 res.render('adminProfile', data);
             }
