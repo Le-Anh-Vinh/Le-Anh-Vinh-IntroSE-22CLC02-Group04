@@ -5,7 +5,15 @@
     <meta 
       name="viewport" 
       content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style/grid.css" />
+    <link rel="stylesheet" href="/style/base.css" />
+    <link rel="stylesheet" href="/style/main.css" />
     <link rel="stylesheet" href="/style/productDetail.css" />  
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+    />
+    
     <title>Product Details</title>
 
     <script>
@@ -44,18 +52,9 @@
       </div>
     </header> -->
 
-
-    <section class="search-container">
-      <form class="search-bar" action="https://www.google.com.vn/" method="post">
-        <input name="search-bar" type="text" placeholder="Search..." size="30">
-        <button class="search-button" type="submit"> <img class="search-icon" src="..\public\img\magnifier.png"> </button>
-      </form>
-
-      <div class="cart-logo">
-        <img id="cart-img" src="..\public\img\shopping-cart.png" alt="Profile" width="65" />
-      </div>
-    </section>
-
+    <!-- header -->
+    <%- include('header') %>
+    <!-- end header -->
 
     <div class="product-details-container">
       <div class="product-image">
@@ -149,9 +148,10 @@
       <h2>Relative Products</h2>
       <div class="product-grid">
         <% relativeProducts.forEach((product) => { %>
-          <a href="/product/<%= product.id %>" class="product-link">
+          <a href="/product/<%= product.product_id %>" class="product-link">
             <div class="product-card">
-              <img src="<%= product.image || 'placeholder.jpg' %>" alt="<%= product.name %>" class="product-image" />
+              <img src="<%= product.images[0] || 'placeholder.jpg' %>" alt="<%= product.name %>" class="product-image" />
+              
               <div class="product-info">
                 <p class="product-name"><%= product.name || 'Text' %></p>
                 <p class="product-price">$<%= product.price || '0' %></p>
@@ -163,18 +163,16 @@
     </div>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-          const uid = sessionStorage.getItem('uid');
-          const role = sessionStorage.getItem('role');
+          const user = JSON.parse(sessionStorage.getItem('user'));
 
-          if (!uid || !role) {
+          if (!user.uid || !user.role) {
               window.location.href = '/auth';
           } else {
-              console.log('User ID:', uid);
-              console.log('User Role:', role);
-
+              console.log('User ID:', user.uid);
+              console.log('User Role:', user.role);
           }
       });
-    </script>
+  </script>
     <!--  -->
   </body>
 </html>

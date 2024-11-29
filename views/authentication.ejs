@@ -429,7 +429,10 @@
                 });
 
                 if (response.ok) {
+                {   
                     alert('Signup successfully!');
+                    window.location.href = '/complete_signup';
+                }
                 } else {
                     const error = await response.json();
                     console.log(error)
@@ -477,6 +480,8 @@
                     console.log(role);
                     console.log(user.displayName);
                     alert('Login successfully!');
+                    sessionStorage.setItem('user', JSON.stringify({ uid: user.uid, role: role}));
+                    window.location.href = '/';
                 } else {
                     const error = await response.json();
                     alert(`Failed to login, error: ${error.message || 'Unknown error'}`);

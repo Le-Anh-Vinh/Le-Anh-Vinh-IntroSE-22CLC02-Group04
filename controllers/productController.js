@@ -18,30 +18,31 @@ const productController = {
 
             // handle relative products
             const categoryValues = Object.values(productDoc.category);
-            const relativeCollection = collection(db, 'product');
-            const rq = query(
-                relativeCollection,
-                where('category', 'in', categoryValues));
-            const relativeSnapshot = await getDocs(rq);
-            const relativeProducts = [];
+            const relativeProducts = new Set();
 
-            if (!relativeSnapshot.empty) {
+            for (let category of categoryValues) {
+                const relativeCollection = collection(db, 'product');
+                const rq = query(
+                    relativeCollection,
+                    where('category', 'array-contains', category)
+                );
+                const relativeSnapshot = await getDocs(rq);
                 relativeSnapshot.forEach((doc) => {
                     const product = doc.data();
+                    // ensure that the product ID is not the same as the current product
                     if (product.product_id !== procID) {
-                        relativeProducts.push(product);
+                        relativeProducts.add(product);
                     }
                 });
             }
-            // take relative products
+            const relativeProductList = Array.from(relativeProducts);
             res.render('productDetail', {
                 product: productDoc,                // product information
                 store: storeDoc,                    // store information
-                relativeProducts: relativeProducts  // relative products
+                relativeProducts: relativeProductList  // relative products
             });
         } catch (error) {
-            res.json({ success: false, error: error });
-            new MyError(500, "There was something wrong with product detail");
+            next(new MyError(error.status, error.message));
         }
     }   
 };

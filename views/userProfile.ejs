@@ -64,7 +64,7 @@
                                 <h4>Gender</h4>
                             </div>
                             <div class="display">
-                                <%= user.gender%>
+                                <%=user.gender%>
                             </div>
                         </div>
                         <hr>
@@ -85,15 +85,13 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const uid = sessionStorage.getItem('uid');
-            const role = sessionStorage.getItem('role');
-
-            if (!uid || !role) {
+            const user = JSON.parse(sessionStorage.getItem('user'));
+  
+            if (!user.uid || !user.role) {
                 window.location.href = '/auth';
             } else {
-                console.log('User ID:', uid);
-                console.log('User Role:', role);
-
+                console.log('User ID:', user.uid);
+                console.log('User Role:', user.role);
             }
         });
     </script>
