@@ -28,6 +28,7 @@
   display: flex;
   justify-items: center;
   position: relative;
+  top: 4px;
 }
 
 .header__navbar-user-img {
@@ -118,8 +119,8 @@
 .header__navbar-item,
 .header__navbar-item-link {
   display: inline-block;
-  font-size: 1.3rem;
-  color: var(--white-color);
+  font-size: 1.4rem;
+  color: white;
   text-decoration: none;
   font-weight: 100;
 }
@@ -129,6 +130,7 @@
 .header__navbar-icon-link {
   display: inline-flex;
   align-items: center;
+  font-weight: 600;
 }
 
 .header__navbar-item:hover,
@@ -140,10 +142,10 @@
 
 .header__navbar-item-non-link {
   display: inline-block;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   color: var(--white-color);
   text-decoration: none;
-  font-weight: 100;
+  /* font-weight: 100; */
 }
 
 .header__navbar-item-non-link:hover {
@@ -480,6 +482,8 @@
 
 .header-with-search{
   padding: 0 12px;
+  position: relative;
+  top: -8px;
 }
 
 .header__mobile-search{

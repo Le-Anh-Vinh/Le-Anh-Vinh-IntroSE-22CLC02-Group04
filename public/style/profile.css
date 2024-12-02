@@ -3,11 +3,12 @@ html, body{
 }
 
 body{
-    margin-top:20px;
+    margin-top:0;
     color: #1a202c;
     text-align: left;
     background: rgba(202, 202, 202, 0.786);
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+    font-size: initial;
 }
 
 .grid{
@@ -18,12 +19,12 @@ body{
 }
 
 .main-body {
-    padding: 15px;
-    margin-left: 150px;
-    margin-right: 150px;
+    top: 6px;
+    position: relative;
     display: flex;
-    background-color: #e9d17b;
-    border-radius: 20px;
+    background-color: #ffc342;
+    border-radius: 30px;
+    height: 370px;
 }
 
 .main-card {
@@ -131,6 +132,7 @@ body{
 
 .change-infor-btn-container{
     margin-top: 23px;
+    width: 96%;
 }
 
 .change-infor{
@@ -167,5 +169,5 @@ body{
   }
 
 .star.selected {
-    color: #daa90b;
+    color: #d59500;
   }
