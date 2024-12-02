@@ -165,7 +165,7 @@
       document.addEventListener('DOMContentLoaded', function() {
           const user = JSON.parse(sessionStorage.getItem('user'));
 
-          if (!user.uid || !user.role) {
+          if (!user) {
               window.location.href = '/auth';
           } else {
               console.log('User ID:', user.uid);
