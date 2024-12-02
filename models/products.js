@@ -1,5 +1,5 @@
 import db from '../config/db.js';
-import {     collection, doc, query, where, getDocs, updateDoc, deleteDoc, addDoc, getDoc, arrayUnion } from 'firebase/firestore';
+import { collection, doc, query, where, getDocs, updateDoc, deleteDoc, addDoc, getDoc, arrayUnion } from 'firebase/firestore';
 
 const productData = {
     all: async () => {
@@ -32,19 +32,23 @@ const productData = {
             const productRef = collection(db, 'product');
             let q;
 
-            if (field === 'category' || field === 'name') {
+            if (field === 'name') {
                 q = query(productRef, where(field, '>=', queryStr), where(field, '<=', queryStr + '\uf8ff'));
+            } else if (field === 'category') {
+                q = query(productRef, where(field, 'array-contains', queryStr));
             } else {
+
                 const querySnapshot = await getDocs(productRef);
                 const products = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
                 return products.filter((product) =>
                     product.name.toLowerCase().includes(queryStr.toLowerCase()) ||
-                    product.category.toLowerCase().includes(queryStr.toLowerCase())
+                    product.category.some(cat => cat.toLowerCase().includes(queryStr.toLowerCase()))
                 );
             }
 
             const querySnapshot = await getDocs(q);
             return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+
         } catch (e) {
             console.error("Error searching products: ", e);
             return [];

@@ -11,9 +11,9 @@ const mainController = {
         try {
             const products = await productData.all();
 
-            res.render('home', products);
+            res.render('homepage', { products });
         } catch (error) {
-            next(new MyError(404, "Can't found Home page"));
+            next(new MyError(error.status, error.message));
         }
     },
 
@@ -22,9 +22,9 @@ const mainController = {
             const id = req.params.id;
             const product = await productData.get(id);
 
-            res.render('product', product);
+            res.render('product', { product });
         } catch (error) {
-            next(new MyError(404, "Can't found Home page"));
+            next(new MyError(error.status, error.message));
         }
     },
 
@@ -35,15 +35,16 @@ const mainController = {
 
             if (data.role == 'user') {
                 const { uid, ...user } = data;
-                res.render('userProfile', { user: user });
+                res.render('userProfile', { user });
+                console.log(user);
             } else if (data.role === 'store') {
                 const { store_id, ...store } = data;
-                res.render('shopProfile', { store: store });
+                res.render('shopProfile', { store });
             } else {
-                res.render('adminProfile', data);
+                res.render('adminProfile', { data });
             }
         } catch (error) {
-            next(new MyError(404, "Can't found Home page"));
+            next(new MyError(error.status, error.message));
         }
     },
 
@@ -54,20 +55,16 @@ const mainController = {
     search: async (req, res, next) => {
         try {
             const { query } = req.params;
-            const { maxPrice, minPrice, ratingFilter, page } = req.query;
+            const { maxPrice, minPrice, rateFilter, page } = req.query;
             const filters = [];
-            if (maxPrice) filters.push({ field: 'price', to: parseInt(maxPrice, 10) || Infinity });
-            if (minPrice) filters.push({ field: 'price', from: parseInt(minPrice, 10) || 0 });
-            if (ratingFilter) {
-                filters.push({ field: 'rate', from: parseInt(ratingFilter, 10) || 0 });
-                filters.push({ field: 'rate', to: 5 });
-            }
+            filters.push({ field: 'price', from: parseInt(minPrice, 10) || 0, to: parseInt(maxPrice, 10) || Infinity });
+            filters.push({ field: 'rate', from: parseInt(rateFilter, 10) || 0, to: 5 });
 
             const products = await productData.searchAndFilter(query, 'all', filters);
 
-            res.render('search_page', { products });
+            res.render('searchpage', { products });
         } catch (error) {
-            next(new MyError(404, "Can't found Home page"));
+            next(new MyError(error.status, error.message));
         }
     },
 
@@ -78,6 +75,22 @@ const mainController = {
     viewHistoryOrder: async (req, res, next) => { },
     addNewAddress: async (req, res, next) => { },
     checkOut: async (req, res, next) => { },
+    changeUserInfo: async (req, res, next) => {
+        try {
+            const { uid, username, name, email, gender, info } = req.body;
+            const newData = {};
+            if (username) newData.username = displayName;
+            if (name) newData.name = name;
+            if (email) newData.email = email;
+            if (gender) newData.gender = gender;
+            if (info) newData.info = info;
+
+            const user = await userData.update(uid, newData);
+            res.redirect('/auth');
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
 };
 
 export default mainController;
