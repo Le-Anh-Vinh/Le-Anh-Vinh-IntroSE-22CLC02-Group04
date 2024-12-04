@@ -1,5 +1,6 @@
 import db from '../config/db.js';
 import { collection, doc, query, where, getDocs, updateDoc, deleteDoc, addDoc, getDoc, arrayUnion } from 'firebase/firestore';
+import userData from './users.js';
 
 const productData = {
     all: async () => {
@@ -111,6 +112,10 @@ const productData = {
                 newUpdate.reviews = updatedReviews;
                 newUpdate.rate = productData.calRate(updatedReviews);
                 await updateDoc(productRef, newUpdate);
+                const products = productData.getByStore(existingData.store_id);
+                let rate = products.reduce((arr, product) => arr + product.rate);
+                rate /= products.length > 0? products.length : 1;
+                await userData.update(existingData.store_id, {rate});
                 return { status: true };
             } else {
                 throw new Error("No such document!");

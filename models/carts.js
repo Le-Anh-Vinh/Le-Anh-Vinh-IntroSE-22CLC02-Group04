@@ -71,7 +71,7 @@ const cartData = {
             if (cartSnap.exists()) {
                 const cartData = cartSnap.data();
                 const productCart = cartData.product_cart || [];
-                const existingID = productCart.findIndex(p => p.product_id === product.product_id);
+                const existingID = productCart.findIndex(p => p.product_id === product.product_id && p.variant === product.variant);
                 const newData = [...productCart];
 
                 if (existingID !== -1) {
@@ -102,7 +102,7 @@ const cartData = {
             if (!cartData) return { status: false, error: 'Cart not found' };
 
             const updatedProducts = cartData.product_cart.map((product) =>
-                product.product_id === newData.product_id ? { ...product, ...newData } : product
+                product.product_id === newData.product_id && product.variant === newData.variant ? { ...product, ...newData } : product
             );
 
             const valueResult = await cartData.calValue(uid);
@@ -110,21 +110,21 @@ const cartData = {
 
             const cartRef = doc(db, 'cart', uid);
             await updateDoc(cartRef, { product_cart: updatedProducts, value: valueResult.value });
-
-            return { status: true, product_id: newData.product_id };
+            const cart = await getDoc(cartRef);
+            return { status: true, cart };
         } catch (e) {
             console.error(`Error updating cart for user ${uid}:`, e);
             return { status: false, error: e.message };
         }
     },
 
-    delete: async (uid, product_id) => {
+    delete: async (uid, product) => {
         try {
             const cartData = await cartData.fetchCart(uid);
             if (!cartData) return { status: false, error: 'Cart not found' };
 
             const updatedProducts = cartData.product_cart.filter(
-                (product) => product.product_id !== product_id
+                (p) => p.product_id !== product.product_id && p.variant !== product.variant
             );
 
             const cartRef = doc(db, 'cart', uid);

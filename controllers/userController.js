@@ -7,8 +7,6 @@ import MyError from '../cerror.js';
 
 const mainController = {
     getAll: async (req, res, next) => {
-        //get uid => auth/main
-        //get role => phân hệ
         try {
             const page = parseInt(req.query.page) || 1;
             if(page < 0) {
@@ -32,17 +30,6 @@ const mainController = {
             products = products.slice((page - 1) * per_page, Math.min(page * per_page, products.length));
 
             res.render('homepage', { products, page, total_page, catID });
-        } catch (error) {
-            next(new MyError(error.status, error.message));
-        }
-    },
-
-    getProduct: async (req, res, next) => {
-        try {
-            const id = req.params.id;
-            const product = await productData.get(id);
-
-            res.render('product', { product });
         } catch (error) {
             next(new MyError(error.status, error.message));
         }
@@ -117,13 +104,8 @@ const mainController = {
         }
     },
 
-    addToCart: async (req, res, next) => { },
-
-    addRating: async (req, res, next) => { },
-
-    viewHistoryOrder: async (req, res, next) => { },
     addNewAddress: async (req, res, next) => { },
-    checkOut: async (req, res, next) => { },
+    
     changeUserInfo: async (req, res, next) => {
         try {
             const { uid, username, name, email, gender, info } = req.body;
@@ -134,8 +116,7 @@ const mainController = {
             if (gender) newData.gender = gender;
             if (info) newData.info = info;
 
-            const user = await userData.update(uid, newData);
-            res.redirect('/auth');
+            await userData.update(uid, newData);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
