@@ -1,4 +1,5 @@
 import userData from '../models/users.js';
+import cartData from '../models/carts.js';
 import MyError from '../cerror.js';
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import auth from '../config/auth.js';
@@ -17,7 +18,7 @@ async function createUserStorage (uid, displayName, email, role) {
                 info: [],
                 role: role
             };
-
+            await cartData.new(uid);
         } else {
             newUser = {
                 store_id: uid,

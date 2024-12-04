@@ -27,6 +27,22 @@ const productData = {
         }
     },
 
+    getByStore: async (store_id) => {
+        try {
+            const docSnap = await getDocs(collection(db, 'product'), where('store_id', '==', store_id));
+
+            const products = [];
+            docSnap.forEach((doc) => {
+                products.push({ id: doc.id, ...doc.data() });
+            });
+            return products;
+
+        } catch (e) {
+            console.error("Error fetching product: ", e);
+            return null;
+        }
+    },
+
     search: async (queryStr, field = 'all') => {
         try {
             const productRef = collection(db, 'product');
@@ -72,7 +88,6 @@ const productData = {
             return [];
         }
     },
-
 
     new: async (product) => {
         try {

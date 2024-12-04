@@ -14,8 +14,12 @@ const cartData = {
         }
     },
 
-    new: async (uid, cart) => {
+    new: async (uid) => {
         try {
+            const cart = {
+                productCart: [],
+                value: 0
+            };
             const cartRef = doc(collection(db, 'cart'), uid);
             await setDoc(cartRef, cart);
             return { status: true };
