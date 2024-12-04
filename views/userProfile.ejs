@@ -7,7 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-    
     <div class="container">
         <div class="main-body">
                     <div class="main-card">
@@ -64,7 +63,7 @@
                                 <h4>Gender</h4>
                             </div>
                             <div class="display">
-                                <%= user.gender%>
+                                <%=user.gender%>
                             </div>
                         </div>
                         <hr>
@@ -83,5 +82,17 @@
 
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = JSON.parse(sessionStorage.getItem('user'));
+  
+            if (!user) {
+                window.location.href = '/auth';
+            } else {
+                console.log('User ID:', user.uid);
+                console.log('User Role:', user.role);
+            }
+        });
+    </script>
 </body>
 </html>

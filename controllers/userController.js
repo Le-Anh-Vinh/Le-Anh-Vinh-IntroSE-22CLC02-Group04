@@ -11,7 +11,7 @@ const mainController = {
         try {
             const products = await productData.all();
 
-            res.render('home', { products });
+            res.render('homepage', { products });
         } catch (error) {
             next(new MyError(error.status, error.message));
         }
@@ -62,7 +62,7 @@ const mainController = {
 
             const products = await productData.searchAndFilter(query, 'all', filters);
 
-            res.render('search_page', { products });
+            res.render('searchpage', { products });
         } catch (error) {
             next(new MyError(error.status, error.message));
         }

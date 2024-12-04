@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" theme="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -41,7 +41,7 @@
             height: 550px;
             margin: 50px auto 100px;
             background: #ffd36d;
-            box-shadow: -10px -10px 15px rgba(255, 255, 255, 0.3), 10px 10px 15px rgba(70, 70, 70, 0.15), inset -10px -10px 15px rgba(255, 255, 255, 0.3), inset 10px 10px 15px rgba(70, 70, 70, 0.15);
+            /* box-shadow: -10px -10px 15px rgba(255, 255, 255, 0.3), 10px 10px 15px rgba(70, 70, 70, 0.15), inset -10px -10px 15px rgba(255, 255, 255, 0.3), inset 10px 10px 15px rgba(70, 70, 70, 0.15); */
         }
 
         .form {
@@ -371,6 +371,14 @@
         .seller_checkbox {
             height: 22px;
         }
+
+        #signupButton {
+            margin-top: 30px;
+        }
+
+        #loginButton {
+            margin-top: 60px;
+        }
     </style>
 
     <script defer>
@@ -378,24 +386,26 @@
 
         async function signup(event) {
             event.preventDefault();
-
             const signupButton = document.getElementById('signupButton');
+            const checkBox = document.querySelectorAll('.form input');
+
             const email = document.getElementById('signupEmail').value.trim();
             const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('ConfirmSignupPassword').value;
+            const role = document.querySelector('input[name="option1"]:checked').value;
             const name = document.getElementById('signupName').value;
-            const roleElement = document.querySelector('input[name="option1"]:checked');
 
             if (!regexEmail.test(email)) {
-                alert("Please enter a valid email address");
+                alert("Your email is invalid");
                 return;
             }
 
-            if (password.length < 8) {
-                alert("Password must be at least 8 characters long.");
+            if (password.length < 8 || password !== confirmPassword) {
+                alert("Passwords invalid.");
                 return;
             }
 
-            if (!roleElement) {
+            if (!role) {
                 alert("Please select a role.");
                 return;
             }
@@ -404,12 +414,13 @@
                 email: email,
                 password: password,
                 name: name,
-                role: roleElement.value
+                role: role
             };
 
             try {
                 signupButton.disabled = true;
                 signupButton.innerText = "Submitting...";
+                checkBox.forEach(input => input.disabled = true);
 
                 const response = await fetch('/signup', {
                     method: 'POST',
@@ -418,21 +429,22 @@
                 });
 
                 if (response.ok) {
+                {   
                     alert('Signup successfully!');
-                    if (response.redirected) {
-                        window.location.href = response.url;
-                    }
+                    window.location.href = '/complete_signup';
+                }
                 } else {
                     const error = await response.json();
                     console.log(error)
                     alert(`Failed to signup, Reason: ${error.error || 'Unknown error'}`);
                 }
             } catch (error) {
-                console.error('Error:', error.message);
+                console.error('Error:', error);
                 alert('An error occurred while submitting the form.');
             } finally {
                 signupButton.disabled = false;
                 signupButton.innerText = "Submit";
+                checkBox.forEach(input => input.disabled = false);
             }
         }
 
@@ -468,6 +480,8 @@
                     console.log(role);
                     console.log(user.displayName);
                     alert('Login successfully!');
+                    sessionStorage.setItem('user', JSON.stringify({ uid: user.uid, role: role}));
+                    window.location.href = '/';
                 } else {
                     const error = await response.json();
                     alert(`Failed to login, error: ${error.message || 'Unknown error'}`);
@@ -502,6 +516,7 @@
         <div class="sub-cont">
             <div class="img">
                 <div class="img__text m--up">
+
                     <h3>Don't have an account? Please Sign up!<h3>
                 </div>
                 <div class="img__text m--in">
@@ -524,6 +539,7 @@
             </div>
             <div class="form sign-up">
                 <h2>Create your Account</h2>
+
                 <label>
                     <span>Name</span>
                     <input type="text" id="signupName" />
@@ -538,9 +554,8 @@
                 </label>
                 <label>
                     <span>Confirm Password</span>
-                    <input type="ConfirmPassword" id="ConfirmSignupPassword" />
+                    <input type="password" id="ConfirmSignupPassword" />
                 </label>
-
                 <label>
                     <span>You are a </span>
                 </label>
