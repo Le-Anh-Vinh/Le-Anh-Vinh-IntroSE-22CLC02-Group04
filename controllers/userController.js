@@ -11,7 +11,7 @@ const mainController = {
         try {
             const products = await productData.all();
 
-            res.render('home', products);
+            res.render('homepage', { products: products });
         } catch (error) {
             next(new MyError(404, "Can't found Home page"));
         }
@@ -66,7 +66,7 @@ const mainController = {
 
             const products = await productData.searchAndFilter(query, 'all', filters);
 
-            res.render('search_page', { products });
+            res.render('searchpage', { products: products });
         } catch (error) {
             next(new MyError(404, "Can't found Home page"));
         }
@@ -82,3 +82,10 @@ const mainController = {
 };
 
 export default mainController;
+// port bị chiếm r
+// anh có đang xài cái gì dùng port 8080 kh
+// hk t tat het r ma 
+// y la t tat het t tât ca cac link r ma 
+// gòi ngon nghẻ r t đi tắm
+// con homepage thi sao
+// cái đầu tiên là homepage đó

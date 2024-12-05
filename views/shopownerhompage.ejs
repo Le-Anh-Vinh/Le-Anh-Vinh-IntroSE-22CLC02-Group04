@@ -47,7 +47,7 @@
             </ul>
             <ul class="header__navbar-list">
               <li class="header__navbar-item">
-                <a href="/" class="header__navbar-item-non-link">
+                <a href="" class="header__navbar-item-non-link">
                   <i class="header__navbar-icon fas fa-home"></i>
                     Homepage
                 </a>
@@ -67,7 +67,7 @@
                 />
 
                 <span class="header__navbar-user-name">
-                  Lê Tấn Đạt
+                  LMEO
                 </span>
 
                 <ul class="header__navbar-user-menu">
@@ -109,7 +109,7 @@
               class="header__search-checkbox"
             />
             <!-- Header Search -->
-            <div class="header__search ">
+            <div class="header__search">
               <div class="header__search-input-wrap">
                 <input
                   type="text"
@@ -118,19 +118,12 @@
                   placeholder="Search"
                   oninput="handleSearchInput()"
                 />
-
+                
                 <!-- Search history -->
-                <div id="search-history" class="header__search-history" style="display: none;">
-                  <h3 class="header__search-history-heading">
-                    Lịch sử tìm kiếm
-                  </h3>
-                  <ul id="search-history-list" class="header__search-history-list">
-                    <li class="header__search-history-item">
-                      <a href="">Áo T1</a>
-                    </li>
-                    <li class="header__search-history-item">
-                      <a href="">2 sao của GenG</a>
-                    </li>
+                <div class="header__search-history" id="search-history">
+                  <h3 class="header__search-history-heading">Lịch sử tìm kiếm</h3>
+                  <ul class="header__search-history-list" id="search-history-list">
+                    <!-- Các mục tìm kiếm trước đây sẽ được hiển thị ở đây -->
                   </ul>
                 </div>
               </div>
@@ -139,6 +132,7 @@
                 <i class="header__search-btn-icon fas fa-search"></i>
               </button>
             </div>
+            
           </div>
         </div>
       </header>
@@ -147,34 +141,38 @@
         <div class="grid wide">
           <div class="row sm-gutter app__content">
 
-            <div class="col l-10 m-12 c-12">
-              <!-- Filter -->
-              <div class="home-filter hide-on-mobile-tablet">
-                <span class="home-filter__label">Sắp xếp theo</span>
-                <button class="home-filter__btn btn">Liên quan</button>
-                <button class="home-filter__btn btn btn--primary">
-                  Mới nhất
-                </button>
-                <button class="home-filter__btn btn">Bán chạy</button>
-                <div class="select-input">
-                  <span class="select-input__label">Giá</span>
-                  <i class="select-input__icon fas fa-angle-down"></i>
-                  <!-- List option -->
-                  <ul class="select-input__list">
-                    <li class="select-input__item">
-                      <a href="#" class="select-input__link"
-                        >Giá: Thấp đến Cao</a
-                      >
-                    </li>
-                    <li class="select-input__item">
-                      <a href="#" class="select-input__link"
-                        >Giá: Cao đến Thấp</a
-                      >
-                    </li>
+            <!-- Label -->
+            <div class="col l-2 m-0 c-0"> 
+                <nav class="category">
+                  <h3 class="category__heading">
+                    LABEL
+                  </h3>
+                  <ul class="category-list">
+                    <div class="price-options">
+                      <div class="price-option active" onclick="selectOption(this)">Price ascending</div>
+                      <div class="price-option" onclick="selectOption(this)">Price descending</div>
+                    </div>
+                    <div class="add-product-btn">
+                      <i class="fas fa-check"></i>
+                      <span>Add product</span>
+                    </div>
+                    <div class="add-product-btn">
+                      <i class="fas fa-check"></i>
+                      <span>Update product</span>
+                    </div>
+                    <div class="add-product-btn">
+                      <i class="fas fa-cog"></i>
+                      <span>View order</span>
+                    </div>
+                    <div class="add-product-btn">
+                      <i class="fas fa-eye"></i>
+                      <span>Shop profile</span>
+                    </div>
                   </ul>
-                </div>
+                </nav>
               </div>
 
+              <div class="col l-10 m-12 c-12">
               <!-- Product -->
               <div class="home-product">
                 <% for (let rowIndex = 0; rowIndex < products.length; rowIndex += 5) { %>
@@ -204,6 +202,7 @@
                   </div>
                 <% } %>
               </div>
+              
             </div>
           </div>
         </div>
@@ -264,14 +263,13 @@
       </footer>
     </div>
     <script>
-
       const savedSearchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
     
       const searchInput = document.getElementById('search-input');
       const searchBtn = document.getElementById('search-btn');
       const searchHistoryDiv = document.getElementById('search-history');
       const searchHistoryList = document.getElementById('search-history-list');
-
+    
       function addSearchHistory(query) {
         if (!savedSearchHistory.includes(query)) {
           savedSearchHistory.unshift(query);
@@ -281,7 +279,7 @@
           localStorage.setItem('searchHistory', JSON.stringify(savedSearchHistory));
         }
       }
-      
+    
       function handleSearchInput() {
         const query = searchInput.value.trim();
     
@@ -304,6 +302,7 @@
           searchHistoryDiv.style.display = 'none';
         }
       }
+    
       searchBtn.addEventListener('click', function () {
         const query = searchInput.value.trim();
         if (query) {
@@ -331,5 +330,6 @@
         }
       };
     </script>
+    
   </body>
 </html>
