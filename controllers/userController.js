@@ -1,28 +1,35 @@
 import productData from '../models/products.js';
 import cartData from '../models/carts.js';
 import orderData from '../models/oders.js';
+import categoryData from '../models/category.js';
 import userData from '../models/users.js';
 import MyError from '../cerror.js';
 
 const mainController = {
     getAll: async (req, res, next) => {
-        //get uid => auth/main
-        //get role => phân hệ
         try {
-            const products = await productData.all();
+            const page = parseInt(req.query.page) || 1;
+            if(page < 0) {
+                return next(new MyError(404, "Page not found!"));
+            }
+            const catID = req.query.catID || '';
+            const per_page = 20;
+            let products;
+            if(catID != '') {
+                const category = await categoryData.get(catID);
+                
+                products = await productData.search(category.name, 'category');
+            }
 
-            res.render('homepage', { products });
-        } catch (error) {
-            next(new MyError(error.status, error.message));
-        }
-    },
+            products = await productData.all();
+            const total_page = Math.ceil(products.length/per_page);
 
-    getProduct: async (req, res, next) => {
-        try {
-            const id = req.params.id;
-            const product = await productData.get(id);
+            if(page > total_page) {
+                return next(new MyError(404, "The page you looking for can't be found!"));
+            }
+            products = products.slice((page - 1) * per_page, Math.min(page * per_page, products.length));
 
-            res.render('product', { product });
+            res.render('homepage', { products, page, total_page, catID });
         } catch (error) {
             next(new MyError(error.status, error.message));
         }
@@ -49,32 +56,56 @@ const mainController = {
     },
 
     getStore: async (req, res, next) => {
-
-    },
-
-    search: async (req, res, next) => {
         try {
-            const { query } = req.params;
-            const { maxPrice, minPrice, rateFilter, page } = req.query;
-            const filters = [];
-            filters.push({ field: 'price', from: parseInt(minPrice, 10) || 0, to: parseInt(maxPrice, 10) || Infinity });
-            filters.push({ field: 'rate', from: parseInt(rateFilter, 10) || 0, to: 5 });
+            const storeID = req.params.id;
+            
+            const storeDoc = await userData.get(storeID);
 
-            const products = await productData.searchAndFilter(query, 'all', filters);
+            if (!storeDoc) {
+                new MyError(404, "Store not found");
+            }
 
-            res.render('searchpage', { products });
+            const productDoc = await productData.getByStore(storeID);
+
+            res.render('storePage', {
+                product: productDoc,
+                store: storeDoc
+            });
         } catch (error) {
             next(new MyError(error.status, error.message));
         }
     },
 
-    addToCart: async (req, res, next) => { },
+    search: async (req, res, next) => {
+        try {
+            const page = parseInt(req.query.page) || 1;   
+            if(page < 0) {
+                return next(new MyError(404, "The page you looking for can't be found!"));
+            }
 
-    addRating: async (req, res, next) => { },
+            const { query } = req.params;
+            const { maxPrice, minPrice, rateFilter } = req.query;
+            const per_page = 1;
+            const filters = [];
+            filters.push({ field: 'price', from: parseInt(minPrice, 10) || 0, to: parseInt(maxPrice, 10) || Infinity });
+            filters.push({ field: 'rate', from: parseInt(rateFilter, 10) || 0, to: 5 });
+            let products = await productData.searchAndFilter(query, 'all', filters);
+            
+            const total_page = Math.ceil(products.length / per_page);
 
-    viewHistoryOrder: async (req, res, next) => { },
+            if(page > total_page) {
+                return next(new MyError(404, "The page you looking for can't be found!"));
+            }
+            products = products.slice((page - 1) * per_page, Math.min(page * per_page, products.length));
+
+            res.render('searchpage', { products, page, total_page, query });
+        } catch (error) {
+            next(new MyError(error.status, error.message));
+        }
+    },
+
     addNewAddress: async (req, res, next) => { },
-    checkOut: async (req, res, next) => { },
+    
     changeUserInfo: async (req, res, next) => {
         try {
             const { uid, username, name, email, gender, info } = req.body;
@@ -85,8 +116,7 @@ const mainController = {
             if (gender) newData.gender = gender;
             if (info) newData.info = info;
 
-            const user = await userData.update(uid, newData);
-            res.redirect('/auth');
+            await userData.update(uid, newData);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }

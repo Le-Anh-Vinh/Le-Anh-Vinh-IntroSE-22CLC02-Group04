@@ -44,7 +44,7 @@ const userData = {
             console.error("Error adding document: ", e);
             return { status: false, error: e.message };
         }
-    }
+    },
 };
 
 export default userData;

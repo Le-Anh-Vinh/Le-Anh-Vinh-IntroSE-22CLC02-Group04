@@ -1,41 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta 
-      name="viewport" 
-      content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/style/grid.css" />
-    <link rel="stylesheet" href="/style/base.css" />
-    <link rel="stylesheet" href="/style/main.css" />
-    <link rel="stylesheet" href="/style/productDetail.css" />  
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
-    />
-    
-    <title>Product Details</title>
 
-    <script>
-      function updateMainImage(imageUrl) {
-        const displayedImage = document.getElementById("displayedImage");
-        const thumbnails = document.querySelectorAll(".thumbnail img");
-    
-        // Update the main image
-        displayedImage.src = imageUrl;
-    
-        // Update the active thumbnail
-        thumbnails.forEach((thumbnail) => thumbnail.classList.remove("active-thumbnail"));
-        const activeThumbnail = Array.from(thumbnails).find((thumbnail) => thumbnail.src === imageUrl);
-        if (activeThumbnail) {
-          activeThumbnail.classList.add("active-thumbnail");
-        }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/style/grid.css" />
+  <link rel="stylesheet" href="/style/base.css" />
+  <link rel="stylesheet" href="/style/main.css" />
+  <link rel="stylesheet" href="/style/productDetail.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" />
+
+  <title>Product Details</title>
+
+  <script>
+    function updateMainImage(imageUrl) {
+      const displayedImage = document.getElementById("displayedImage");
+      const thumbnails = document.querySelectorAll(".thumbnail img");
+
+      // Update the main image
+      displayedImage.src = imageUrl;
+
+      // Update the active thumbnail
+      thumbnails.forEach((thumbnail) => thumbnail.classList.remove("active-thumbnail"));
+      const activeThumbnail = Array.from(thumbnails).find((thumbnail) => thumbnail.src === imageUrl);
+      if (activeThumbnail) {
+        activeThumbnail.classList.add("active-thumbnail");
       }
-    </script>
-  </head>
+    }
+  </script>
+</head>
 
-  <body>
-    <!-- <header id="header">
+<body>
+  <!-- <header id="header">
       <div class="logo">
         <img id="header-img" src="..\public\img\logo.png" alt="ShopEase" />
       </div>
@@ -52,8 +48,8 @@
       </div>
     </header> -->
 
-    <!-- header -->
-    <%- include('header') %>
+  <!-- header -->
+  <%- include('header') %>
     <!-- end header -->
 
     <div class="product-details-container">
@@ -62,32 +58,33 @@
         <div class="main-image">
           <img id="displayedImage" src="<%= product.images[0] %>" alt="Product Image" />
         </div>
-      
+
         <!-- Thumbnails list -->
         <div class="thumbnail-container">
-          <% product.images.forEach((image, index) => { %>
-          <div class="thumbnail">
-            <img
-              src="<%= image %>"
-              alt="Thumbnail"
-              onclick="updateMainImage('<%= image %>')"
-              class="<%= index === 0 ? 'active-thumbnail' : '' %>"
-            />
-          </div>
-          <% }); %>
+          <% product.images.forEach((image, index)=> { %>
+            <div class="thumbnail">
+              <img src="<%= image %>" alt="Thumbnail" onclick="updateMainImage('<%= image %>')"
+                class="<%= index === 0 ? 'active-thumbnail' : '' %>" />
+            </div>
+            <% }); %>
         </div>
       </div>
-      
+
 
       <div class="product-info">
         <section class="product-show">
-          <h1 class="product-name"><%= product.name %></h1>
-          <p class="product-price">₫<%= product.price %></p>
-  
+          <h1 class="product-name">
+            <%= product.name %>
+          </h1>
+          <p class="product-price">₫<%= product.price %>
+          </p>
+
           <label for="variations" class="variation-label">Variations</label>
           <select id="variations" class="product-variations">
-              <% product.varians.forEach(variant => { %>
-                  <option value="<%= variant %>"><%= variant %></option>
+            <% product.varians.forEach(variant=> { %>
+              <option value="<%= variant %>">
+                <%= variant %>
+              </option>
               <% }); %>
           </select>
         </section>
@@ -95,51 +92,61 @@
         <button class="add-to-cart-btn">Add to Cart</button>
       </div>
     </div>
-    
+
 
     <div class="shop-section">
       <h2 class="shop-title">SHOP</h2>
-      <div class="shop-card">
-          <div class="shop-rating">
-              <!-- Render star ratings dynamically if needed -->
-            <% for (let i = 0; i < Math.floor(store.rate + 0.5); i++) { %> ⭐ <% } %>
-            <% for (let i = Math.floor(store.rate + 0.5); i < 5; i++) { %> ☆ <% } %>
-            </div>
-          <div class="shop-info">
-              <h3 class="shop-name"><%= store.info[0].name %></h3>
-              <p class="shop-category">Category</p>
-              <p id="categories" class="product-categories">
-                <% product.category.forEach(cate => { %>
-                  <%= cate %>,
+      <a href="/shop/<%=store.store_id%>" class="shop-card">
+        <div class="shop-rating">
+          <!-- Render star ratings dynamically if needed -->
+          <% for (let i=0; i < Math.floor(store.rate + 0.5); i++) { %> ⭐ <% } %>
+              <% for (let i=Math.floor(store.rate + 0.5); i < 5; i++) { %> ☆ <% } %>
+        </div>
+        <div class="shop-info">
+          <h3 class="shop-name">
+            <%= store.info[0].name %>
+          </h3>
+          <p class="shop-category">Category</p>
+          <p id="categories" class="product-categories">
+            <% product.category.forEach(cate=> { %>
+              <%= cate %>,
                 <% }); %>
-              </p>
-            </div>
-      </div>
+          </p>
+        </div>
+      </a>
     </div>
-  
+
 
     <div class="product-description">
       <h2>Product Description</h2>
-      <p class="description-text"><%= product.description %></p>
+      <p class="description-text">
+        <%= product.description %>
+      </p>
     </div>
-    
+
 
     <div class="latest-reviews">
       <h2>Latest Reviews</h2>
       <div class="reviews-container">
-        <% product.reviews.forEach((review) => { %>
+        <% product.reviews.forEach((review)=> { %>
           <div class="review-card">
             <div class="review-rating">
-              <% for (let i = 0; i < Math.floor(review.value + 0.5); i++) { %> ⭐ <% } %>
-              <% for (let i = Math.floor(review.value + 0.5); i < 5; i++) { %> ☆ <% } %>
+              <% for (let i=0; i < Math.floor(review.value + 0.5); i++) { %> ⭐ <% } %>
+                  <% for (let i=Math.floor(review.value + 0.5); i < 5; i++) { %> ☆ <% } %>
             </div>
-            <h3 class="review-title"><%= review.title || "No title provided" %></h3>
-            <p class="review-body"><%= review.body || "No review content" %></p>
+            <h3 class="review-title">
+              <%= review.title || "No title provided" %>
+            </h3>
+            <p class="review-body">
+              <%= review.body || "No review content" %>
+            </p>
             <div class="reviewer-info">
-              <p class="review-date"><%= new Date(review.date).toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" }) %></p>
+              <p class="review-date">
+                <%= new Date(review.date).toLocaleString("en-US", { dateStyle: "medium" , timeStyle: "short" }) %>
+              </p>
             </div>
           </div>
-        <% }); %>
+          <% }); %>
       </div>
     </div>
 
@@ -147,32 +154,37 @@
     <div class="relative-products">
       <h2>Relative Products</h2>
       <div class="product-grid">
-        <% relativeProducts.forEach((product) => { %>
+        <% relativeProducts.forEach((product)=> { %>
           <a href="/product/<%= product.product_id %>" class="product-link">
             <div class="product-card">
-              <img src="<%= product.images[0] || 'placeholder.jpg' %>" alt="<%= product.name %>" class="product-image" />
-              
+              <img src="<%= product.images[0] || 'placeholder.jpg' %>" alt="<%= product.name %>"
+                class="product-image" />
+
               <div class="product-info">
-                <p class="product-name"><%= product.name || 'Text' %></p>
-                <p class="product-price">$<%= product.price || '0' %></p>
+                <p class="product-name">
+                  <%= product.name || 'Text' %>
+                </p>
+                <p class="product-price">$<%= product.price || '0' %>
+                </p>
               </div>
             </div>
           </a>
-        <% }); %>
+          <% }); %>
       </div>
     </div>
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-          const user = JSON.parse(sessionStorage.getItem('user'));
+      document.addEventListener('DOMContentLoaded', function () {
+        const user = JSON.parse(sessionStorage.getItem('user'));
 
-          if (!user) {
-              window.location.href = '/auth';
-          } else {
-              console.log('User ID:', user.uid);
-              console.log('User Role:', user.role);
-          }
+        if (!user) {
+          window.location.href = '/auth';
+        } else {
+          console.log('User ID:', user.uid);
+          console.log('User Role:', user.role);
+        }
       });
-  </script>
+    </script>
     <!--  -->
-  </body>
+</body>
+
 </html>

@@ -1,8 +1,10 @@
 import userData from '../models/users.js';
+import cartData from '../models/carts.js';
 import MyError from '../cerror.js';
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import auth from '../config/auth.js';
 import admin from '../config/admin.js';
+import userData from '../models/users.js';
 
 async function createUserStorage (uid, displayName, email, role) {
     try {
@@ -17,7 +19,7 @@ async function createUserStorage (uid, displayName, email, role) {
                 info: [],
                 role: role
             };
-
+            await cartData.new(uid);
         } else {
             newUser = {
                 store_id: uid,
@@ -38,7 +40,6 @@ async function createUserStorage (uid, displayName, email, role) {
         return false;          
     }
 }
-
 
 const authController = {
     getAuthentication: (req, res, next) => {
@@ -99,9 +100,8 @@ const authController = {
     
             const userCredential = await signInWithEmailAndPassword(auth, formInput.email, formInput.password);
             const user = userCredential.user;
-            const idToken = await user.getIdToken();
-            const decodedToken = await admin.auth().verifyIdToken(idToken);
-            const role = decodedToken.role;
+            const userdt = userData.get(user.uid);
+            const role = userdt.role;
     
             res.json({ success: true, user: user, role: role });
         } catch (error) {
