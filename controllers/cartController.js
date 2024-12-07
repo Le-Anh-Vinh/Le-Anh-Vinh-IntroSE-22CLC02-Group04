@@ -19,7 +19,6 @@ const cartController = {
                     };
                 })
             );
-            console.log(productsWithDetails);
             res.render('cart', { products: productsWithDetails});
         } catch (error) {
             next(new MyError(error.status, error));

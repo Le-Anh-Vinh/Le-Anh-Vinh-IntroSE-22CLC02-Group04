@@ -75,7 +75,6 @@ const productData = {
     searchAndFilter: async (queryStr = '', field = 'all', filters = []) => {
         try {
             let results = await productData.search(queryStr, field);
-
             results = filters.reduce((filteredData, { field, from, to }) => {
                 return filteredData.filter((item) =>
                     (from === undefined || item[field] >= from) &&
@@ -112,7 +111,7 @@ const productData = {
                 newUpdate.reviews = updatedReviews;
                 newUpdate.rate = productData.calRate(updatedReviews);
                 await updateDoc(productRef, newUpdate);
-                const products = productData.getByStore(existingData.store_id);
+                const products = await productData.getByStore(existingData.store_id);
                 let rate = products.reduce((arr, product) => arr + product.rate);
                 rate /= products.length > 0? products.length : 1;
                 await userData.update(existingData.store_id, {rate});
@@ -127,7 +126,7 @@ const productData = {
     },
 
     calRate: (reviews) => {
-        if (!reviews || reviews.length === 0) return 0;
+        if (!Array.isArray(reviews) || reviews.length === 0) return 0;
         const total = reviews.reduce((acc, review) => acc + (review.value || 0), 0);
         return total / reviews.length;
     },

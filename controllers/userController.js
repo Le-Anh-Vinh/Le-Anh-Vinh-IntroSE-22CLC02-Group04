@@ -101,10 +101,10 @@ const mainController = {
             
             const total_page = Math.ceil(products.length / per_page);
 
-            if(page > total_page) {
-                return next(new MyError(404, "The page you looking for can't be found!"));
-            }
-            products = products.slice((page - 1) * per_page, Math.min(page * per_page, products.length));
+            // if(page > total_page) {
+            //     return next(new MyError(404, "The page you looking for can't be found!"));
+            // }
+            // products = products.slice((page - 1) * per_page, Math.min(page * per_page, products.length));
 
             res.render('searchpage', { products, page, total_page, query });
         } catch (error) {
@@ -125,7 +125,10 @@ const mainController = {
             if (info) newData.info = info;
             
             await userData.update(uid, newData);
+
+            res.json({ success: true });
         } catch (error) {
+            console.log(error);
             res.status(500).json({ error: error.message });
         }
     },

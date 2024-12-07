@@ -431,7 +431,8 @@
                 if (response.ok) {
                 {   
                     alert('Signup successfully!');
-                    window.location.href = '/complete_signup';
+                    const result = await response.json();
+                    window.location.href = result.redirectURL;
                 }
                 } else {
                     const error = await response.json();
@@ -481,10 +482,10 @@
                     console.log(user.displayName);
                     alert('Login successfully!');
                     sessionStorage.setItem('user', JSON.stringify({ uid: user.uid, role: role}));
-                    window.location.href = '/';
+                    window.location.href = `/${user.uid}`;
                 } else {
                     const error = await response.json();
-                    alert(`Failed to login, error: ${error.message || 'Unknown error'}`);
+                    alert(`Failed to login, error: ${error.error || 'Unknown error'}`);
                 }
             } catch (error) {
                 console.error('Error:', error);
