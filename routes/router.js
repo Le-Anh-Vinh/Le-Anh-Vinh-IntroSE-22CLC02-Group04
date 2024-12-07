@@ -3,6 +3,7 @@ import authController from '../controllers/authController.js';
 import userController from '../controllers/userController.js';
 // import storeController from '../controllers/storeController.js';
 // import adminController from '../controllers/adminController.js';
+import cartController from "../controllers/cartController.js";
 import productController from '../controllers/productController.js';
 
 const router = express.Router();
@@ -16,19 +17,23 @@ router.post('/forget_password', authController.resetPassword);
 router.post('/change_password', authController.changePassword);
 
 //user
-router.get('/', userController.getAll);
-// router.get('/product/:id', userController.getProduct);
+router.get('/:id', userController.getAll); // '/catID=1&page=1'
+router.get('/product/:id', productController.getDetailProduct);
 router.get('/profile/:id', userController.getProfile);
-router.get('/search/:query?', userController.search); // 'search/ph?maxPrice=160000&minPrice=10000&rateFilter=2&page=1'
+router.get('/search/:query?', userController.search); // '/search/ph?maxPrice=160000&minPrice=10000&rateFilter=2&page=1'
 router.post('/user/edit', userController.changeUserInfo);
+router.get('/store/:id', userController.getStore);
+
+//cart
+router.get('/cart/:id', cartController.getCart);
+router.get('/orders/:id', cartController.viewHistoryOrder);
+router.put('/cart/:id', cartController.updateItem);
+router.post('/cart/:id', cartController.addToCart);
 
 //store
 
 
 //admin
 
-
-// product
-router.get('/product/:id', productController.getDetailProduct);
  
 export default router;  

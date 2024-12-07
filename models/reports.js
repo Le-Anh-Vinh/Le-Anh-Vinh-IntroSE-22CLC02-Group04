@@ -1,5 +1,5 @@
 import db from '../config/db.js';
-import { updateDoc, collection, addDoc } from 'firebase/firestore';
+import { getDoc, collection, addDoc, doc } from 'firebase/firestore';
 
 const reportData = {
     addNew: async (report) => {

@@ -22,9 +22,9 @@
                     </a>
                 </li>
                 <li class="header__navbar-item">
-                    <a href="" class="header__navbar-item-non-link">
-                        <i class="header__navbar-icon fas fa-shopping-cart"></i> Cart
-                    </a>
+                  <a href="#" id="cart-link" class="header__navbar-item-non-link">
+                      <i class="header__navbar-icon fas fa-shopping-cart"></i> Cart
+                  </a>
                 </li>
                 <li class="header__navbar-item header__navbar-user">
                     <img src="/img/user_img.png" alt="avatar" class="header__navbar-user-img" />
@@ -54,7 +54,7 @@
 
             <!-- Header Logo -->
             <div class="header__logo hide-on-tablet">
-                <a href="" class="header__logo-link">
+                <a href="/" class="header__logo-link">
                     <img class="header__logo-img" src="/img/logo_img.png" alt="Custom Logo" />
                 </a>
             </div>
@@ -180,4 +180,14 @@
         searchHistoryDiv.style.display = 'none';
       }
     });
+  </script>
+  <script>
+    const userData = JSON.parse(sessionStorage.getItem('user'));
+
+    if (userData) {
+      const cartLink = document.getElementById('cart-link');
+      cartLink.href = `/cart/${userData.uid}`;
+    } else {
+        console.log('No user data found.');
+    }
   </script>

@@ -24,7 +24,7 @@
                 const response = await fetch('/forget_password', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email: email }),
+                    body: JSON.stringify({ email: email }),
                 });
 
                 if (response.ok) {
