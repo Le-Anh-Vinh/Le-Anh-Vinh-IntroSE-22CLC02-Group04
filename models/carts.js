@@ -129,10 +129,10 @@ const cartData = {
 
     delete: async (uid, product) => {
         try {
-            const cartData = await cartData.fetchCart(uid);
-            if (!cartData) return { status: false, error: 'Cart not found' };
+            const cartDataFetched = await cartData.fetchCart(uid);
+            if (!cartDataFetched) return { status: false, error: 'Cart not found' };
 
-            const updatedProducts = cartData.product_cart.filter(
+            const updatedProducts = cartDataFetched.product_cart.filter(
                 (p) => p.product_id !== product.product_id && p.variant !== product.variant
             );
 

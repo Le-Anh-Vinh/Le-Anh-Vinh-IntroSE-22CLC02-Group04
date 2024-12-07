@@ -64,12 +64,12 @@ const cartController = {
     removeItem: async (req, res, next) => {
         try {
             const uid = req.params.id;
-            const { product } = req.body;
-            const cart = await cartData.removeItem(uid, product);
+            const product = req.body;
+            const cart = await cartData.delete(uid, product);
             res.json({cart});
         } catch (error) {
             console.error(error.mesage);
-            json.status(500).json({error: error.mesage});            
+            res.status(500).json({error: error.mesage});            
         }  
     },
     

@@ -109,6 +109,18 @@
       } else {
         console.error('Can not find ID in session storage');
       }
+
+      const cartLink = document.getElementById('cart-link');
+    
+      if (user && user.role === 'store') {
+        if (cartLink) {
+            cartLink.style.display = 'none';
+        }
+      } else {
+        if (user && user.uid) {
+            cartLink.href = `/cart/${user.uid}`;
+        }
+      }
     });
 
     const savedSearchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
