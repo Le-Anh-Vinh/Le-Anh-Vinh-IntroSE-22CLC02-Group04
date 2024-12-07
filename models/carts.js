@@ -31,9 +31,9 @@ const cartData = {
 
     get: async (uid) => {
         try {
-            const cartData = await cartData.fetchCart(uid);
-            return cartData
-                ? { status: true, cart: cartData }
+            const cartDataFetched = await cartData.fetchCart(uid);
+            return cartDataFetched
+                ? { status: true, cart: cartDataFetched }
                 : { status: false, error: 'Cart not found' };
         } catch (e) {
             return { status: false, error: e.message };
@@ -42,10 +42,10 @@ const cartData = {
 
     calValue: async (uid) => {
         try {
-            const cartData = await cartData.fetchCart(uid);
-            if (!cartData) return { status: false, error: 'Cart not found' };
+            const cartDataFetched = await cartData.fetchCart(uid);
+            if (!cartDataFetched) return { status: false, error: 'Cart not found' };
 
-            const productsCart = cartData.product_cart || [];
+            const productsCart = cartDataFetched.product_cart || [];
             const products = await productData.all();
 
             const value = productsCart.reduce((total, item) => {
@@ -98,11 +98,11 @@ const cartData = {
     
     update: async (uid, newData) => {
         try {
-            const cartData = await cartData.fetchCart(uid);
-            if (!cartData) return { status: false, error: 'Cart not found' };
-
-            const updatedProducts = cartData.product_cart.map((product) =>
-                product.product_id === newData.product_id && product.variant === newData.variant ? { ...product, ...newData } : product
+            const cartDataFetched = await cartData.fetchCart(uid);
+            if (!cartDataFetched) return { status: false, error: 'Cart not found' };
+            
+            const updatedProducts = cartDataFetched.product_cart.map((product) =>
+                product.product_id === newData.product_id  ? { ...product, ...newData } : product
             );
 
             const valueResult = await cartData.calValue(uid);

@@ -30,8 +30,8 @@ const productData = {
 
     getByStore: async (store_id) => {
         try {
-            const docSnap = await getDocs(collection(db, 'product'), where('store_id', '==', store_id));
-
+            const q = query(collection(db, 'product'), where('store_id', '==', store_id));
+            const docSnap = await getDocs(q);
             const products = [];
             docSnap.forEach((doc) => {
                 products.push({ id: doc.id, ...doc.data() });

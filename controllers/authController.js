@@ -4,7 +4,6 @@ import MyError from '../cerror.js';
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import auth from '../config/auth.js';
 import admin from '../config/admin.js';
-import userData from '../models/users.js';
 
 async function createUserStorage (uid, displayName, email, role) {
     try {
@@ -40,6 +39,7 @@ async function createUserStorage (uid, displayName, email, role) {
         return false;          
     }
 }
+
 
 const authController = {
     getAuthentication: (req, res, next) => {
@@ -100,8 +100,11 @@ const authController = {
     
             const userCredential = await signInWithEmailAndPassword(auth, formInput.email, formInput.password);
             const user = userCredential.user;
-            const userdt = userData.get(user.uid);
-            const role = userdt.role;
+            // const idToken = await user.getIdToken();
+            // const decodedToken = await admin.auth().verifyIdToken(idToken);
+            // const role = decodedToken.role;
+            const userInf = await userData.get(user.uid);
+            const role = userInf.role;
     
             res.json({ success: true, user: user, role: role });
         } catch (error) {

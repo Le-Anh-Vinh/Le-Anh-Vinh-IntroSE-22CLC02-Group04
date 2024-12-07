@@ -7,11 +7,22 @@ const cartController = {
     getCart: async (req, res, next) => {
         try {
             const id = req.params.id;
-            const cart = cartData.get(id);
+            const cart = await cartData.get(id);
 
-            res.render('homepage', { cart });
+            const products = cart.cart.product_cart;
+            const productsWithDetails = await Promise.all(
+                products.map(async (product) => {
+                    const productDetails = await productData.get(product.product_id);
+                    return {
+                        ...product,
+                        productDetails: productDetails || {}
+                    };
+                })
+            );
+            console.log(productsWithDetails);
+            res.render('cart', { products: productsWithDetails});
         } catch (error) {
-            next(new MyError(error.status, error.message));
+            next(new MyError(error.status, error));
         }
     },
 
@@ -42,7 +53,7 @@ const cartController = {
     updateItem: async (req, res, next) => {
         try {
             const uid = req.params.id;
-            const { product } = req.body;
+            const product = req.body;
             const cart = await cartData.update(uid, product);
             res.json({cart});
         } catch (error) {

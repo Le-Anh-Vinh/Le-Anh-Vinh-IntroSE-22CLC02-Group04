@@ -8,28 +8,36 @@ import MyError from '../cerror.js';
 const mainController = {
     getAll: async (req, res, next) => {
         try {
-            const page = parseInt(req.query.page) || 1;
-            if(page < 0) {
-                return next(new MyError(404, "Page not found!"));
-            }
-            const catID = req.query.catID || '';
-            const per_page = 20;
-            let products;
-            if(catID != '') {
-                const category = await categoryData.get(catID);
-                
-                products = await productData.search(category.name, 'category');
-            }
+            const id = req.params.id;
+            const user = await userData.get(id);
+            if (user.role === 'user') {
+                const page = parseInt(req.query.page) || 1;
+                if (page < 0) {
+                    return next(new MyError(404, "Page not found!"));
+                }
+                const catID = req.query.catID || '';
+                const per_page = 20;
+                let products;
+                if (catID != '') {
+                    const category = await categoryData.get(catID);
+                    
+                    products = await productData.search(category.name, 'category');
+                }
 
-            products = await productData.all();
-            const total_page = Math.ceil(products.length/per_page);
+                products = await productData.all();
+                const total_page = Math.ceil(products.length / per_page);
 
-            if(page > total_page) {
-                return next(new MyError(404, "The page you looking for can't be found!"));
+                if (page > total_page) {
+                    return next(new MyError(404, "The page you looking for can't be found!"));
+                }
+                products = products.slice((page - 1) * per_page, Math.min(page * per_page, products.length));
+
+                res.render('homepage', { products, page, total_page, catID });
             }
-            products = products.slice((page - 1) * per_page, Math.min(page * per_page, products.length));
-
-            res.render('homepage', { products, page, total_page, catID });
+            else if (user.role === 'store') {
+                const products = await productData.getByStore(user.store_id);
+                res.render('shopownerhomepage', { products: products });
+            }
         } catch (error) {
             next(new MyError(error.status, error.message));
         }
@@ -115,7 +123,7 @@ const mainController = {
             if (email) newData.email = email;
             if (gender) newData.gender = gender;
             if (info) newData.info = info;
-
+            
             await userData.update(uid, newData);
         } catch (error) {
             res.status(500).json({ error: error.message });

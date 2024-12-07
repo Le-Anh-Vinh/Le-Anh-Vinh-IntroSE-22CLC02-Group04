@@ -17,7 +17,7 @@ router.post('/forget_password', authController.resetPassword);
 router.post('/change_password', authController.changePassword);
 
 //user
-router.get('/', userController.getAll); // '/catID=1&page=1'
+router.get('/:id', userController.getAll); // '/catID=1&page=1'
 router.get('/product/:id', productController.getDetailProduct);
 router.get('/profile/:id', userController.getProfile);
 router.get('/search/:query?', userController.search); // '/search/ph?maxPrice=160000&minPrice=10000&rateFilter=2&page=1'
@@ -27,8 +27,8 @@ router.get('/store/:id', userController.getStore);
 //cart
 router.get('/cart/:id', cartController.getCart);
 router.get('/orders/:id', cartController.viewHistoryOrder);
-router.post('/cart/:id', cartController.updateItem);
-router.put('/cart/:id', cartController.addToCart);
+router.put('/cart/:id', cartController.updateItem);
+router.post('/cart/:id', cartController.addToCart);
 
 //store
 
