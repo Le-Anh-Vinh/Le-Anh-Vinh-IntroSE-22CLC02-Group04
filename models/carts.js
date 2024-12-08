@@ -71,6 +71,8 @@ const cartData = {
             if (cartSnap.exists()) {
                 const cartData = cartSnap.data();
                 const productCart = cartData.product_cart || [];
+                const productDataGet = await productData.get(product.product_id);
+                const productImage = productDataGet.images[0];
                 const existingID = productCart.findIndex(p => p.product_id === product.product_id && p.variant === product.variant);
                 const newData = [...productCart];
 
@@ -78,14 +80,21 @@ const cartData = {
                     newData[existingID] = {
                         ...newData[existingID],
                         quantity: newData[existingID].quantity + (product.quantity || 1),
+                        image: productImage,
+                        tick: true
                     };
                 } else {
-                    newData.push({ ...product, quantity: product.quantity || 1 });
+                    newData.push({
+                        ...product,
+                        quantity: product.quantity || 1,
+                        image: productImage,
+                        tick: true
+                    });
                 }
 
                 await updateDoc(cartRef, { product_cart: newData });
     
-                return { status: true, message: statusMessage };
+                return { status: true, message: "Product was added to cart" };
             } else {
                 console.error(`No cart document found for user: ${uid}`);
                 return { status: false, error: "No such document!" };
@@ -120,10 +129,10 @@ const cartData = {
 
     delete: async (uid, product) => {
         try {
-            const cartData = await cartData.fetchCart(uid);
-            if (!cartData) return { status: false, error: 'Cart not found' };
+            const cartDataFetched = await cartData.fetchCart(uid);
+            if (!cartDataFetched) return { status: false, error: 'Cart not found' };
 
-            const updatedProducts = cartData.product_cart.filter(
+            const updatedProducts = cartDataFetched.product_cart.filter(
                 (p) => p.product_id !== product.product_id && p.variant !== product.variant
             );
 

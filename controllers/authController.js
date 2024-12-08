@@ -84,9 +84,9 @@ const authController = {
             }
 
             if(formInput.role === 'user') {
-                res.redirect('/complete_signup?uid='+ encodeURIComponent(userRecord.uid));
+                res.json({ success: true, redirectURL: '/complete_signup?uid='+ encodeURIComponent(userRecord.uid) });
             } else {
-                res.redirect('/auth');
+                res.json({ success: true, redirectURL: '/complete_signup?uid='+ encodeURIComponent(userRecord.uid) });
             }
 
         } catch (error) {

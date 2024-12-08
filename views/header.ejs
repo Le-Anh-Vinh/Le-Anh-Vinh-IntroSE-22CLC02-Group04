@@ -17,8 +17,8 @@
             </ul>
             <ul class="header__navbar-list">
                 <li class="header__navbar-item">
-                    <a href="/" class="header__navbar-item-non-link">
-                        <i class="header__navbar-icon fas fa-home"></i> Homepage
+                    <a href="#" id="homepage-link" class="header__navbar-item-non-link">
+                      <i class="header__navbar-icon fas fa-home"></i> Homepage
                     </a>
                 </li>
                 <li class="header__navbar-item">
@@ -103,9 +103,23 @@
   
       if (user && user.uid) {
         const profileLink = document.getElementById('profile-link');
+        const homepageLink = document.getElementById('homepage-link');
         profileLink.href = `/profile/${user.uid}`;
+        homepageLink.href = `/${user.uid}`;
       } else {
         console.error('Can not find ID in session storage');
+      }
+
+      const cartLink = document.getElementById('cart-link');
+    
+      if (user && user.role === 'store') {
+        if (cartLink) {
+            cartLink.style.display = 'none';
+        }
+      } else {
+        if (user && user.uid) {
+            cartLink.href = `/cart/${user.uid}`;
+        }
       }
     });
 

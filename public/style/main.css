@@ -345,6 +345,67 @@
   display: block;
 }
 
+/*Shop owner item*/
+
+.price-options {
+  display: flex;
+  gap: 5px; 
+}
+
+.price-option {
+  padding: 10px 10px; 
+  border-radius: 8px; 
+  background-color: #f9f9f9; 
+  border: 1px solid #ccc; 
+  color: #666; 
+  font-size: 14px; 
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.price-option.active {
+  background-color: #333; 
+  color: #fff; 
+  border-color: #333; 
+}
+
+.price-option:hover {
+  background-color: #e6e6e6; 
+}
+
+.add-product-btn {
+  display: inline-flex;
+  align-items: center;
+  background-color: #f9f9f9; 
+  border-radius: 5px; 
+  padding: 12px 12px 12px 12px; 
+  border: 1px solid #ccc; 
+  margin-top: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 150px; 
+  min-height: 40px; 
+  justify-content: center;
+}
+
+.add-product-btn i {
+  font-size: 14px; 
+  color: #333; 
+  margin-right: 8px; 
+}
+
+.add-product-btn span {
+  font-size: 14px; 
+  color: #333; 
+}
+
+.add-product-btn:hover {
+  background-color: #ffca00; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
+}
+
 /* Authen modal */
 
 .auth-form {

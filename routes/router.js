@@ -29,9 +29,13 @@ router.get('/cart/:id', cartController.getCart);
 router.get('/orders/:id', cartController.viewHistoryOrder);
 router.put('/cart/:id', cartController.updateItem);
 router.post('/cart/:id', cartController.addToCart);
+router.delete('/cart/:id', cartController.removeItem);
 
 //store
-
+router.get('/:id/add', productController.getAddProduct);
+router.get('/:id/update', productController.getUpdateProduct);
+router.put('/product/update', productController.updateProduct);
+router.post('/:id/add', productController.addProduct);
 
 //admin
 
