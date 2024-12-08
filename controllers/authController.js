@@ -1,8 +1,45 @@
 import userData from '../models/users.js';
+import cartData from '../models/carts.js';
 import MyError from '../cerror.js';
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import auth from '../config/auth.js';
 import admin from '../config/admin.js';
+
+async function createUserStorage (uid, displayName, email, role) {
+    try {
+        let newUser;
+        if (role === 'user'){
+            newUser = {
+                uid: uid,
+                username: displayName,
+                name: '',
+                email: email,
+                gender: 'male',
+                info: [],
+                role: role
+            };
+            await cartData.new(uid);
+        } else {
+            newUser = {
+                store_id: uid,
+                name: displayName,
+                email: email,
+                info: [],
+                rate: 0,
+                join_date: (new Date()).setHours(0, 0, 0, 0),
+                role: role
+            };
+        }
+
+        const result = await userData.new(uid, newUser);
+        console.log('User created:', result);
+        return true;
+    } catch (error) {
+        console.error('Error creating user storage:', error);
+        return false;          
+    }
+}
+
 
 const authController = {
     getAuthentication: (req, res, next) => {
@@ -21,6 +58,15 @@ const authController = {
         }
     },
 
+    getInputInfo: (req, res, next) => {
+        try {
+            const uid = req.query.uid;
+            res.render('getUserInfo', {uid});
+        } catch (error) {
+            next(new MyError(404, "Can't found log in page"));
+        }
+    },
+
     signup: async (req, res, next) => {
         try {
             const formInput = req.body; // {email: "", password: "", name = ""}
@@ -31,8 +77,17 @@ const authController = {
                 displayName: formInput.name
             });
 
-            await admin.auth().setCustomUserClaims(userRecord.uid, { role: formInput.role });
-            res.json({ status: true });
+            const s = await createUserStorage(userRecord.uid, formInput.name, formInput.email, formInput.role);
+
+            if(!s) {
+                return res.status(500).send("something wrong with creating account");
+            }
+
+            if(formInput.role === 'user') {
+                res.json({ success: true, redirectURL: '/complete_signup?uid='+ encodeURIComponent(userRecord.uid) });
+            } else {
+                res.json({ success: true, redirectURL: '/complete_signup?uid='+ encodeURIComponent(userRecord.uid) });
+            }
 
         } catch (error) {
             res.status(500).json({ status: false, error: error.message });
@@ -45,9 +100,11 @@ const authController = {
     
             const userCredential = await signInWithEmailAndPassword(auth, formInput.email, formInput.password);
             const user = userCredential.user;
-            const idToken = await user.getIdToken();
-            const decodedToken = await admin.auth().verifyIdToken(idToken);
-            const role = decodedToken.role;
+            // const idToken = await user.getIdToken();
+            // const decodedToken = await admin.auth().verifyIdToken(idToken);
+            // const role = decodedToken.role;
+            const userInf = await userData.get(user.uid);
+            const role = userInf.role;
     
             res.json({ success: true, user: user, role: role });
         } catch (error) {
@@ -75,69 +132,6 @@ const authController = {
         } catch (error) {
             res.status(500).json({ success: false, error: error.message });
         }
-    },
-
-    createUserStorage: async (req, res, next) => {
-        try {
-            const { uid, role } = req.body;
-            let newUser;
-            if (role === 'user'){
-                const { uid, displayName, name, email, address, phone, name2 } = req.body;
-
-                newUser = {
-                    uid: uid,
-                    username: displayName,
-                    name: name,
-                    email: email,
-                    info: {
-                        address: address,
-                        name: name2,
-                        phone: phone,
-                        default: true
-                    },
-                    role: role
-                };
-
-            } else {
-                const { uid, name, email, address, phone, name2 } = req.body;
-
-                newUser = {
-                    store_id: uid,
-                    name: name,
-                    email: email,
-                    info: {
-                        address: address,
-                        name: name2,
-                        phone: phone,
-                        default: true
-                    },
-                    join_date: (new Date()).setHours(0, 0, 0, 0),
-                    role: role
-                };
-            }
-
-            await userData.add(uid, newUser);
-
-            res.json({ status: true });
-        } catch (error) {
-            res.status(500).json({ success: false, error: error.message });            
-        }
-    },
- 
-    changeUserInfo: async (req, res, next) => {
-        const { uid, displayName, name, email, address, phone, name2 } = req.body;
-        newData = {
-            display_name: displayName,
-            name: name,
-            email: email,
-            info: {
-                address: address,
-                name: name2,
-                phone: phone,
-                default: false
-            }
-        };
-
     },
 };
 

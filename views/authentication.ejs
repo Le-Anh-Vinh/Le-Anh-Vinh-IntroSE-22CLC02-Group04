@@ -16,7 +16,7 @@
 
         body {
             font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-            background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgb(182, 182, 107));
+            background: #ffffff;
         }
 
         input,
@@ -429,7 +429,11 @@
                 });
 
                 if (response.ok) {
+                {   
                     alert('Signup successfully!');
+                    const result = await response.json();
+                    window.location.href = result.redirectURL;
+                }
                 } else {
                     const error = await response.json();
                     console.log(error)
@@ -477,9 +481,11 @@
                     console.log(role);
                     console.log(user.displayName);
                     alert('Login successfully!');
+                    sessionStorage.setItem('user', JSON.stringify({ uid: user.uid, role: role}));
+                    window.location.href = `/${user.uid}`;
                 } else {
                     const error = await response.json();
-                    alert(`Failed to login, error: ${error.message || 'Unknown error'}`);
+                    alert(`Failed to login, error: ${error.error || 'Unknown error'}`);
                 }
             } catch (error) {
                 console.error('Error:', error);

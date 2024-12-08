@@ -36,5 +36,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(config.port, () => {
-    console.log(`App is running on url http://localhost:${config.port}`);
+    console.log(`App is running on url http://localhost:${config.port}/auth`);
 });

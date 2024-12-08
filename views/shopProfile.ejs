@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style/profile.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="main-body">
+            <div class="main-card">
+                <div class="main-card__content">
+                    <div class="avatar">
+                        <img src="/img/shop_avatar.png" alt="">
+                    </div>
+                    <div class="main-card__infor">
+                        <h4 class="user-name"><%= store.name %></h4>
+                        <p class="current_address"><%= store.info[0].address %></p>
+                    </div>
+                    <div class="button">
+                        <!-- <button class="button__delete_acc--shop">Xóa tài khoản</button> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="second-card">
+                <div class="row">
+                    <div class="label">
+                        <h4>Store Name</h4>
+                    </div>
+                    <div class="display">
+                        <%= store.info[0].name %>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="label">
+                        <h4>Email</h4>
+                    </div>
+                    <div class="display">
+                        <%= store.email %>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="label">
+                        <h4>Phone Number</h4>
+                    </div>
+                    <div class="display">
+                        <%= store.info[0].phone %>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="label">
+                        <h4>Rating</h4>
+                    </div>
+                    <div class="rating">
+                        <span class="star selected">&#9733;</span>
+                        <span class="star selected">&#9733;</span>
+                        <span class="star selected">&#9733;</span>
+                        <span class="star">&#9733;</span>
+                        <span class="star">&#9733;</span>
+                        </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="label">
+                        <h4>Join Date</h4>
+                    </div>
+                    <div class="display">
+                        <%= (() => {
+                            const timestamp = store.join_date.seconds * 1000;
+                            const date = new Date(timestamp);
+                            const day = String(date.getDate()).padStart(2, '0');
+                            const month = String(date.getMonth() + 1).padStart(2, '0');
+                            const year = date.getFullYear();
+                    
+                            return `${day}/${month}/${year}`;
+                        })() %>
+                    </div>
+                    
+                </div>
+                <hr>
+                <div>
+                    <div class="change-infor-btn-container">
+                        <button class="change-infor">Information Management</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = JSON.parse(sessionStorage.getItem('user'));
+  
+            if (!user) {
+                window.location.href = '/auth';
+            } else {
+                console.log('User ID:', user.uid);
+                console.log('User Role:', user.role);
+            }
+        });
+    </script>
+</body>
+</html>

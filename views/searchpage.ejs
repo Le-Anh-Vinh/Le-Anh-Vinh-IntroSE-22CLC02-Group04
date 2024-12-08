@@ -1,157 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="/style/main.css" />
-    <link rel="stylesheet" href="/style/base.css" />
-    <link rel="stylesheet" href="/style/grid.css" />
-    <link rel="stylesheet" href="/style/responsive.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
-    />
-  </head>
-  <body>
-    <div class="app">
-      <!-- Header -->
-      <header class="header">
-        <div class="grid wide">
-          <nav class="header__navbar hide-on-mobile-tablet">
-            <ul class="header__navbar-list">
-              <li
-                class="header__navbar-item header__navbar-item--separate"
-              >
-                Chăm sóc khách hàng
-              </li>
-              <li class="header__navbar-item">
-                <span class="header__navbar-title--no-pointer">Kết nối</span>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="/style/main.css" />
+  <link rel="stylesheet" href="/style/base.css" />
+  <link rel="stylesheet" href="/style/grid.css" />
+  <link rel="stylesheet" href="/style/responsive.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" />
+</head>
 
-                <a href="" class="header__navbar-icon-link">
-                  <i class="header__navbar-icon fab fa-facebook"></i>
-                </a>
-                <a href="" class="header__navbar-icon-link">
-                  <i class="header__navbar-icon fab fa-instagram"></i>
-                </a>
-              </li>
-            </ul>
-            <ul class="header__navbar-list">
-              <li class="header__navbar-item">
-                <a href="/" class="header__navbar-item-non-link">
-                  <i class="header__navbar-icon fas fa-home"></i>
-                    Homepage
-                </a>
-              </li>
-            </li>
-            <li class="header__navbar-item">
-              <a href="" class="header__navbar-item-non-link">
-                <i class="header__navbar-icon fas fa-shopping-cart"></i>
-                  Cart
-              </a>
-            </li>
-              <li class="header__navbar-item header__navbar-user">
-                <img
-                  src="/img/user_img.png"
-                  alt="avatar"
-                  class="header__navbar-user-img"
-                />
-
-                <span class="header__navbar-user-name">
-                  Lê Tấn Đạt
-                </span>
-
-                <ul class="header__navbar-user-menu">
-                  <li class="header__navbar-user-item">
-                    <a href="">Tài khoản của tôi</a>
-                  </li>
-                  <li class="header__navbar-user-item">
-                    <a href="">Địa chỉ của tôi</a>
-                  </li>
-                  <li class="header__navbar-user-item">
-                    <a href="">Đơn mua</a>
-                  </li>
-                  <li
-                    class="header__navbar-user-item header__navbar-user-item--separate"
-                  >
-                    <a href="">Đăng xuất</a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </nav>
-
-          <!-- Header with Search -->
-          <div class="header-with-search">
-            <label for="mobile-search-checkbox" class="header__mobile-search">
-              <i class="header__mobile-search-icon fas fa-search"></i>
-            </label>
-
-            <!-- Header Logo -->
-            <div class="header__logo hide-on-tablet">
-                <a href="" class="header__logo-link">
-                <img class="header__logo-img" src="/img/logo_img.png" alt="Custom Logo">
-                </a>
-            </div>
-            <input
-              type="checkbox"
-              hidden
-              id="mobile-search-checkbox"
-              class="header__search-checkbox"
-            />
-            <!-- Header Search -->
-            <div class="header__search ">
-              <div class="header__search-input-wrap">
-                <input
-                  type="text"
-                  class="header__search-input"
-                  id="search-input"
-                  placeholder="Search"
-                  oninput="handleSearchInput()"
-                />
-
-                <!-- Search history -->
-                <div id="search-history" class="header__search-history" style="display: none;">
-                  <h3 class="header__search-history-heading">
-                    Lịch sử tìm kiếm
-                  </h3>
-                  <ul id="search-history-list" class="header__search-history-list">
-                    <li class="header__search-history-item">
-                      <a href="">Áo T1</a>
-                    </li>
-                    <li class="header__search-history-item">
-                      <a href="">2 sao của GenG</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              
-              <button class="header__search-btn" id="search-btn">
-                <i class="header__search-btn-icon fas fa-search"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <%- include('header') %>
       <!-- Content -->
       <div class="app__container">
         <div class="grid wide">
           <div class="row sm-gutter app__content">
-
+            <!-- Filter -->
             <div class="col l-10 m-12 c-12">
-              <!-- Filter -->
               <div class="home-filter hide-on-mobile-tablet">
                 <span class="home-filter__label">Sắp xếp theo</span>
-                <button class="home-filter__btn btn">Liên quan</button>
+                <button class="home-filter__btn btn">Phổ biến</button>
                 <button class="home-filter__btn btn btn--primary">
                   Mới nhất
                 </button>
@@ -162,14 +37,10 @@
                   <!-- List option -->
                   <ul class="select-input__list">
                     <li class="select-input__item">
-                      <a href="#" class="select-input__link"
-                        >Giá: Thấp đến Cao</a
-                      >
+                      <a href="#" class="select-input__link">Giá: Thấp đến Cao</a>
                     </li>
                     <li class="select-input__item">
-                      <a href="#" class="select-input__link"
-                        >Giá: Cao đến Thấp</a
-                      >
+                      <a href="#" class="select-input__link">Giá: Cao đến Thấp</a>
                     </li>
                   </ul>
                 </div>
@@ -177,32 +48,37 @@
 
               <!-- Product -->
               <div class="home-product">
-                <% for (let rowIndex = 0; rowIndex < products.length; rowIndex += 5) { %>
+                <% for (let rowIndex=0; rowIndex < products.length; rowIndex +=5) { %>
                   <div class="row sm-gutter">
-                    <% products.slice(rowIndex, rowIndex + 5).forEach(product => { %>
+                    <% products.slice(rowIndex, rowIndex + 5).forEach(product=> { %>
                       <div class="col l-2-4 m-4 c-6">
-                        <a href="#" class="home-product-item">
-                          <div class="home-product-item__img" style="background-image: url('<%= product.images[0] %>');"></div>
-                          <h4 class="home-product-item__name"><%= product.name %></h4>
+                        <a href="/product/<%= product.id %>" class="home-product-item">
+                          <div class="home-product-item__img"
+                            style="background-image: url('<%= product.images[0] %>');"></div>
+                          <h4 class="home-product-item__name">
+                            <%= product.name %>
+                          </h4>
                           <div class="home-product-item__price">
-                            <span class="home-product-item__price-current"><%= product.name %></span>
+                            <span class="home-product-item__price-current">
+                              <%= product.price %>
+                            </span>
                           </div>
                           <div class="home-product-item__action">
                             <div class="home-product-item__rating">
-                              <% for (let i = 0; i < 5; i++) { %>
+                              <% for (let i=0; i < 5; i++) { %>
                                 <% if (i < product.rate) { %>
                                   <i class="home-product-item__star--gold fas fa-star"></i>
-                                <% } else { %>
-                                  <i class="fas fa-star"></i>
-                                <% } %>
-                              <% } %>
+                                  <% } else { %>
+                                    <i class="fas fa-star"></i>
+                                    <% } %>
+                                      <% } %>
                             </div>
                           </div>
                         </a>
                       </div>
-                    <% }); %> 
+                      <% }); %>
                   </div>
-                <% } %>
+                  <% } %>
               </div>
             </div>
           </div>
@@ -222,9 +98,7 @@
                   <a href="#" class="footer-item__link">Hướng Dẫn Mua Hàng</a>
                 </li>
                 <li class="footer-item">
-                  <a href="#" class="footer-item__link"
-                    >Chính Sách Vận Chuyển</a
-                  >
+                  <a href="#" class="footer-item__link">Chính Sách Vận Chuyển</a>
                 </li>
               </ul>
             </div>
@@ -245,11 +119,7 @@
             <div class="col l-2-4 m-8 c-12">
               <h3 class="footer__heading">ĐỊA CHỈ CỦA TRANG WEB</h3>
               <div class="footer__download">
-                <img
-                  src="/img/qr_code.png"
-                  alt="Download QR"
-                  class="footer__dowload-qr"
-                />
+                <img src="/img/qr_code.png" alt="Download QR" class="footer__dowload-qr" />
               </div>
             </div>
           </div>
@@ -262,74 +132,19 @@
           </div>
         </div>
       </footer>
-    </div>
-    <script>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const user = JSON.parse(sessionStorage.getItem('user'));
 
-      const savedSearchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
-    
-      const searchInput = document.getElementById('search-input');
-      const searchBtn = document.getElementById('search-btn');
-      const searchHistoryDiv = document.getElementById('search-history');
-      const searchHistoryList = document.getElementById('search-history-list');
+      if (!user) {
+        window.location.href = '/auth';
+      } else {
+        console.log('User ID:', user.uid);
+        console.log('User Role:', user.role);
+      }
+    });
+  </script>
+</body>
 
-      function addSearchHistory(query) {
-        if (!savedSearchHistory.includes(query)) {
-          savedSearchHistory.unshift(query);
-          if (savedSearchHistory.length > 5) { 
-            savedSearchHistory.pop();
-          }
-          localStorage.setItem('searchHistory', JSON.stringify(savedSearchHistory));
-        }
-      }
-      
-      function handleSearchInput() {
-        const query = searchInput.value.trim();
-    
-        if (query) {
-          searchHistoryDiv.style.display = 'block';
-          searchHistoryList.innerHTML = ''; 
-    
-          const filteredHistory = savedSearchHistory.filter(item => item.toLowerCase().includes(query.toLowerCase()));
-          filteredHistory.forEach(item => {
-            const listItem = document.createElement('li');
-            listItem.classList.add('header__search-history-item');
-            listItem.innerHTML = `<a href="#">${item}</a>`;
-            listItem.addEventListener('click', function () {
-              searchInput.value = item;
-              searchHistoryDiv.style.display = 'none';
-            });
-            searchHistoryList.appendChild(listItem);
-          });
-        } else {
-          searchHistoryDiv.style.display = 'none';
-        }
-      }
-      searchBtn.addEventListener('click', function () {
-        const query = searchInput.value.trim();
-        if (query) {
-          addSearchHistory(query);
-          window.location.href = `/search/${encodeURIComponent(query)}`;
-        }
-      });
-    
-      searchInput.addEventListener('input', handleSearchInput);
-    
-      window.onload = function () {
-        if (savedSearchHistory.length > 0) {
-          searchHistoryDiv.style.display = 'block';
-    
-          savedSearchHistory.forEach(item => {
-            const listItem = document.createElement('li');
-            listItem.classList.add('header__search-history-item');
-            listItem.innerHTML = `<a href="#">${item}</a>`;
-            listItem.addEventListener('click', function () {
-              searchInput.value = item;
-              searchHistoryDiv.style.display = 'none';
-            });
-            searchHistoryList.appendChild(listItem);
-          });
-        }
-      };
-    </script>
-  </body>
 </html>

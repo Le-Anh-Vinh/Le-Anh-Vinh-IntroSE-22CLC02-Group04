@@ -14,8 +14,12 @@ const cartData = {
         }
     },
 
-    new: async (uid, cart) => {
+    new: async (uid) => {
         try {
+            const cart = {
+                productCart: [],
+                value: 0
+            };
             const cartRef = doc(collection(db, 'cart'), uid);
             await setDoc(cartRef, cart);
             return { status: true };
@@ -27,9 +31,9 @@ const cartData = {
 
     get: async (uid) => {
         try {
-            const cartData = await cartData.fetchCart(uid);
-            return cartData
-                ? { status: true, cart: cartData }
+            const cartDataFetched = await cartData.fetchCart(uid);
+            return cartDataFetched
+                ? { status: true, cart: cartDataFetched }
                 : { status: false, error: 'Cart not found' };
         } catch (e) {
             return { status: false, error: e.message };
@@ -38,10 +42,10 @@ const cartData = {
 
     calValue: async (uid) => {
         try {
-            const cartData = await cartData.fetchCart(uid);
-            if (!cartData) return { status: false, error: 'Cart not found' };
+            const cartDataFetched = await cartData.fetchCart(uid);
+            if (!cartDataFetched) return { status: false, error: 'Cart not found' };
 
-            const productsCart = cartData.product_cart || [];
+            const productsCart = cartDataFetched.product_cart || [];
             const products = await productData.all();
 
             const value = productsCart.reduce((total, item) => {
@@ -67,21 +71,30 @@ const cartData = {
             if (cartSnap.exists()) {
                 const cartData = cartSnap.data();
                 const productCart = cartData.product_cart || [];
-                const existingID = productCart.findIndex(p => p.product_id === product.product_id);
+                const productDataGet = await productData.get(product.product_id);
+                const productImage = productDataGet.images[0];
+                const existingID = productCart.findIndex(p => p.product_id === product.product_id && p.variant === product.variant);
                 const newData = [...productCart];
 
                 if (existingID !== -1) {
                     newData[existingID] = {
                         ...newData[existingID],
                         quantity: newData[existingID].quantity + (product.quantity || 1),
+                        image: productImage,
+                        tick: true
                     };
                 } else {
-                    newData.push({ ...product, quantity: product.quantity || 1 });
+                    newData.push({
+                        ...product,
+                        quantity: product.quantity || 1,
+                        image: productImage,
+                        tick: true
+                    });
                 }
 
                 await updateDoc(cartRef, { product_cart: newData });
     
-                return { status: true, message: statusMessage };
+                return { status: true, message: "Product was added to cart" };
             } else {
                 console.error(`No cart document found for user: ${uid}`);
                 return { status: false, error: "No such document!" };
@@ -94,11 +107,11 @@ const cartData = {
     
     update: async (uid, newData) => {
         try {
-            const cartData = await cartData.fetchCart(uid);
-            if (!cartData) return { status: false, error: 'Cart not found' };
-
-            const updatedProducts = cartData.product_cart.map((product) =>
-                product.product_id === newData.product_id ? { ...product, ...newData } : product
+            const cartDataFetched = await cartData.fetchCart(uid);
+            if (!cartDataFetched) return { status: false, error: 'Cart not found' };
+            
+            const updatedProducts = cartDataFetched.product_cart.map((product) =>
+                product.product_id === newData.product_id  ? { ...product, ...newData } : product
             );
 
             const valueResult = await cartData.calValue(uid);
@@ -106,21 +119,21 @@ const cartData = {
 
             const cartRef = doc(db, 'cart', uid);
             await updateDoc(cartRef, { product_cart: updatedProducts, value: valueResult.value });
-
-            return { status: true, product_id: newData.product_id };
+            const cart = await getDoc(cartRef);
+            return { status: true, cart };
         } catch (e) {
             console.error(`Error updating cart for user ${uid}:`, e);
             return { status: false, error: e.message };
         }
     },
 
-    delete: async (uid, product_id) => {
+    delete: async (uid, product) => {
         try {
             const cartData = await cartData.fetchCart(uid);
             if (!cartData) return { status: false, error: 'Cart not found' };
 
             const updatedProducts = cartData.product_cart.filter(
-                (product) => product.product_id !== product_id
+                (p) => p.product_id !== product.product_id && p.variant !== product.variant
             );
 
             const cartRef = doc(db, 'cart', uid);
