@@ -31,8 +31,8 @@ const mainController = {
                     return next(new MyError(404, "The page you looking for can't be found!"));
                 }
                 products = products.slice((page - 1) * per_page, Math.min(page * per_page, products.length));
-
-                res.render('homepage', { products, page, total_page, catID });
+                const categories = await categoryData.getAll();
+                res.render('homepage', { products, page, total_page, catID, category: categories });
             }
             else if (user.role === 'store') {
                 const products = await productData.getByStore(user.store_id);

@@ -79,9 +79,10 @@ const productController = {
             product.price = parseFloat(product.price);
 
             if (product.price < 0) {
-                res.json({status: true, message: "Invalid price"});                
+                res.json({ status: true, message: "Invalid price" });
+                return;
             }
-            // await productData.new(product);
+            await productData.new(product);
             res.json({status: true, message: "Product added successfully"});
         } catch (error) {
             console.error(error.message);
@@ -108,7 +109,8 @@ const productController = {
             product.price = parseFloat(product.price);
 
             if (product.price < 0) {
-                res.json({status: true, message: "Invalid price"});                
+                res.json({ status: true, message: "Invalid price" });
+                return;
             }
             console.log(product.product_id);
             console.log(product);
