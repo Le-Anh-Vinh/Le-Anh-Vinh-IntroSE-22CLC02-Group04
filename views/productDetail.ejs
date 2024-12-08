@@ -150,7 +150,6 @@
       </div>
     </div>
 
-
     <div class="relative-products">
       <h2>Relative Products</h2>
       <div class="product-grid">
@@ -165,6 +164,7 @@
                   <%= product.name || 'Text' %>
                 </p>
                 <p class="product-price">$<%= product.price || '0' %>
+                  
                 </p>
               </div>
             </div>
@@ -184,6 +184,11 @@
         }
 
         const addToCartButton = document.getElementById("add-to-cart-btn");
+        if (user.role === "store") {
+          addToCartButton.style.opacity = 0.5;
+          addToCartButton.disabled = true;
+          addToCartButton.title = "Store users can not add to cart";
+        }
 
         addToCartButton.addEventListener("click", function () {
           const productId = addToCartButton.getAttribute("data-product-id");

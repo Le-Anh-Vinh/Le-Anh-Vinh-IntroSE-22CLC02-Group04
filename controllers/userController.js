@@ -132,6 +132,26 @@ const mainController = {
             res.status(500).json({ error: error.message });
         }
     },
+
+    changeStoreInfo: async (req, res, next) => {
+        try {
+            const { uid, username, name, email, gender, info } = req.body;
+            const newData = {};
+            if (username) newData.username = displayName;
+            if (name) newData.name = name;
+            if (email) newData.email = email;
+            if (info) newData.info = info;
+
+            newData.rate = parseInt(0);
+            
+            await userData.update(uid, newData);
+
+            res.json({ success: true });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ error: error.message });
+        }
+    }
 };
 
 export default mainController;

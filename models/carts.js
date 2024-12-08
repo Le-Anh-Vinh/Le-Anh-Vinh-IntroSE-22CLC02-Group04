@@ -50,7 +50,7 @@ const cartData = {
 
             const value = productsCart.reduce((total, item) => {
                 const product = products.find((p) => p.product_id === item.product_id);
-                return product ? total + product.price * item.quantity * (item.tick ? 1 : -1) : total;
+                return product ? total + product.price * item.quantity * (item.tick ? 1 : 0) : total;
             }, 0);
 
             const cartRef = doc(db, 'cart', uid);

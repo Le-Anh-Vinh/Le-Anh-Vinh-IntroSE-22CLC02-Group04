@@ -54,7 +54,6 @@ const productData = {
             } else if (field === 'category') {
                 q = query(productRef, where(field, 'array-contains', queryStr));
             } else {
-
                 const querySnapshot = await getDocs(productRef);
                 const products = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
                 return products.filter((product) =>

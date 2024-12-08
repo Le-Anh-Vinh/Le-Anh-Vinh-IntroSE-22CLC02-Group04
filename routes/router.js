@@ -22,7 +22,9 @@ router.get('/product/:id', productController.getDetailProduct);
 router.get('/profile/:id', userController.getProfile);
 router.get('/search/:query?', userController.search); // '/search/ph?maxPrice=160000&minPrice=10000&rateFilter=2&page=1'
 router.post('/user/edit', userController.changeUserInfo);
+router.post('/store/edit', userController.changeStoreInfo);
 router.get('/store/:id', userController.getStore);
+
 
 //cart
 router.get('/cart/:id', cartController.getCart);
