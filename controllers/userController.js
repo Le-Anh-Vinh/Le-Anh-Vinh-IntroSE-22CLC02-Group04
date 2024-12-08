@@ -1,30 +1,45 @@
 import productData from '../models/products.js';
 import cartData from '../models/carts.js';
 import orderData from '../models/oders.js';
+import categoryData from '../models/category.js';
 import userData from '../models/users.js';
 import MyError from '../cerror.js';
 
 const mainController = {
     getAll: async (req, res, next) => {
-        //get uid => auth/main
-        //get role => phân hệ
-        try {
-            const products = await productData.all();
-
-            res.render('home', products);
-        } catch (error) {
-            next(new MyError(404, "Can't found Home page"));
-        }
-    },
-
-    getProduct: async (req, res, next) => {
         try {
             const id = req.params.id;
-            const product = await productData.get(id);
+            const user = await userData.get(id);
+            if (user.role === 'user') {
+                const page = parseInt(req.query.page) || 1;
+                if (page < 0) {
+                    return next(new MyError(404, "Page not found!"));
+                }
+                const catID = req.query.catID || '';
+                const per_page = 20;
+                let products;
+                if (catID != '') {
+                    const category = await categoryData.get(catID);
+                    
+                    products = await productData.search(category.name, 'category');
+                }
 
-            res.render('product', product);
+                products = await productData.all();
+                const total_page = Math.ceil(products.length / per_page);
+
+                if (page > total_page) {
+                    return next(new MyError(404, "The page you looking for can't be found!"));
+                }
+                products = products.slice((page - 1) * per_page, Math.min(page * per_page, products.length));
+                const categories = await categoryData.getAll();
+                res.render('homepage', { products, page, total_page, catID, category: categories });
+            }
+            else if (user.role === 'store') {
+                const products = await productData.getByStore(user.store_id);
+                res.render('shopownerhomepage', { products: products });
+            }
         } catch (error) {
-            next(new MyError(404, "Can't found Home page"));
+            next(new MyError(error.status, error.message));
         }
     },
 
@@ -35,50 +50,88 @@ const mainController = {
 
             if (data.role == 'user') {
                 const { uid, ...user } = data;
-                res.render('userProfile', user);
+                res.render('userProfile', { user });
                 console.log(user);
             } else if (data.role === 'store') {
                 const { store_id, ...store } = data;
-                res.render('shopProfile', store);
+                res.render('shopProfile', { store });
             } else {
-                res.render('adminProfile', data);
+                res.render('adminProfile', { data });
             }
         } catch (error) {
-            next(new MyError(404, "Can't found Home page"));
+            next(new MyError(error.status, error.message));
         }
     },
 
     getStore: async (req, res, next) => {
+        try {
+            const storeID = req.params.id;
+            
+            const storeDoc = await userData.get(storeID);
 
+            if (!storeDoc) {
+                new MyError(404, "Store not found");
+            }
+
+            const productDoc = await productData.getByStore(storeID);
+
+            res.render('storePage', {
+                product: productDoc,
+                store: storeDoc
+            });
+        } catch (error) {
+            next(new MyError(error.status, error.message));
+        }
     },
 
     search: async (req, res, next) => {
         try {
-            const { query } = req.params;
-            const { maxPrice, minPrice, ratingFilter, page } = req.query;
-            const filters = [];
-            if (maxPrice) filters.push({ field: 'price', to: parseInt(maxPrice, 10) || Infinity });
-            if (minPrice) filters.push({ field: 'price', from: parseInt(minPrice, 10) || 0 });
-            if (ratingFilter) {
-                filters.push({ field: 'rate', from: parseInt(ratingFilter, 10) || 0 });
-                filters.push({ field: 'rate', to: 5 });
+            const page = parseInt(req.query.page) || 1;   
+            if(page < 0) {
+                return next(new MyError(404, "The page you looking for can't be found!"));
             }
 
-            const products = await productData.searchAndFilter(query, 'all', filters);
+            const { query } = req.params;
+            const { maxPrice, minPrice, rateFilter } = req.query;
+            const per_page = 1;
+            const filters = [];
+            filters.push({ field: 'price', from: parseInt(minPrice, 10) || 0, to: parseInt(maxPrice, 10) || Infinity });
+            filters.push({ field: 'rate', from: parseInt(rateFilter, 10) || 0, to: 5 });
+            let products = await productData.searchAndFilter(query, 'all', filters);
+            
+            const total_page = Math.ceil(products.length / per_page);
 
-            res.render('search_page', { products });
+            // if(page > total_page) {
+            //     return next(new MyError(404, "The page you looking for can't be found!"));
+            // }
+            // products = products.slice((page - 1) * per_page, Math.min(page * per_page, products.length));
+
+            res.render('searchpage', { products, page, total_page, query });
         } catch (error) {
-            next(new MyError(404, "Can't found Home page"));
+            next(new MyError(error.status, error.message));
         }
     },
 
-    addToCart: async (req, res, next) => { },
-
-    addRating: async (req, res, next) => { },
-
-    viewHistoryOrder: async (req, res, next) => { },
     addNewAddress: async (req, res, next) => { },
-    checkOut: async (req, res, next) => { },
+    
+    changeUserInfo: async (req, res, next) => {
+        try {
+            const { uid, username, name, email, gender, info } = req.body;
+            const newData = {};
+            if (username) newData.username = displayName;
+            if (name) newData.name = name;
+            if (email) newData.email = email;
+            if (gender) newData.gender = gender;
+            if (info) newData.info = info;
+            
+            await userData.update(uid, newData);
+
+            res.json({ success: true });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ error: error.message });
+        }
+    },
 };
 
 export default mainController;

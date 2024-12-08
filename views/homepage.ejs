@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/style/main.css" />
+    <link rel="stylesheet" href="/style/base.css" />
+    <link rel="stylesheet" href="/style/grid.css" />
+    <link rel="stylesheet" href="/style/responsive.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="app">
+      <!-- Header -->
+      <%- include('header') %>
+      <!-- Content -->
+      <div class="app__container">
+        <div class="grid wide">
+          <div class="row sm-gutter app__content">
+            <div class="col l-12 m-12 c-12">
+              <!-- Filter -->
+              <div class="home-filter hide-on-mobile-tablet">
+                <span class="home-filter__label">CATEGORY</span>
+                <button class="home-filter__btn btn btn--primary">
+                  Fashion
+                </button>
+                <button class="home-filter__btn btn">Accessory</button>
+                <button class="home-filter__btn btn">Electronic</button>
+                <button class="home-filter__btn btn">Beauty</button>
+                <button class="home-filter__btn btn">Health</button>
+                <button class="home-filter__btn btn">Book</button>
+              </div>
+
+              <!-- Product -->
+              <div class="home-product">
+                <% for (let rowIndex = 0; rowIndex < products.length; rowIndex += 5) { %>
+                  <div class="row sm-gutter">
+                    <% products.slice(rowIndex, rowIndex + 5).forEach(product => { %>
+                      <div class="col l-2-4 m-4 c-6">
+                        <a href="/product/<%= product.id %>" class="home-product-item">
+                          <div
+                            class="home-product-item__img"
+                            style="background-image: url('<%= product.images[0] %>');"
+                          ></div>
+                          <h4 class="home-product-item__name"><%= product.name %></h4>
+                          <div class="home-product-item__price">
+                            <span class="home-product-item__price-current"><%= product.price %></span>
+                          </div>
+                          <div class="home-product-item__action">
+                            <div class="home-product-item__rating">
+                              <% for (let i = 0; i < 5; i++) { %>
+                                <% if (i < product.rate) { %>
+                                  <i class="home-product-item__star--gold fas fa-star"></i>
+                                <% } else { %>
+                                  <i class="fas fa-star"></i>
+                                <% } %>
+                              <% } %>
+                            </div>
+                          </div>
+                        </a>
+                      </div>
+                    <% }); %>
+                  </div>
+                <% } %>
+              </div>
+              
+              <ul class="pagination home-product__pagination">
+                <li class="pagination-item <%= page === 1 ? 'disabled' : '' %>">
+                  <a href="<%= page === 1 ? '' : '/?catID=' + catID + '&page=' + (page - 1) %>"
+                    class="pagination-item__link">
+                    <i class="pagination-item__icon fas fa-angle-left"></i>
+                  </a>
+                </li>
+                <% for (let i=Math.ceil(page/5); i <=(total_page> page + 6 ? Math.ceil(page/5) + 4 : total_page); i++) { %>
+                  <li class="pagination-item <%= (i === page) ? 'pagination-item--active' : '' %>">
+                    <a href="/?catID=<%catID%>&page=<%= i %>" class="pagination-item__link">
+                      <%= i %>
+                    </a>
+                  </li>
+                <% } %>
+                <% if (total_page> page + 6) { %>
+                  <li class="pagination-item">
+                    <a href="#" class="pagination-item__link">...</a>
+                  </li>
+                  <li class="pagination-item">
+                    <a href="/?catID=<%catID%>&page=<%= total_page %>" class="pagination-item__link">
+                      <%= total_page %>
+                    </a>
+                  </li>
+                <% } %>
+                <li class="pagination-item <%= page === total_page ? 'disabled' : '' %>">
+                  <a href="<%= page === total_page ? '' : '/?catID=' + catID + '&page=' + (page + 1) %>"
+                    class="pagination-item__link">
+                    <i class="pagination-item__icon fas fa-angle-right"></i>
+                  </a>
+                </li>
+            </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="grid wide footer__content">
+          <div class="row">
+            <div class="col l-2-8 m-4 c-6">
+              <h3 class="footer__heading">CHĂM SÓC KHÁCH HÀNG</h3>
+              <ul class="footer-list">
+                <li class="footer-item">
+                  <a href="#" class="footer-item__link">Trung Tâm Trợ Giúp</a>
+                </li>
+                <li class="footer-item">
+                  <a href="#" class="footer-item__link">Hướng Dẫn Mua Hàng</a>
+                </li>
+                <li class="footer-item">
+                  <a href="#" class="footer-item__link"
+                    >Chính Sách Vận Chuyển</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="col l-2-8 m-4 c-6">
+              <h3 class="footer__heading">VỀ CHÚNG TÔI</h3>
+              <ul class="footer-list">
+                <li class="footer-item">
+                  <a href="#" class="footer-item__link">Giới Thiệu Về Shop</a>
+                </li>
+                <li class="footer-item">
+                  <a href="#" class="footer-item__link">Tuyển Dụng</a>
+                </li>
+                <li class="footer-item">
+                  <a href="#" class="footer-item__link">Điều Khoản Shop</a>
+                </li>
+              </ul>
+            </div>
+            <div class="col l-2-4 m-8 c-12">
+              <h3 class="footer__heading">ĐỊA CHỈ CỦA TRANG WEB</h3>
+              <div class="footer__download">
+                <img
+                  src="/img/qr_code.png"
+                  alt="Download QR"
+                  class="footer__dowload-qr"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer__bottom">
+          <div class="grid wide">
+            <p class="footer__text">
+              © 2024 Triết lí cuộc sống - Đời là bể khổ, qua được bể khổ là qua đời
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          const user = JSON.parse(sessionStorage.getItem('user'));
+
+          if (!user) {
+              window.location.href = '/auth';
+          } else {
+              console.log('User ID:', user.uid);
+              console.log('User Role:', user.role);
+          }
+      });
+  </script>
+  </body>
+</html>
