@@ -79,7 +79,7 @@
   const finalPrice = document.querySelector(".confirm-section__price .final-price");
 
   const checkboxes = document.querySelectorAll(".item input[type='checkbox']");
-
+  const checkoutButton = document.querySelector('.checkout-button');
   let totalProducts = 0; // Tổng số sản phẩm
   let totalPrice = 0; // Tổng giá tiền
 
@@ -192,11 +192,13 @@
   function updateCart(item, newQuantity, ticked) {
   const productId = item.getAttribute("data-product-id");
   const user = JSON.parse(sessionStorage.getItem("user"));
+  const variant = item.querySelector(".description span:nth-child(2)").textContent;
 
   const productData = {
     product_id: productId,
     quantity: newQuantity,
     tick: ticked,
+    variant: variant,
   };
 
   // Gửi yêu cầu PUT để cập nhật số lượng sản phẩm lên server
@@ -218,7 +220,11 @@
       console.error("Error updating cart:", error);
     });
 }
-
+  checkoutButton.addEventListener('click', () => {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    window.location.href = `/payment/${user.uid}`;
+    
+  });
 
   // Cập nhật lần đầu khi trang tải xong
   updateSummary();

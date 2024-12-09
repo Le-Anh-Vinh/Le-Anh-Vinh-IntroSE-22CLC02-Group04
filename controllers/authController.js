@@ -22,7 +22,6 @@ async function createUserStorage (uid, displayName, email, role) {
             await cartData.new(uid);
         } else {
             const date = new Date();
-            date.setHours(0, 0, 0, 0);
             newUser = {
                 store_id: uid,
                 name: displayName,
