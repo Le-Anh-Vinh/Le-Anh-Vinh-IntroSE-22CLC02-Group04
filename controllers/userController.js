@@ -4,6 +4,7 @@ import orderData from '../models/oders.js';
 import categoryData from '../models/category.js';
 import userData from '../models/users.js';
 import MyError from '../cerror.js';
+import { Timestamp } from 'firebase/firestore';
 
 const mainController = {
     getAll: async (req, res, next) => {
@@ -32,7 +33,7 @@ const mainController = {
                 }
                 products = products.slice((page - 1) * per_page, Math.min(page * per_page, products.length));
                 const categories = await categoryData.getAll();
-                res.render('homepage', { products, page, total_page, catID, category: categories });
+                res.render('homepage', { products, page, total_page, catID, categories: categories });
             }
             else if (user.role === 'store') {
                 const products = await productData.getByStore(user.store_id);
@@ -75,8 +76,8 @@ const mainController = {
 
             const productDoc = await productData.getByStore(storeID);
 
-            res.render('storePage', {
-                product: productDoc,
+            res.render('shopuserview', {
+                products: productDoc,
                 store: storeDoc
             });
         } catch (error) {
@@ -151,7 +152,40 @@ const mainController = {
             console.log(error);
             res.status(500).json({ error: error.message });
         }
-    }
+    },
+
+    getPayment: async (req, res, next) => { 
+        try {
+            const id = req.params.id;
+            const cart = await cartData.get(id);
+
+            const products = cart.cart.product_cart;
+            const productsWithDetails = await Promise.all(
+                products.map(async (product) => {
+                    const productDetails = await productData.get(product.product_id);
+                    return {
+                        ...product,
+                        productDetails: productDetails || {}
+                    };
+                })
+            );
+
+            const productTick = [];
+            for (const product of productsWithDetails) {
+                if (product.tick === true) {
+                   productTick.push(product);
+                }
+            }
+            
+            const user = await userData.get(id);
+            const shipInfo = user.info;
+            res.render('payment', ({ product: productTick, info: shipInfo, total: cart.cart.value}));
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ error: error.message });
+        }
+    },
+
 };
 
 export default mainController;
