@@ -101,15 +101,15 @@
           },
           body: JSON.stringify(data)
         })
-        .then(response => response.json())
-        .then(result => {
-          if (result.ok) {
-            alert('Product updated successfully!');
-            window.location.href = `/${user.uid}`;
-          } else {
-            alert('Error updating product: ' + result.message);
-          }
-        })
+        .then((response) => {
+            if (response.ok) {
+              alert('Product was updated successfully');
+              window.location.href = `/${user.uid}`;
+
+            } else {
+              alert('Update unsuccessfully');
+            }
+          })
         .catch(error => {
           console.error('Error:', error);
           alert('An error occurred while updating the product.');

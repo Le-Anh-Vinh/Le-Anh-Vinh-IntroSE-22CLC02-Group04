@@ -46,14 +46,10 @@
                       <i class="fas fa-check"></i>
                       <span>Add product</span>
                     </a>
-                    <div class="add-product-btn">
-                      <i class="fas fa-check"></i>
-                      <span>Update product</span>
-                    </div>
-                    <div class="add-product-btn">
+                    <a href= "#" id ="view-order-link" class="add-product-btn">
                       <i class="fas fa-cog"></i>
                       <span>View order</span>
-                    </div>
+                    </a>
                     <a href="#" id="shop-profile-link" class="add-product-btn">
                       <i class="fas fa-eye"></i>
                       <span>Shop profile</span>
@@ -75,16 +71,10 @@
                           <div class="home-product-item__price">
                             <span class="home-product-item__price-current">$<%= product.price %></span>
                           </div>
-                          <div class="home-product-item__action">
-                            <div class="home-product-item__rating">
-                              <% for (let i = 0; i < 5; i++) { %>
-                                <% if (i < product.rate) { %>
-                                  <i class="home-product-item__star--gold fas fa-star"></i>
-                                <% } else { %>
-                                  <i class="fas fa-star"></i>
-                                <% } %>
-                              <% } %>
-                            </div>
+                          <!-- <div class="remove-product-btn"> -->
+                          <div class="remove-product-btn" onclick="confirmRemoveProduct(event, '<%= product.id %>', '<%= product.name %>')">
+                            <i class="fas fa-times"></i>
+                            <span>Remove Product</span>
                           </div>
                         </a>
                       </div>
@@ -157,13 +147,40 @@
   
       const shopProfileLink = document.getElementById('shop-profile-link');
       const addProductLink = document.getElementById('add-product-link');
+      const viewOrderLink = document.getElementById('view-order-link');
       if (user && user.uid) {
         shopProfileLink.href = `/profile/${user.uid}`;
         addProductLink.href = `/${user.uid}/add`;
+        viewOrderLink.href = `/${user.uid}/order`;
       } else {
-          console.error('Can not find ID in session storage');
+          console.error('Can not find UID');
+      }
+
+      function confirmRemoveProduct(event, productId, productName) {
+        const confirmation = confirm(`Are you sure you want to remove "${productName}"?`);
+        if (confirmation) {
+          fetch(`/product/${productId}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',  
+            },
+            body: JSON.stringify({ id: productId })
+          })
+          .then((response) => {
+            if (response.ok) {
+              alert('Product was removed successfully');
+              location.reload();
+            } else {
+              alert('Remove unsuccessfully');
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert('Error');
+          });
+        }
+        event.preventDefault();
       }
     </script>
-    
   </body>
 </html>
