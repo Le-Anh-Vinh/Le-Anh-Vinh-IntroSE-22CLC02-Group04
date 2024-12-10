@@ -29,8 +29,8 @@ const cartController = {
     viewHistoryOrder: async (req, res, next) => { 
         try {
             const id = req.params.id;
-            const orders = orderData.get(id);
-            res.render('order', { orders })
+            const orders = await orderData.get(id);
+            res.render('order', { orders: orders.order })
         } catch (error) {
             next(new MyError(error.status, error.message));
         }
@@ -44,7 +44,7 @@ const cartController = {
             res.json({status: true});    
         } catch (error) {
             console.error(error.mesage);
-            json.status(500).json({error: error.mesage});            
+            res.status(500).json({error: error.mesage});            
         }
     },
 
@@ -98,7 +98,10 @@ const cartController = {
                 storeOrders[storeId].product_cart.push({
                     id: item.product_id,
                     quantity: item.quantity,
-                    variant: item.variant
+                    variant: item.variant,
+                    price: item.productDetails.price,
+                    image: item.image,
+                    name: item.productDetails.name
                 });
                 storeOrders[storeId].total += item.quantity * product.price
             }

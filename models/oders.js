@@ -18,15 +18,14 @@ const orderData = {
         try {
             const query1 = query(collection(db, 'order'), where('customer_id', '==', uid));
             const query2 = query(collection(db, 'order'), where('store_id', '==', uid));
-
+            
             const [snapshot1, snapshot2] = await Promise.all([getDocs(query1), getDocs(query2)]);
 
             const orders = [...snapshot1.docs, ...snapshot2.docs].map((doc) => ({
                 id: doc.id,
                 ...doc.data(),
             }));
-
-            return { status: true, orders }
+            return { status: true, orders: orders }
 
         } catch (error) {
             console.error("Error getting document: ", error);
