@@ -1,5 +1,5 @@
 import db from '../config/db.js';
-import { updateDoc, addDoc, query, where, collection, getDoc } from 'firebase/firestore';
+import { updateDoc, addDoc, query, where, collection, getDoc, getDocs } from 'firebase/firestore';
 import productData from './products.js';
 
 const orderData = {
@@ -26,7 +26,7 @@ const orderData = {
                 ...doc.data(),
             }));
 
-            return { status: true, orders }
+            return { status: true, order: orders }
 
         } catch (error) {
             console.error("Error getting document: ", error);

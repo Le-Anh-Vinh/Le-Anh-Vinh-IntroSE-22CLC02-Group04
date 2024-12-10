@@ -28,10 +28,9 @@ const cartController = {
     viewHistoryOrder: async (req, res, next) => { 
         try {
             const id = req.params.id;
-            const orders = orderData.get(id);
-            res.render('order', {
-                orders
-            })
+            const orders = await orderData.get(id);
+            res.render('orderHistory', {orders: orders.order}
+            )
         } catch (error) {
             next(new MyError(error.status, error.message));
         }

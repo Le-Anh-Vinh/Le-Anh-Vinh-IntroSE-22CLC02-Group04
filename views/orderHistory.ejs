@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style/orderHistory.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="shopping-history">
+        <!-- Title -->
+        <div class="title">
+          ORDER HISTORY
+        </div>
+
+        <div class="nav-bar">
+          <label class="product_name">Name</label>
+          <!-- <label class="product_unit-price">Unit price</label> -->
+          <label class="product_quantity">Quantity</label>
+          <label class="product_price">Price</label>
+          <label class="product_date">Date</label>
+          <label class="product_status">Status</label>
+        </div>
+
+        <% orders.forEach(orders => { %>
+            <% orders.product_cart.forEach(product => { %>
+                <div class="item" data-product-id="<%= product.id %>">
+  
+                    <div class="image">
+                        <img class="product-img" src="<%= product.image %>" alt="" />
+                    </div>
+                
+                    <div class="description">
+                        <span><%= product.name.length > 20 ? product.name.slice(0, 20) + '...' : product.name %></span>
+                      <span><%= product.variant %></span>
+                    </div>
+                    
+                    <!-- <div class="unit-price">
+                      <%= product.price %> VNĐ
+                    </div> -->
+      
+                    <div class="quantity">
+                      <%= product.quantity %>
+                    </div>
+                
+                    <div class="total-price"><%= product.price * product.quantity%> VNĐ</div>
+
+                    <div class="date">
+                        <%= new Date(orders.date * 1000).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) %>
+                    </div>
+
+                    <div class="status <%= orders.status === 'confirmed' ? 'status-confirmed' : 'status-pending' %>">
+                        <%= orders.status.charAt(0).toUpperCase() + orders.status.slice(1) %>
+                    </div>
+
+                    <div class="buttons">
+                        <div class="rating-btn">
+                            <button>Rating</button>
+                        </div>
+                        
+                        <div class="store-page-btn">
+                            <button>Go to store page</button>
+                        </div>
+                    </div>
+
+                </div>
+            <% }) %>
+        <% }) %>
+
+      </div>
+</body>
+  
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const user = JSON.parse(sessionStorage.getItem('user'));
+
+        if (!user) {
+            window.location.href = '/auth';
+        } else {
+            console.log('User ID:', user.uid);
+            console.log('User Role:', user.role);
+        }
+    });
+</script>
+</html>
