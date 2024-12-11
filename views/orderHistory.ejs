@@ -53,13 +53,9 @@
                         <%= orders.status.charAt(0).toUpperCase() + orders.status.slice(1) %>
                     </div>
 
-                    <div class="buttons">
+                    <div class="buttons <%= orders.status === 'confirmed' ? 'buttons-confirmed' : '' %>">
                         <div class="rating-btn">
                             <button>Rating</button>
-                        </div>
-                        
-                        <div class="store-page-btn">
-                            <button>Go to store page</button>
                         </div>
                     </div>
 
