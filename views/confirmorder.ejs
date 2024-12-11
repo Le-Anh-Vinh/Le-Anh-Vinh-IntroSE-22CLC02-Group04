@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/style/main.css" />
+    <link rel="stylesheet" href="/style/base.css" />
+    <link rel="stylesheet" href="/style/grid.css" />
+    <link rel="stylesheet" href="/style/responsive.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+    />
+  </head>
+  
+  <body>
+    <!-- Header Section -->
+    <div class="list-header">
+      <p class="header-order">Order</p>
+      <p class="header-status">Status</p>
+    </div>
+  
+    <!-- Order List -->
+    <% order.forEach((item) => { %>
+    <a href="/order/<%= item.id %>" class="order-item">
+      <div class="order-info">
+        <p class="order-id"><%= item.id %></p>
+        <p class="order-address"><%= item.info.name %>, <%= item.info.address %>, <%= item.info.phone %></p>
+      </div>
+      <p class="order-status ${item.status}"><%= item.status %></p>
+    </div>
+    <% }) %>
+  </body>
+  </html>
+  

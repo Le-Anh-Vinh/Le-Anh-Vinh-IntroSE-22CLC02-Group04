@@ -30,7 +30,7 @@ const cartController = {
         try {
             const id = req.params.id;
             const orders = await orderData.get(id);
-            res.render('order', { orders: orders.order })
+            res.render('orderHistory', { orders: orders.orders });
         } catch (error) {
             next(new MyError(error.status, error.message));
         }

@@ -33,8 +33,7 @@ const reportData = {
             await updateDoc(reportRef, { status: status });
             
             // penalize store if report was accepted
-            // -0.5 rate for each accepted report
-            // if rate is 0 or lower then delete all products from store
+            // if there are 3 confirmed reports for the store, delete all products from the store
             const report = reportSnapshot.data();
             const store_id = report.store_id;
 
@@ -46,19 +45,16 @@ const reportData = {
                     return { status: false, error: "Store not found" };
                 }
 
-                const storeData = storeSnapshot.data();
-                let currentRate = storeData.rate || 0;
+                const confirmedReportsQuery = query(collection(db, 'report'),
+                    where('store_id', '==', store_id),
+                    where('status', '==', 'accepted')
+                );
+                const confirmedReportsSnapshot = await getDocs(confirmedReportsQuery);
 
-                currentRate -= 0.5;
-                if (currentRate < 0) {
-                    currentRate = 0;
-                }
-
-                await updateDoc(storeRef, { rate: currentRate });
-                if (currentRate === 0) {
+                if (confirmedReportsSnapshot.size >= 3) {
                     const productQuery = query(collection(db, 'product'), where('store_id', '==', store_id));
                     const productSnapshot = await getDocs(productQuery);
-                    
+
                     productSnapshot.forEach(async (productDoc) => {
                         await deleteDoc(productDoc.ref);
                     });

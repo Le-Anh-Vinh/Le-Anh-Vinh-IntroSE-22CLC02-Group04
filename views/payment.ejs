@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style/payment.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="shopping-payment">
+        <!-- Title -->
+        <div class="title">
+          PAYMENT
+        </div>
+
+        <div class="nav-bar">
+          <label class="product_name">Name</label>
+          <label class="product_unit-price">Unit price</label>
+          <label class="product_quantity">Quantity</label>
+          <label class="product_price">Price</label>
+        </div>
+
+        <% 
+        <!-- Biến để lưu tổng số lượng sản phẩm -->
+        let totalQuantity = 0; 
+        %>
+
+        <% product.forEach(productTick => {
+            <!-- Cộng dồn số lượng từng sản phẩm -->
+            totalQuantity += productTick.quantity;    
+        %>
+          <div class="item" data-product-id="<%= productTick.product_id %>">
+  
+              <div class="image">
+                  <img class="product-img" src="<%= productTick.image %>" alt="" />
+              </div>
+          
+              <div class="description">
+                <span><%= productTick.productDetails.name.length > 20 ? productTick.productDetails.name.slice(0, 20) + '...' : productTick.productDetails.name %></span>
+                <!-- <span><%= productTick.productDetails.name %></span> -->
+                <span><%= productTick.variant %></span>
+              </div>
+              
+              <div class="unit-price">
+                <%= productTick.productDetails.price %> VNĐ
+              </div>
+
+              <div class="quantity">
+                <%= productTick.quantity %>
+              </div>
+          
+              <div class="total-price"><%= productTick.productDetails.price * productTick.quantity %> VNĐ</div>
+          </div>
+        <% }); %>
+
+        <div class="address">
+            <label>Ship to: </label>
+            <div class="address_shipment" ><%= info[0].name %>, <%= info[0].address %>, <%= info[0].phone %></div>
+        </div>
+
+        <div class="confirm-section">
+          <div class="confirm-section__price">
+            <div class="label">TOTAL PRICE (<%= totalQuantity %> Products)</div>
+            <div class="final-price"><%= total %> VNĐ</div>
+          </div>
+          <div class="confirm-section__btn">
+            <button class="purchase-button" id="purchase-btn">PURCHASE</button>
+          </div>
+        </div>
+      </div>
+</body>
+
+
+<!-- <script>
+    const products = JSON.parse('<%- JSON.stringify(product || []) %>');
+</script> -->
+
+<script>
+    document.getElementById('purchase-btn').addEventListener('click', async function () {
+        try {
+        // Lấy địa chỉ
+        // const addressElement = document.querySelector('.address_shipment');
+        // const address = addressElement.textContent.trim();
+
+        const info = JSON.parse('<%- JSON.stringify(info[0]) %>'); // Trả về toàn bộ thông tin trong info
+
+        // Lấy toàn bộ danh sách sản phẩm từ product
+        const products = JSON.parse('<%- JSON.stringify(product || []) %>');
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        // Tạo payload gửi lên server (bỏ `total` và trả về thông tin đầy đủ)
+        const payload = {
+            // address: address,
+            products: products, // Danh sách sản phẩm
+            info: info, // Toàn bộ thông tin trong `info`
+        };
+        // Gửi yêu cầu POST đến server
+        const response = await fetch(`/payment/${user.uid}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+        });
+        
+        // Xử lý phản hồi từ server
+        if (response.ok) {
+            const result = await response.json();
+            alert('Purchase successful!'); // Hiển thị thông báo thành công
+            console.log('Response from server:', result);
+            window.location.href = `/${user.uid}`;
+        } else {
+            alert('Purchase failed. Please try again!');
+            console.error('Error:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error occurred during purchase:', error);
+        alert('An error occurred. Please try again!');
+    }
+    });
+
+</script>
+  
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const user = JSON.parse(sessionStorage.getItem('user'));
+
+        if (!user) {
+            window.location.href = '/auth';
+        } else {
+            console.log('User ID:', user.uid);
+            console.log('User Role:', user.role);
+        }
+    });
+</script>
+</html>
