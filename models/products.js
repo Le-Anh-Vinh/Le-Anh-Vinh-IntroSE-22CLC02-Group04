@@ -54,7 +54,6 @@ const productData = {
             } else if (field === 'category') {
                 q = query(productRef, where(field, 'array-contains', queryStr));
             } else {
-
                 const querySnapshot = await getDocs(productRef);
                 const products = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
                 return products.filter((product) =>
@@ -135,6 +134,13 @@ const productData = {
         try {
             const productRef = doc(db, 'product', id);
             await deleteDoc(productRef);
+            
+            const cartQuery = query(collection(db, 'cart'), where('product_id', '==', id));
+            const cartSnapshot = await getDocs(cartQuery);
+            const deleteCartPromises = cartSnapshot.docs.map((cartDoc) => deleteDoc(doc(db, 'cart', cartDoc.id)));
+
+            await Promise.all(deleteCartPromises);
+            
             return { status: true };
         } catch (e) {
             console.error("Error deleting product: ", e);

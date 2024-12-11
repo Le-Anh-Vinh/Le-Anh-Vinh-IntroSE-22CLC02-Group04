@@ -2,6 +2,123 @@
   overflow: hidden;
 }
 
+/* Header Section */
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 400px;
+  margin: 0 auto 10px;
+}
+
+.header-order {
+  padding-left: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.header-status {
+  padding-right: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+
+/* Order List */
+.order-list {
+  width: 400px;
+  margin: 0 auto;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.order-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.order-item.highlighted {
+  border: 2px solid #008cff;
+}
+
+.order-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.order-id {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.order-address {
+  font-size: 12px;
+  color: #777;
+  margin: 0;
+}
+
+.order-status {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.order-status.waiting {
+  color: orange;
+}
+
+.order-status.confirmed {
+  color: green;
+}
+
+/* Button container */
+.remove-product-btn {
+  display: inline-flex;
+  align-items: center; 
+  background-color: #ff0000; 
+  border: 1px solid #d9363e; 
+  border-radius: 6px; 
+  padding: 6px 10px; 
+  margin: 5px 0px 10px 95px;
+  cursor: pointer; 
+  transition: all 0.3s ease; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+.remove-product-btn i {
+  background-color: #fff; 
+  color: #ff4d4f; 
+  padding: 4px; 
+  border-radius: 4px; 
+  margin-right: 6px; 
+  font-size: 12px; 
+}
+
+.remove-product-btn span {
+  font-size: 12px; 
+  color: #fff; 
+}
+
+.remove-product-btn:hover {
+  background-color: #d9363e; 
+  border-color: #a82c34; 
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15); 
+}
+
 .header {
   height: var(--header-height);
   background-image: url("paper.gif");
@@ -373,7 +490,8 @@
 }
 
 .add-product-btn {
-  display: inline-flex;
+  text-decoration: none;
+  display: flex;
   align-items: center;
   background-color: #f9f9f9; 
   border-radius: 5px; 

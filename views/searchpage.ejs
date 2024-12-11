@@ -22,36 +22,8 @@
       <div class="app__container">
         <div class="grid wide">
           <div class="row sm-gutter app__content">
-            <!-- Category -->
-            <div class="col l-2 m-0 c-0">
-              <nav class="category">
-                <h3 class="category__heading">
-                  CATEGORY
-                </h3>
-                <ul class="category-list">
-                  <li class="category-item category-item--active">
-                    <a href="#" class="category-item__link">Fashion</a>
-                  </li>
-                  <li class="category-item">
-                    <a href="#" class="category-item__link">Accessory</a>
-                  </li>
-                  <li class="category-item">
-                    <a href="#" class="category-item__link">Electronic</a>
-                  </li>
-                  <li class="category-item">
-                    <a href="#" class="category-item__link">Beauty</a>
-                  </li>
-                  <li class="category-item">
-                    <a href="#" class="category-item__link">Health</a>
-                  </li>
-                  <li class="category-item">
-                    <a href="#" class="category-item__link">Book</a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
+            <!-- Filter -->
             <div class="col l-10 m-12 c-12">
-              <!-- Filter -->
               <div class="home-filter hide-on-mobile-tablet">
                 <span class="home-filter__label">Sắp xếp theo</span>
                 <button class="home-filter__btn btn">Phổ biến</button>
@@ -71,20 +43,6 @@
                       <a href="#" class="select-input__link">Giá: Cao đến Thấp</a>
                     </li>
                   </ul>
-                </div>
-                <div class="home-filter__page">
-                  <span class="home-filter__page-num">
-                    <span class="home-filter__page-current">1</span>/14
-                  </span>
-
-                  <div class="home-filter__page-control">
-                    <a href="" class="home-filter__page-btn home-filter__page-btn--disabled">
-                      <i class="home-filter__page-icon fas fa-angle-left"></i>
-                    </a>
-                    <a href="" class="home-filter__page-btn">
-                      <i class="home-filter__page-icon fas fa-angle-right"></i>
-                    </a>
-                  </div>
                 </div>
               </div>
 
@@ -122,38 +80,6 @@
                   </div>
                   <% } %>
               </div>
-
-              <ul class="pagination home-product__pagination">
-                  <li class="pagination-item <%= page === 1 ? 'disabled' : '' %>">
-                    <a href="<%= page === 1 ? '' : '/search/' + query + '?page=' + (page - 1) %>"
-                      class="pagination-item__link">
-                      <i class="pagination-item__icon fas fa-angle-left"></i>
-                    </a>
-                  </li>
-                  <% for (let i=Math.ceil(page/5); i <=(total_page> page + 6 ? Math.ceil(page/5) + 4 : total_page); i++) { %>
-                    <li class="pagination-item <%= (i === page) ? 'pagination-item--active' : '' %>">
-                      <a href="/search/<%= query %>?page=<%= i %>" class="pagination-item__link">
-                        <%= i %>
-                      </a>
-                    </li>
-                  <% } %>
-                  <% if (total_page> page + 6) { %>
-                    <li class="pagination-item">
-                      <a href="#" class="pagination-item__link">...</a>
-                    </li>
-                    <li class="pagination-item">
-                      <a href="/search/<%= query %>?page=<%= total_page %>" class="pagination-item__link">
-                        <%= total_page %>
-                      </a>
-                    </li>
-                  <% } %>
-                  <li class="pagination-item <%= page === total_page ? 'disabled' : '' %>">
-                    <a href="<%= page === total_page ? '' : '/search/' + query + '?page=' + (page + 1) %>"
-                      class="pagination-item__link">
-                      <i class="pagination-item__icon fas fa-angle-right"></i>
-                    </a>
-                  </li>
-              </ul>
             </div>
           </div>
         </div>

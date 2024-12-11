@@ -4,6 +4,7 @@ import MyError from '../cerror.js';
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import auth from '../config/auth.js';
 import admin from '../config/admin.js';
+import { Timestamp } from 'firebase/firestore';
 
 async function createUserStorage (uid, displayName, email, role) {
     try {
@@ -20,13 +21,14 @@ async function createUserStorage (uid, displayName, email, role) {
             };
             await cartData.new(uid);
         } else {
+            const date = new Date();
             newUser = {
                 store_id: uid,
                 name: displayName,
                 email: email,
                 info: [],
                 rate: 0,
-                join_date: (new Date()).setHours(0, 0, 0, 0),
+                join_date: Timestamp.fromDate(date),
                 role: role
             };
         }
@@ -44,6 +46,7 @@ async function createUserStorage (uid, displayName, email, role) {
 const authController = {
     getAuthentication: (req, res, next) => {
         try {
+
             res.render('authentication');
         } catch (error) {
             next(new MyError(404, "Can't found log in page"));
@@ -58,10 +61,17 @@ const authController = {
         }
     },
 
-    getInputInfo: (req, res, next) => {
+    getInputInfo: async(req, res, next) => {
         try {
             const uid = req.query.uid;
-            res.render('getUserInfo', {uid});
+            const user = await userData.get(uid);
+            const role = user.role;
+            if (role === "user") {
+                res.render('getUserInfo', {uid});
+            }
+            else {
+                res.render('getStoreInfo', {uid});
+            }   
         } catch (error) {
             next(new MyError(404, "Can't found log in page"));
         }

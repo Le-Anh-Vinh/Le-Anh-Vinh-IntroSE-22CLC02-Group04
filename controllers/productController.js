@@ -50,7 +50,7 @@ const productController = {
     addRating: async (req, res, next) => { 
         try {
             const {product_id, review} = req.body;
-            await productData.update(product_id, {review: [review]});
+            await productData.update(product_id, {reviews: [review]});
             res.json({status: true});
         } catch (error) {
             console.error(error.message);

@@ -50,7 +50,7 @@ const cartData = {
 
             const value = productsCart.reduce((total, item) => {
                 const product = products.find((p) => p.product_id === item.product_id);
-                return product ? total + product.price * item.quantity * (item.tick ? 1 : -1) : total;
+                return product ? total + product.price * item.quantity * (item.tick ? 1 : 0) : total;
             }, 0);
 
             const cartRef = doc(db, 'cart', uid);
@@ -81,14 +81,14 @@ const cartData = {
                         ...newData[existingID],
                         quantity: newData[existingID].quantity + (product.quantity || 1),
                         image: productImage,
-                        tick: true
+                        tick: false
                     };
                 } else {
                     newData.push({
                         ...product,
                         quantity: product.quantity || 1,
                         image: productImage,
-                        tick: true
+                        tick: false
                     });
                 }
 
@@ -111,14 +111,17 @@ const cartData = {
             if (!cartDataFetched) return { status: false, error: 'Cart not found' };
             
             const updatedProducts = cartDataFetched.product_cart.map((product) =>
-                product.product_id === newData.product_id  ? { ...product, ...newData } : product
+                product.product_id === newData.product_id && product.variant === newData.variant ? { ...product, ...newData } : product
             );
+
+            const cartRef = doc(db, 'cart', uid);
+            await updateDoc(cartRef, { product_cart: updatedProducts });
 
             const valueResult = await cartData.calValue(uid);
             if (!valueResult.status) return valueResult;
 
-            const cartRef = doc(db, 'cart', uid);
-            await updateDoc(cartRef, { product_cart: updatedProducts, value: valueResult.value });
+            await updateDoc(cartRef, { value: valueResult.value });
+
             const cart = await getDoc(cartRef);
             return { status: true, cart };
         } catch (e) {
@@ -138,6 +141,11 @@ const cartData = {
 
             const cartRef = doc(db, 'cart', uid);
             await updateDoc(cartRef, { product_cart: updatedProducts });
+
+            const valueResult = await cartData.calValue(uid);
+            if (!valueResult.status) return valueResult;
+
+            await updateDoc(cartRef, { value: valueResult.value });
 
             return { status: true };
         } catch (e) {

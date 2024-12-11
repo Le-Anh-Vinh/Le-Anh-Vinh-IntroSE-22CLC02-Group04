@@ -23,7 +23,7 @@
                             <h4 class="user-name"><%= user.username %></h4>
                             <p class="current_address"><%= user.info[0].address %></p>
                             <div class="button">
-                                <button class="button__purchased-history">Orders History</button>
+                                <button class="button__purchased-history" id="order-history-button">Orders History</button>
                                 <!-- <button class="button__delete_acc--user">Xóa tài khoản</button> -->
                             </div>
                         </div>
@@ -91,6 +91,16 @@
             } else {
                 console.log('User ID:', user.uid);
                 console.log('User Role:', user.role);
+            }
+        });
+        document.getElementById('order-history-button').addEventListener('click', function () {
+            const user = JSON.parse(sessionStorage.getItem('user'));
+            const uid = user.uid;
+        
+            if (uid) {
+                window.location.href = `/historyOrder/${uid}`;
+            } else {
+                alert('User ID does not exist!');
             }
         });
     </script>

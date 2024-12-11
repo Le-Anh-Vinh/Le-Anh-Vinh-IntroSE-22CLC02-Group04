@@ -4,6 +4,10 @@ import orderData from '../models/oders.js';
 import categoryData from '../models/category.js';
 import userData from '../models/users.js';
 import MyError from '../cerror.js';
+import { Timestamp } from 'firebase/firestore';
+import db from '../config/db.js';
+import { query, collection, where, getDocs } from 'firebase/firestore';
+import reportData from '../models/reports.js';
 
 const mainController = {
     getAll: async (req, res, next) => {
@@ -31,12 +35,38 @@ const mainController = {
                     return next(new MyError(404, "The page you looking for can't be found!"));
                 }
                 products = products.slice((page - 1) * per_page, Math.min(page * per_page, products.length));
+
+                const cartProducts = (await cartData.get(id)).cart.product_cart;
+                if (cartProducts.length > 0) {
+                    const cartCategories = [];
+                    for (let productId of cartProducts) {
+                        const product = await productData.get(productId.product_id);
+                        if (product && product.category) {
+                            cartCategories.push(...product.category);
+                        }
+                    }
+
+                    products = products.filter(product => {
+                        if (product.category && cartCategories.length > 0) {
+                            return product.category.some(cat => cartCategories.includes(cat));
+                        }
+                        return false;
+                    });
+                } else {
+                    products = await productData.all();
+                }
+
                 const categories = await categoryData.getAll();
-                res.render('homepage', { products, page, total_page, catID, category: categories });
+                res.render('homepage', { products, page, total_page, catID, categories: categories });
+                // res.render('homepage', { products, categories: categories });
             }
             else if (user.role === 'store') {
                 const products = await productData.getByStore(user.store_id);
                 res.render('shopownerhomepage', { products: products });
+            }
+            else if (user.role === 'admin') {
+                const reports = await reportData.getPending();
+                res.render('adminhomepage', { reports: reports });
             }
         } catch (error) {
             next(new MyError(error.status, error.message));
@@ -75,8 +105,8 @@ const mainController = {
 
             const productDoc = await productData.getByStore(storeID);
 
-            res.render('storePage', {
-                product: productDoc,
+            res.render('shopuserview', {
+                products: productDoc,
                 store: storeDoc
             });
         } catch (error) {
@@ -132,6 +162,59 @@ const mainController = {
             res.status(500).json({ error: error.message });
         }
     },
+
+    changeStoreInfo: async (req, res, next) => {
+        try {
+            const { uid, username, name, email, gender, info } = req.body;
+            const newData = {};
+            if (username) newData.username = displayName;
+            if (name) newData.name = name;
+            if (email) newData.email = email;
+            if (info) newData.info = info;
+
+            newData.rate = parseInt(0);
+            
+            await userData.update(uid, newData);
+
+            res.json({ success: true });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ error: error.message });
+        }
+    },
+
+    getPayment: async (req, res, next) => { 
+        try {
+            const id = req.params.id;
+            const cart = await cartData.get(id);
+
+            const products = cart.cart.product_cart;
+            const productsWithDetails = await Promise.all(
+                products.map(async (product) => {
+                    const productDetails = await productData.get(product.product_id);
+                    return {
+                        ...product,
+                        productDetails: productDetails || {}
+                    };
+                })
+            );
+
+            const productTick = [];
+            for (const product of productsWithDetails) {
+                if (product.tick === true) {
+                   productTick.push(product);
+                }
+            }
+            
+            const user = await userData.get(id);
+            const shipInfo = user.info;
+            res.render('payment', ({ product: productTick, info: shipInfo, total: cart.cart.value}));
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ error: error.message });
+        }
+    },
+
 };
 
 export default mainController;

@@ -1,5 +1,5 @@
 import db from '../config/db.js';
-import { updateDoc, addDoc, query, where, collection, getDoc } from 'firebase/firestore';
+import { updateDoc, addDoc, query, where, collection, getDocs, getDoc, doc } from 'firebase/firestore';
 import productData from './products.js';
 
 const orderData = {
@@ -18,16 +18,26 @@ const orderData = {
         try {
             const query1 = query(collection(db, 'order'), where('customer_id', '==', uid));
             const query2 = query(collection(db, 'order'), where('store_id', '==', uid));
-
+            
             const [snapshot1, snapshot2] = await Promise.all([getDocs(query1), getDocs(query2)]);
 
             const orders = [...snapshot1.docs, ...snapshot2.docs].map((doc) => ({
                 id: doc.id,
                 ...doc.data(),
             }));
+            return { status: true, orders: orders }
 
-            return { status: true, orders }
+        } catch (error) {
+            console.error("Error getting document: ", error);
+            return { status: false, error: error.message };
+        }
+    },
 
+    getByID: async (id) => {
+        try {
+            const orderRef = doc(db, 'order', id);
+            const docSnap = await getDoc(orderRef);
+            return docSnap.exists() ? { id: docSnap.id, ...docSnap.data() } : null; 
         } catch (error) {
             console.error("Error getting document: ", error);
             return { status: false, error: error.message };
@@ -57,7 +67,7 @@ const orderData = {
     update: async (id, status) => {
         try {
             const orderRef = doc(db, 'order', id);
-            await updateDoc(orderRef, { done: status });
+            await updateDoc(orderRef, { status: status });
             const order = await getDoc(orderRef);
             return { status: true, order};
         } catch (error) {
