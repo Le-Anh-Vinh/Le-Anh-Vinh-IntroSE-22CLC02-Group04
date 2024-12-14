@@ -66,7 +66,8 @@ const mainController = {
             }
             else if (user.role === 'admin') {
                 const reports = await reportData.getPending();
-                res.render('adminhomepage', { reports: reports });
+                const admin = await userData.get(id);
+                res.render('adminPage', { reports: reports, admin: admin });
             }
         } catch (error) {
             next(new MyError(error.status, error.message));
