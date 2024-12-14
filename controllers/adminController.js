@@ -7,7 +7,7 @@ const adminController = {
         try {
             const id = req.params.id;
             const report = await reportData.get(id);
-            res.render('report', { report: report });
+            res.render('reportDetail', { report: report });
         } catch (error) {
             next(new MyError(error.status, error.message));
         }

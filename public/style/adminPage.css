@@ -1,0 +1,83 @@
+.admin-page {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff7d4;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+  
+  .admin-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .admin-avatar img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #eee;
+    border: 2px solid #ddd;
+  }
+  
+  .admin-details {
+    margin-left: 20px;
+  }
+  
+  .admin-details h2 {
+    margin: 0;
+    font-size: 24px;
+  }
+  
+  .admin-details p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .report-list h3 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    text-align: center;
+  }
+  
+  .report-list table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+  
+  .report-list th,
+  .report-list td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .report-list th {
+    background-color: #fde39e;
+    font-weight: bold;
+  }
+  
+  .report-list td a {
+    color: #000;
+    text-decoration: none;
+  }
+  
+  .report-list td a:hover {
+    text-decoration: underline;
+  }
+  
+  .report-list td.waiting {
+    color: orange;
+  }
+  
+  .report-list td.completed {
+    color: green;
+  }
+  
+  .report-list td.failed {
+    color: red;
+  }
+  
