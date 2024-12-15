@@ -31,39 +31,15 @@
     </div>
   
     <!-- Order List -->
-    <div class="order-list">
-      <a href="#" class="order-item">
-        <div class="order-info">
-          <p class="order-id">Order ID</p>
-          <p class="order-address">Address</p>
-        </div>
-        <p class="order-status waiting">Waiting</p>
-      </a>
-  
-      <a href="#" class="order-item highlighted">
-        <div class="order-info">
-          <p class="order-id">Order ID</p>
-          <p class="order-address">Address</p>
-        </div>
-        <p class="order-status confirmed">Confirmed</p>
-      </a>
-  
-      <a href="#" class="order-item">
-        <div class="order-info">
-          <p class="order-id">Order ID</p>
-          <p class="order-address">Address</p>
-        </div>
-        <p class="order-status waiting">Waiting</p>
-      </a>
-  
-      <a href="#" class="order-item">
-        <div class="order-info">
-          <p class="order-id">Order ID</p>
-          <p class="order-address">Address</p>
-        </div>
-        <p class="order-status waiting">Waiting</p>
-      </a>
+    <% order.forEach((item) => { %>
+    <a href="/order/<%= item.id %>" class="order-item">
+      <div class="order-info">
+        <p class="order-id"><%= item.id %></p>
+        <p class="order-address"><%= item.info.name %>, <%= item.info.address %>, <%= item.info.phone %></p>
+      </div>
+      <p class="order-status ${item.status}"><%= item.status %></p>
     </div>
+    <% }) %>
   </body>
   </html>
   

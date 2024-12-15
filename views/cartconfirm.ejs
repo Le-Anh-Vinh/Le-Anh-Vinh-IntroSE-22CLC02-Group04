@@ -21,18 +21,18 @@
         </div>
 
         <% products.forEach((item) => { %>
-            <div class="item" data-product-id="<%= item.product_id %>">
+            <div class="item" data-product-id="<%= item.id %>">
                 <div class="image">
                     <img class="product-img" src="<%= item.image %>" alt="" />
                 </div>
             
                 <div class="description">
-                    <span><%= item.productDetails.name.length > 20 ? item.productDetails.name.slice(0, 20) + '...' : item.productDetails.name %></span>
+                    <span><%= item.name.length > 20 ? item.name.slice(0, 20) + '...' : item.name %></span>
                     <span><%= item.variant %></span>
                 </div>
             
                 <div class="unit-price">
-                    <%= item.productDetails.price %> VNĐ
+                    <%= item.price %> VNĐ
                 </div>
             
                 <div class="quantity">
@@ -40,7 +40,7 @@
                 </div>
             
                 <div class="total-price">
-                    <%= item.productDetails.price * item.quantity %> VNĐ
+                    <%= item.price * item.quantity %> VNĐ
                 </div>
             
             </div>
@@ -53,170 +53,13 @@
           </div>
           <div class="confirm-section__btn">
             <div class="action-buttons">
-              <button class="accept-button">Accept</button>
-              <button class="decline-button">Decline</button>
+              <button class="accept-button" data-id="<%= orderID %>" data-action="confirmed">Accept</button>
+              <button class="decline-button" data-id="<%= orderID %>" data-action="declined">Decline</button>
             </div>
           </div>          
         </div>
       </div>
 </body>
-
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-  // Lấy tất cả các item
-  const items = document.querySelectorAll(".item");
-  const totalPriceLabel = document.querySelector(".confirm-section__price .label");
-  const finalPrice = document.querySelector(".confirm-section__price .final-price");
-
-  const checkboxes = document.querySelectorAll(".item input[type='checkbox']");
-
-  let totalProducts = 0; // Tổng số sản phẩm
-  let totalPrice = 0; // Tổng giá tiền
-
-  // Cập nhật tổng số sản phẩm và giá
-  function updateSummary() {
-    totalProducts = 0;
-    totalPrice = 0;
-
-    checkboxes.forEach((checkbox) => {
-      if (checkbox.checked) {
-        const item = checkbox.closest(".item");
-        const quantityInput = item.querySelector("input[name='name']");
-        const price = parseFloat(item.querySelector(".unit-price").textContent.replace("VNĐ", ""));
-
-        totalProducts += parseInt(quantityInput.value, 10);
-        totalPrice += price * parseInt(quantityInput.value, 10)
-        ;
-      }
-    });
-
-    totalPriceLabel.textContent = `TOTAL PRICE (${totalProducts} Products)`;
-    finalPrice.textContent = `${totalPrice.toFixed(0)} VNĐ`;
-  }
-
-  // Thêm sự kiện thay đổi cho các checkbox
-  checkboxes.forEach((checkbox) => {
-    checkbox.addEventListener("change", updateSummary);
-  });
-
-  items.forEach((item) => {
-    const minusBtn = item.querySelector(".minus-btn"); // Nút giảm
-    const plusBtn = item.querySelector(".plus-btn");  // Nút tăng
-    const ticked = item.querySelector("input[type='checkbox']"); //checkbox
-    const quantityInput = item.querySelector("input[name='name']"); // Input số lượng
-    const deleteBtn = item.querySelector(".delete-btn"); // Nút xóa
-
-    // Xử lý sự kiện nút giảm
-    minusBtn.addEventListener("click", function () {
-      let currentQuantity = parseInt(quantityInput.value, 10); // Lấy giá trị hiện tại
-      if (currentQuantity > 1) { // Giảm nhưng không nhỏ hơn 1
-        quantityInput.value = currentQuantity - 1;
-
-        //cập nhật tổng giá của sản phẩm
-        const price = parseFloat(item.querySelector(".unit-price").textContent.replace("VNĐ", ""));
-        const newTotalPrice = price * parseInt(quantityInput.value, 10);
-        item.querySelector(".total-price").textContent = `${newTotalPrice.toFixed(0)} VNĐ`;
-
-        updateSummary(); // Cập nhật tổng
-        updateCart(item, quantityInput.value, ticked.checked);
-      }
-    });
-
-    // Xử lý sự kiện nút tăng
-    plusBtn.addEventListener("click", function () {
-      let currentQuantity = parseInt(quantityInput.value, 10); // Lấy giá trị hiện tại
-      quantityInput.value = currentQuantity + 1; // Tăng số lượng
-
-      //cập nhật tổng giá của sản phẩm
-      const price = parseFloat(item.querySelector(".unit-price").textContent.replace("VNĐ", ""));
-      const newTotalPrice = price * parseInt(quantityInput.value, 10);
-      item.querySelector(".total-price").textContent = `${newTotalPrice.toFixed(0)} VNĐ`;
-
-      updateSummary(); // Cập nhật tổng
-      updateCart(item, quantityInput.value, ticked.checked);
-    });
-
-    // Cập nhật trạng thái của checkbox khi thay đổi
-    ticked.addEventListener("change", function () {
-      let currentQuantity = parseInt(quantityInput.value, 10); // Lấy giá trị hiện tại
-      updateCart(item, currentQuantity, ticked.checked);
-    });
-
-    // Xử lý sự kiện nút xóa
-    deleteBtn.addEventListener("click", function () {
-      const productId = item.getAttribute("data-product-id");
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const variant = item.querySelector(".description span:nth-child(2)").textContent; // Lấy variant
-
-      const requestBody = {
-        product_id: productId,
-        variant: variant
-      };
-
-      // Gửi yêu cầu xóa lên server
-      fetch(`/cart/${user.uid}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      })
-        .then((response) => {
-          if (response.ok) {
-            console.log("Product deleted successfully");
-            // Xóa sản phẩm khỏi giao diện
-            item.remove();
-            updateSummary(); // Cập nhật tổng
-          } else {
-            console.error("Failed to delete product");
-          }
-        })
-        .catch((error) => {
-          console.error("Error deleting product:", error);
-        });
-    });
-
-  });
-
-  // Cập nhật giỏ hàng
-  function updateCart(item, newQuantity, ticked) {
-  const productId = item.getAttribute("data-product-id");
-  const user = JSON.parse(sessionStorage.getItem("user"));
-
-  const productData = {
-    product_id: productId,
-    quantity: newQuantity,
-    tick: ticked,
-  };
-
-  // Gửi yêu cầu PUT để cập nhật số lượng sản phẩm lên server
-  fetch(`/cart/${user.uid}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(productData),
-  })
-    .then((response) => {
-      if (response.ok) {
-        console.log("Cart updated successfully");
-      } else {
-        console.error("Failed to update cart");
-      }
-    })
-    .catch((error) => {
-      console.error("Error updating cart:", error);
-    });
-}
-
-
-  // Cập nhật lần đầu khi trang tải xong
-  updateSummary();
-});
-
-
-</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -228,6 +71,36 @@
             console.log('User ID:', user.uid);
             console.log('User Role:', user.role);
         }
-    });
+
+        const buttons = document.querySelectorAll(".action-buttons button");
+        const handleAction = async (id, action) => {
+            try {
+                const response = await fetch('/order/status', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({id, action: action === "confirmed"})
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    alert("Updated");
+                } else {
+                    alert("Failed");
+                }
+            } catch {
+                console.error("Error:", error);
+                alert("An error occurred. Please try again.");
+            }
+        };
+        buttons.forEach((button) => {
+            button.addEventListener("click", () => {
+                const id = button.getAttribute("data-id");
+                const action = button.getAttribute("data-action");
+                handleAction(id, action);
+            });
+        });
+    });    
 </script>
 </html> 

@@ -2,13 +2,6 @@
   overflow: hidden;
 }
 
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 20px;
-  background-color: #f9f9f9;
-}
-
 /* Header Section */
 .list-header {
   display: flex;
@@ -96,18 +89,19 @@ body {
 .remove-product-btn {
   display: inline-flex;
   align-items: center; 
-  background-color: #fff; 
-  border: 1px solid #ccc; 
+  background-color: #000000; 
+  border: 1px solid #d9363e; 
   border-radius: 6px; 
   padding: 6px 10px; 
+  margin: 5px 0px 10px 50px;
   cursor: pointer; 
   transition: all 0.3s ease; 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
 
 .remove-product-btn i {
-  background-color: #000; 
-  color: #fff; 
+  background-color: #fff; 
+  color: #ff4d4f; 
   padding: 4px; 
   border-radius: 4px; 
   margin-right: 6px; 
@@ -116,12 +110,12 @@ body {
 
 .remove-product-btn span {
   font-size: 12px; 
-  color: #333;
+  color: #fff; 
 }
 
 .remove-product-btn:hover {
-  background-color: #f9f9f9; 
-  border-color: #aaa; 
+  background-color: #d9363e; 
+  border-color: #a82c34; 
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15); 
 }
 
