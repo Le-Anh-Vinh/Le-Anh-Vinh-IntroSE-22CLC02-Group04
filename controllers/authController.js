@@ -110,9 +110,6 @@ const authController = {
     
             const userCredential = await signInWithEmailAndPassword(auth, formInput.email, formInput.password);
             const user = userCredential.user;
-            // const idToken = await user.getIdToken();
-            // const decodedToken = await admin.auth().verifyIdToken(idToken);
-            // const role = decodedToken.role;
             const userInf = await userData.get(user.uid);
             const role = userInf.role;
     
@@ -143,6 +140,14 @@ const authController = {
             res.status(500).json({ success: false, error: error.message });
         }
     },
+
+    logout: (req, res, next) => {
+        try {
+            res.redirect('/auth');
+        } catch (error) {
+            next(new MyError(error.status, error.message));
+        }
+    }
 };
 
 export default authController;

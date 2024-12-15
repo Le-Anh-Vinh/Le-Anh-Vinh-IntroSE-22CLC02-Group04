@@ -123,21 +123,22 @@ const mainController = {
             }
 
             const { query } = req.params;
-            const { maxPrice, minPrice, rateFilter } = req.query;
-            const per_page = 1;
+            const { maxPrice, minPrice, rateFilter, type } = req.query;
+            const per_page = 10;
             const filters = [];
             filters.push({ field: 'price', from: parseInt(minPrice, 10) || 0, to: parseInt(maxPrice, 10) || Infinity });
             filters.push({ field: 'rate', from: parseInt(rateFilter, 10) || 0, to: 5 });
             let products = await productData.searchAndFilter(query, 'all', filters);
-            
-            const total_page = Math.ceil(products.length / per_page);
+            switch (type)
+            {
+                case 'max':
+                    products.sort((a, b) => a.price - b.price);
+                    break;
+                case 'min':
+                    products.sort((a, b) => b.price - c.price);
+            }
 
-            // if(page > total_page) {
-            //     return next(new MyError(404, "The page you looking for can't be found!"));
-            // }
-            // products = products.slice((page - 1) * per_page, Math.min(page * per_page, products.length));
-
-            res.render('searchpage', { products, page, total_page, query });
+            res.render('searchpage', { products, query, type });
         } catch (error) {
             next(new MyError(error.status, error.message));
         }
