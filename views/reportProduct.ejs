@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style/addProduct.css" />
+    <title>Add Product</title>
+  </head>
+
+  <body>
+    <!-- <header id="header"> -->
+    <!-- Add header here if needed -->
+    <!-- </header> -->
+
+    <div class="add-product-container">
+      <h1>Report Product</h1>
+      <!-- Form with ID 'add-product-form' -->
+      <form id="add-product-form" class="add-product-form">
+        <!-- Store ID (Hidden) -->
+        <input type="hidden" name="store_id" value="<%= storeID %>" />
+
+        <!-- User -->
+        <div class="form-group">
+          <label>Tên đăng nhập</label>
+          <input type="text" name="name" placeholder="Tên đăng nhập" required />
+        </div>
+
+        <!-- Email user -->
+        <div class="form-group">
+          <label>Địa chỉ email</label>
+          <input type="text" name="name" placeholder="Địa chỉ email" required />
+        </div>
+
+        <!-- Title -->
+        <div class="form-group">
+          <label>Tiêu đề</label>
+          <input type="text" name="name" placeholder="Title" required />
+        </div>
+        
+        <!-- Description -->
+        <div class="form-group">
+            <label>Nội dung báo cáo</label>
+            <textarea name="description" placeholder="Nhập nội dung báo cáo ở đây" rows="5" required></textarea>
+          </div>
+
+        <!-- Product Images -->
+        <div class="form-group">
+          <label>Ảnh đính kèm</label>
+          <input type="text" name="images" placeholder="Enter image URLs, separated by commas" required />
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn">
+          Báo cáo
+        </button>
+      </form>
+    </div>
+
+    <script>
+      document.getElementById('add-product-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        const formData = new FormData(e.target);
+        const data = {};
+        const categories = [];
+        formData.forEach((value, key) => {
+          if (key === 'category') {
+            categories.push(value);
+          } else {
+            data[key] = value;
+          }
+        });
+
+        data.category = categories;
+        try {
+          const response = await fetch(`/${data.store_id}/add`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to add product');
+          }
+
+          const result = await response.json();
+          alert(result.message);
+          window.location.href = `/${user.uid}`;
+        } catch (error) {
+          console.error('Error:', error);
+          alert('There was an error adding the product');
+        }
+      });
+      document.addEventListener('DOMContentLoaded', function () {
+        const user = JSON.parse(sessionStorage.getItem('user'));
+
+        if (!user) {
+          window.location.href = '/auth';
+        } else {
+          console.log('User ID:', user.uid);
+          console.log('User Role:', user.role);
+        }
+      });
+    </script>
+  </body>
+</html>
