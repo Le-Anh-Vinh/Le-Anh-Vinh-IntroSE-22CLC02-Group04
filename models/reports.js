@@ -13,7 +13,8 @@ const reportData = {
                 date: date,
                 status: "pending"
             }
-            await addDoc(collection(db, 'report'), reportWithDate);
+            const docRef = await addDoc(collection(db, 'report'), reportWithDate);
+            await updateDoc(docRef, { id: docRef.id });
             return { status: true };
         } catch (e) {
             console.error("Error adding document: ", e);

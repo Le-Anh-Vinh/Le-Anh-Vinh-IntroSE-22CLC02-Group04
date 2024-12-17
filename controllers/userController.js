@@ -37,7 +37,7 @@ const mainController = {
                 products = products.slice((page - 1) * per_page, Math.min(page * per_page, products.length));
 
                 const cartProducts = (await cartData.get(id)).cart.product_cart;
-                if (cartProducts.length > 0) {
+                if (cartProducts && cartProducts.length > 0) {
                     const cartCategories = [];
                     for (let productId of cartProducts) {
                         const product = await productData.get(productId.product_id);
@@ -114,7 +114,7 @@ const mainController = {
             next(new MyError(error.status, error.message));
         }
     },
-
+    
     search: async (req, res, next) => {
         try {
             const page = parseInt(req.query.page) || 1;   
@@ -215,6 +215,32 @@ const mainController = {
             res.status(500).json({ error: error.message });
         }
     },
+
+    getReport: async (req, res, next) => {
+        try {
+            const id = req.params.id;
+            res.render('reportStore', { storeID: id });
+        } catch (error) {
+            next(new MyError(error.status, error.message));
+        }
+    },
+
+    reportStore: async (req, res, next) => {
+        try {
+            const { criticize, customer_id, images, store_id, title } = req.body;
+            const report = {
+                criticize,
+                customer_id,
+                images,
+                store_id,
+                title
+            };
+            await reportData.addNew(report);
+            res.status(200).json({ success: true });
+        } catch (error) {
+            next(new MyError(error.status, error.message));
+        }
+    }
 
 };
 

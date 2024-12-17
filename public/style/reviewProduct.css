@@ -1,0 +1,23 @@
+.rating-container {
+    display: flex;
+    justify-content: center; /* Căn giữa các ngôi sao */
+    gap: 15px; /* Khoảng cách giữa các ngôi sao */
+    font-size: 40px; /* Kích thước sao */
+    user-select: none; /* Ngăn chọn văn bản */
+    cursor: pointer;
+  }
+
+  .star {
+    color: #ccc; /* Màu xám nhạt mặc định */
+    transition: color 0.2s ease; /* Hiệu ứng chuyển màu */
+  }
+
+  .star.active {
+    color: #ffc107; /* Màu vàng cho sao đã chọn */
+  }
+
+  .rating-label {
+    font-size: 18px;
+    color: #333;
+    margin-top: 20px;
+  }

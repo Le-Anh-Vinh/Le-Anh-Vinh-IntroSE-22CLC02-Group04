@@ -2,7 +2,8 @@ import productData from '../models/products.js';
 import cartData from '../models/carts.js';
 import orderData from '../models/oders.js';
 import MyError from '../cerror.js';
-import { Timestamp } from 'firebase/firestore';
+import db from '../config/db.js';
+import { Timestamp, doc, getDoc } from 'firebase/firestore';
 
 const cartController = {
     getCart: async (req, res, next) => {
@@ -30,6 +31,19 @@ const cartController = {
         try {
             const id = req.params.id;
             const orders = await orderData.get(id);
+            const productPromises = orders.orders.map(async (order) => {
+                const productPromises = order.product_cart.map(async (product) => {
+                    const productDocRef = doc(db, 'product', product.id);
+                    const productDoc = await getDoc(productDocRef);
+                    const productData = productDoc.data();
+                    const reviews = productData?.reviews || [];
+                    const isReviewed = reviews.some(review => review.customer_id === id);
+                    product.isReviewed = isReviewed;
+                });
+                await Promise.all(productPromises);
+            });
+            await Promise.all(productPromises);
+            
             res.render('orderHistory', { orders: orders.orders });
         } catch (error) {
             next(new MyError(error.status, error.message));
@@ -76,6 +90,11 @@ const cartController = {
         try {
             const uid = req.params.id;
             const { products, info } = req.body;
+            if (!products || products.length === 0) {
+                res.status(404).json({status: false, error: 'No product in cart'});
+                return;
+            }
+
             const storeOrders = {};
             //create store orders
             for (const item of products) {
@@ -105,7 +124,7 @@ const cartController = {
                 });
                 storeOrders[storeId].total += item.quantity * product.price
             }
-            res.json({status: true});
+            res.status(200).json({status: true});
 
             for (const storeId in storeOrders) {
                 await orderData.addNew(storeOrders[storeId]);

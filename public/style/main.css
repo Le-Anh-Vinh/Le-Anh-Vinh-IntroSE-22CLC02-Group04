@@ -1,3 +1,65 @@
+.shop-info-container {
+  display: flex;
+  align-items: center; /* Canh giữa theo chiều dọc */
+  background-color: #f8e08e; /* Màu nền như trước */
+  padding: 20px;
+  width: 100%; /* Tràn hết chiều ngang */
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+
+.shop-avatar img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  margin-right: 20px;
+}
+
+/* Chi tiết thông tin shop */
+.shop-info-details {
+  display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px; /* Tăng khoảng cách giữa các dòng */
+}
+
+.shop-name {
+  font-size: 3em;
+  font-weight: bold;
+  color: #333;
+}
+
+.shop-contact {
+  display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.shop-contact span {
+  font-size: 1.8em; /* Tăng kích thước chữ thông tin liên hệ */
+  color: #333;
+  font-weight: 500; /* Làm đậm vừa phải */
+}
+
+/* Nút Report Shop */
+.report-shop-btn {
+  margin-left: auto;
+  background-color: #ff4d4d; /* Màu đỏ nổi bật */
+  color: white; /* Chữ trắng */
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Hiệu ứng hover cho nút */
+.report-shop-btn:hover {
+  background-color: #e60000; /* Màu đỏ đậm khi hover */
+}
 .app{
   overflow: hidden;
 }
@@ -118,6 +180,7 @@
   border-color: #a82c34; 
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15); 
 }
+
 
 .header {
   height: var(--header-height);

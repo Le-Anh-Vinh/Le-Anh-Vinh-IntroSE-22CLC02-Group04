@@ -103,7 +103,7 @@
         });
         
         // Xử lý phản hồi từ server
-        if (response.ok) {
+        if (response.ok && response.status === 200) {
             const result = await response.json();
             alert('Purchase successful!'); // Hiển thị thông báo thành công
             console.log('Response from server:', result);

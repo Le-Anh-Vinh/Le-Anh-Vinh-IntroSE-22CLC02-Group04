@@ -33,10 +33,7 @@
                             <a href="#" id="profile-link">Tài khoản của tôi</a>
                         </li>
                         <li class="header__navbar-user-item">
-                            <a href="">Địa chỉ của tôi</a>
-                        </li>
-                        <li class="header__navbar-user-item">
-                            <a href="">Đơn mua</a>
+                            <a id = "order" href="">Đơn mua</a>
                         </li>
                         <li class="header__navbar-user-item header__navbar-user-item--separate">
                             <a href="">Đăng xuất</a>
@@ -54,7 +51,7 @@
 
             <!-- Header Logo -->
             <div class="header__logo hide-on-tablet">
-                <a href="/" class="header__logo-link">
+                <a href="#" id="logo-link" class="header__logo-link">
                     <img class="header__logo-img" src="/img/logo_img.png" alt="Custom Logo" />
                 </a>
             </div>
@@ -104,19 +101,33 @@
       if (user && user.uid) {
         const profileLink = document.getElementById('profile-link');
         const homepageLink = document.getElementById('homepage-link');
+        const logoLink = document.getElementById('logo-link');
         profileLink.href = `/profile/${user.uid}`;
         homepageLink.href = `/${user.uid}`;
+        logoLink.href = `/${user.uid}`;
       } else {
         console.error('Can not find ID in session storage');
       }
 
+      const historyOrderLink = document.querySelector('.header__navbar-user-item a[href=""]');
+      if (historyOrderLink) {
+        historyOrderLink.href = `/historyOrder/${user.uid}`;
+      }
+
       const cartLink = document.getElementById('cart-link');
-    
+      const orderLink = document.getElementById('order');
       if (user && user.role === 'store') {
         if (cartLink) {
             cartLink.style.display = 'none';
         }
-      } else {
+        if (orderLink) {
+          orderLink.style.display = 'none';
+        }
+        else {
+          orderLink.href = `/historyOrder/${user.uid}`;
+        }
+      } 
+      else {
         if (user && user.uid) {
             cartLink.href = `/cart/${user.uid}`;
         }
@@ -176,7 +187,6 @@
     window.onload = function () {
       if (savedSearchHistory.length > 0) {
         searchHistoryDiv.style.display = 'none';
-  
         savedSearchHistory.forEach(item => {
           const listItem = document.createElement('li');
           listItem.classList.add('header__search-history-item');
