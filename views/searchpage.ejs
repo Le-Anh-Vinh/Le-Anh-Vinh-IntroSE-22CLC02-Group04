@@ -19,28 +19,24 @@
     <!-- Header -->
     <%- include('header') %>
       <!-- Content -->
-      <div class="app__container">
+      <div class="app__container" style="height: 55vh">
         <div class="grid wide">
           <div class="row sm-gutter app__content">
             <!-- Filter -->
             <div class="col l-10 m-12 c-12">
-              <div class="home-filter hide-on-mobile-tablet">
+              <div class="home-filter hide-on-mobile-tablet" id="filter-header">
                 <span class="home-filter__label">Sắp xếp theo</span>
-                <button class="home-filter__btn btn">Phổ biến</button>
-                <button class="home-filter__btn btn btn--primary">
-                  Mới nhất
-                </button>
-                <button class="home-filter__btn btn">Bán chạy</button>
+                <button class="home-filter__btn btn <%= type === 'new' ? 'btn--primary' : '' %>" onclick="window.location.href = '/search/<%= query %>?type=new';"> Mới nhất </button>
                 <div class="select-input">
-                  <span class="select-input__label">Giá</span>
+                  <span class="select-input__label">Giá <%= type === 'min' ? 'Thấp đến cao' : type === 'max' ? 'Cao đến Thấp' : '' %></span>
                   <i class="select-input__icon fas fa-angle-down"></i>
                   <!-- List option -->
                   <ul class="select-input__list">
                     <li class="select-input__item">
-                      <a href="#" class="select-input__link">Giá: Thấp đến Cao</a>
+                      <a href="/search/<%= query %>?type=min" class="select-input__link">Giá: Thấp đến Cao</a>
                     </li>
                     <li class="select-input__item">
-                      <a href="#" class="select-input__link">Giá: Cao đến Thấp</a>
+                      <a href="/search/<%= query %>?type=max" class="select-input__link">Giá: Cao đến Thấp</a>
                     </li>
                   </ul>
                 </div>
