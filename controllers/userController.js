@@ -121,7 +121,6 @@ const mainController = {
             if(page < 0) {
                 return next(new MyError(404, "The page you looking for can't be found!"));
             }
-
             const { query } = req.params;
             const { maxPrice, minPrice, rateFilter, type } = req.query;
             const per_page = 10;
@@ -135,7 +134,7 @@ const mainController = {
                     products.sort((a, b) => a.price - b.price);
                     break;
                 case 'min':
-                    products.sort((a, b) => b.price - c.price);
+                    products.sort((a, b) => b.price - a.price);
             }
 
             res.render('searchpage', { products, query, type });

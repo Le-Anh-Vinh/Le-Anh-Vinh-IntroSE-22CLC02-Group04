@@ -1,9 +1,111 @@
+
+/* Shop confirm order section */
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 500px;
+  margin: 0 auto 10px;
+}
+
+.header-order {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+.header-status {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+.order-list {
+  width: 400px;
+  margin: 0 auto;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 900px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.order-item.disabled {
+  pointer-events: none;  
+  opacity: 0.6;         
+}
+
+.order-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.order-item.highlighted {
+  border: 2px solid #008cff;
+}
+
+.order-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.order-id {
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.order-address {
+  font-size: 15px;
+  color: #777;
+  text-align: center;
+}
+
+.order-status {
+  padding-left: 25px;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+  flex: 1;
+}
+
+.order-status.pending {
+  color: orange;
+}
+
+.order-status.confirmed {
+  color: green;
+  opacity: 0.6;
+}
+
+.order-status.declined {
+  color: red;
+  opacity: 0.6;
+}
+
+
 .shop-info-container {
   display: flex;
-  align-items: center; /* Canh giữa theo chiều dọc */
-  background-color: #f8e08e; /* Màu nền như trước */
+  align-items: center; 
+  background-color: #f8e08e; 
   padding: 20px;
-  width: 100%; /* Tràn hết chiều ngang */
+  width: 100%; 
   box-sizing: border-box;
   border-radius: 8px;
 }
@@ -17,12 +119,11 @@
   margin-right: 20px;
 }
 
-/* Chi tiết thông tin shop */
 .shop-info-details {
   display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 10px; /* Tăng khoảng cách giữa các dòng */
+    gap: 10px; 
 }
 
 .shop-name {
@@ -38,16 +139,15 @@
 }
 
 .shop-contact span {
-  font-size: 1.8em; /* Tăng kích thước chữ thông tin liên hệ */
+  font-size: 1.8em; 
   color: #333;
-  font-weight: 500; /* Làm đậm vừa phải */
+  font-weight: 500; 
 }
 
-/* Nút Report Shop */
 .report-shop-btn {
   margin-left: auto;
-  background-color: #ff4d4d; /* Màu đỏ nổi bật */
-  color: white; /* Chữ trắng */
+  background-color: #ff4d4d;
+  color: white; 
   border: none;
   padding: 10px 20px;
   font-size: 16px;
@@ -56,95 +156,8 @@
   transition: background-color 0.3s ease;
 }
 
-/* Hiệu ứng hover cho nút */
 .report-shop-btn:hover {
-  background-color: #e60000; /* Màu đỏ đậm khi hover */
-}
-.app{
-  overflow: hidden;
-}
-
-/* Header Section */
-.list-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 400px;
-  margin: 0 auto 10px;
-}
-
-.header-order {
-  padding-left: 20px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #333;
-}
-
-.header-status {
-  padding-right: 20px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #333;
-}
-
-
-/* Order List */
-.order-list {
-  width: 400px;
-  margin: 0 auto;
-}
-
-.order-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #fff;
-  padding: 10px 20px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  text-decoration: none;
-  color: inherit;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.order-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.order-item.highlighted {
-  border: 2px solid #008cff;
-}
-
-.order-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.order-id {
-  font-size: 14px;
-  font-weight: bold;
-  margin: 0;
-}
-
-.order-address {
-  font-size: 12px;
-  color: #777;
-  margin: 0;
-}
-
-.order-status {
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.order-status.waiting {
-  color: orange;
-}
-
-.order-status.confirmed {
-  color: green;
+  background-color: #e60000; 
 }
 
 /* Button container */
@@ -181,6 +194,9 @@
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15); 
 }
 
+.app{
+  overflow: hidden;
+}
 
 .header {
   height: var(--header-height);
