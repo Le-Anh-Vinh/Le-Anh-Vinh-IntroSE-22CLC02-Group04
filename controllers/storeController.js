@@ -23,9 +23,7 @@ const storeController = {
             };
 
             const { id } = await productData.add(product);
-
             res.json({ status: true, id: id });
-            
         } catch (error) {
             res.status(500).json({ status: false, error: error.message });
         }
@@ -94,17 +92,7 @@ const storeController = {
         try {
             const orderID = req.params.orderID;
             const order = await orderData.getByID(orderID);
-            const productsWithDetails = await Promise.all(
-                order.product_cart.map(async (product) => {
-                    const productDetails = await productData.get(product.id);
-                    return {
-                        ...product,
-                        name: productDetails.name,
-                        image: productDetails.images[0],
-                        price: productDetails.price
-                    };
-                })
-            );
+            const productsWithDetails = order.product_cart;
             res.render('cartconfirm', { products: productsWithDetails, orderID: orderID });
         } catch (error) {
             res.status(500).json({error: error.message});

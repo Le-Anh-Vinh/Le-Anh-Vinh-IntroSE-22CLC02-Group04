@@ -11,6 +11,7 @@ const router = express.Router();
 router.get('/auth', authController.getAuthentication);
 router.get('/forget_password', authController.getForgetPassword);
 router.get('/complete_signup', authController.getInputInfo);
+router.get('/logout', authController.logout);
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 router.post('/forget_password', authController.resetPassword);
@@ -24,6 +25,8 @@ router.post('/user/edit', userController.changeUserInfo);
 router.post('/store/edit', userController.changeStoreInfo);
 router.get('/store/:id', userController.getStore);
 router.get('/payment/:id', userController.getPayment);
+router.get('/reportStore/:id', userController.getReport);
+router.post('/reportStore', userController.reportStore);
 
 //cart
 router.get('/cart/:id', cartController.getCart);
@@ -45,6 +48,7 @@ router.get('/:id/add', productController.getAddProduct);
 router.get('/:id/update', productController.getUpdateProduct);
 router.put('/product/update', productController.updateProduct);
 router.post('/:id/add', productController.addProduct);
+router.get('/product/review/:id', productController.getReview);
 router.post('/product/review', productController.addRating);
 
 //admin

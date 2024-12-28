@@ -1,9 +1,10 @@
 import db from '../config/db.js';
-import { collection, addDoc, query, where, getDocs, updateDoc, doc } from 'firebase/firestore';
+import { collection, addDoc, query, where, getDocs, updateDoc, doc, getDoc } from 'firebase/firestore';
 import MyError from '../cerror.js';
 import productData from '../models/products.js';
 import user from '../models/users.js';
 import categoryData from '../models/category.js';
+import { Timestamp } from 'firebase/firestore';
 
 const productController = {
     getDetailProduct: async (req, res, next) => {
@@ -36,6 +37,7 @@ const productController = {
                     }
                 });
             }
+            
             const relativeProductList = Array.from(relativeProducts);
             res.render('productDetail', {
                 product: productDoc,                // product information
@@ -49,9 +51,27 @@ const productController = {
 
     addRating: async (req, res, next) => { 
         try {
-            const {product_id, review} = req.body;
+            const { product_id, review } = req.body;
+            const productDocRef = doc(db, 'product', product_id);
+            const productDoc = await getDoc(productDocRef);
+
+            if (!productDoc.exists()) {
+                return res.status(404).json({ status: false, message: 'Product not found' });
+            }
+            const date = new Date();
+            review.date = Timestamp.fromDate(date);
             await productData.update(product_id, {reviews: [review]});
             res.json({status: true});
+        } catch (error) {
+            console.error(error.message);
+            res.status(500).json({error: error.message});
+        }
+    },
+
+    getReview: async (req, res, next) => {
+        try {
+            const procID = req.params.id;
+            res.render('reviewProduct', { productID: procID });
         } catch (error) {
             console.error(error.message);
             res.status(500).json({error: error.message});

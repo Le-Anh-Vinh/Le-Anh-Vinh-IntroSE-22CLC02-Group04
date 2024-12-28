@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style/addProduct.css" />
+    <title>Add Product</title>
+  </head>
+
+  <body>
+    <!-- <header id="header"> -->
+    <!-- Add header here if needed -->
+    <!-- </header> -->
+
+    <div class="add-product-container">
+      <h1>Report Store</h1>
+      <!-- Form with ID 'add-product-form' -->
+      <form id="add-product-form" class="add-product-form">
+        <!-- Store ID (Hidden) -->
+        <input type="hidden" id="store-id" name="store_id" value="<%= storeID %>" />
+
+        <!-- Title -->
+        <div class="form-group">
+          <label>Title</label>
+          <input type="text" id="title" name="name" placeholder="Title" required />
+        </div>
+        
+        <!-- Description -->
+        <div class="form-group">
+            <label>Criticize</label>
+            <textarea id="criticize" name="criticize" placeholder="Report description" required></textarea>
+          </div>
+
+        <!-- Product Images -->
+        <div class="form-group">
+          <label>Evidences</label>
+          <input type="text" id="images" name="images" placeholder="Enter image URLs, separated by commas" required />
+        </div>
+
+        <!-- Submit Button -->
+        <button id="report-btn" type="submit" class="submit-btn">
+          Report
+        </button>
+      </form>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const reportBtn = document.getElementById('report-btn');
+
+        reportBtn.addEventListener('click', async function() {
+          const criticize = document.getElementById('criticize').value;
+          const customer_id = JSON.parse(sessionStorage.getItem('user')).uid;
+          const store_id = document.getElementById('store-id').value;
+          const title = document.getElementById('title').value;
+          const imagesInput = document.getElementById('images').value;
+          const images = imagesInput.split(',').map(url => url.trim());
+          const payload = { criticize, customer_id, images, store_id, title };
+
+          try {
+            const response = await fetch('/reportStore', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(payload),
+            });
+
+            if (response.ok) {
+              alert('Report submitted successfully!');
+              window.location.href = `/store/${store_id}`;
+            } else {
+              alert('Failed to submit report. Please try again.');
+            }
+          } catch (error) {
+            console.error('Error occurred during report submission:', error);
+            alert('An error occurred. Please try again!');
+          }
+        });
+
+        const user = JSON.parse(sessionStorage.getItem('user'));
+
+        if (!user) {
+          window.location.href = '/auth';
+        } else {
+          console.log('User ID:', user.uid);
+          console.log('User Role:', user.role);
+        }
+      });
+    </script>
+  </body>
+</html>

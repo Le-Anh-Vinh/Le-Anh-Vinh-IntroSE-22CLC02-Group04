@@ -48,10 +48,12 @@
                 </h3>
                 <ul class="category-list">
                   <% categories.forEach((category, index) => { %>
-                    <button class="home-filter__btn btn" data-category="<%= category.name %>">
+                    <li class="category-item">
+                      <a href="/category/<%= category.name %>" class="category-item__link" data-category="<%= category.name %>">
                         <%= category.name %>
-                    </button>
-                <% }); %>
+                      </a>
+                    </li>
+                  <% }); %>
                   </ul>
                 </nav>
               </div>
@@ -182,7 +184,12 @@
     </div>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-          const user = JSON.parse(sessionStorage.getItem('user'));
+          let user;
+          try {
+              user = JSON.parse(sessionStorage.getItem('user'));
+          } catch (error) {
+              console.error('Error parsing user data:', error);
+          }
 
           if (!user) {
               window.location.href = '/auth';
@@ -191,15 +198,19 @@
               console.log('User Role:', user.role);
           }
 
-          const buttons = document.querySelectorAll('.home-filter__btn');
-
-        buttons.forEach(button => {
-          button.addEventListener('click', function() {
-            const category = button.getAttribute('data-category');
-            window.location.href = `/search/${category}`;
-        });
-    });
+          const categoryLinks = document.querySelectorAll('.category-item__link');
+          if (categoryLinks.length > 0) {
+              categoryLinks.forEach(link => {
+                  link.addEventListener('click', function(event) {
+                      event.preventDefault();
+                      const category = link.getAttribute('href').split('/').pop();
+                      window.location.href = `/search/${category}`;
+                  });
+              });
+          } else {
+              console.warn('No links with class .category-item__link found.');
+          }
       });
-  </script>
+    </script>    
   </body>
 </html>

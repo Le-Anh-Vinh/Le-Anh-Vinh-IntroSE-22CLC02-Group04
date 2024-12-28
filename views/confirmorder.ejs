@@ -32,12 +32,12 @@
   
     <!-- Order List -->
     <% order.forEach((item) => { %>
-    <a href="/order/<%= item.id %>" class="order-item">
+      <a href="/order/<%= item.id %>" class="order-item <%= item.status === 'pending' ? '' : 'disabled' %>">
       <div class="order-info">
         <p class="order-id"><%= item.id %></p>
         <p class="order-address"><%= item.info.name %>, <%= item.info.address %>, <%= item.info.phone %></p>
       </div>
-      <p class="order-status ${item.status}"><%= item.status %></p>
+      <p class="order-status <%= item.status %>"><%= item.status %></p>
     </div>
     <% }) %>
   </body>

@@ -93,6 +93,7 @@
               if (response.ok) {
                   const result = await response.json();
                   alert("Updated");
+                  window.location.href = `/${user.uid}`
               } else {
                   alert("Failed");
               }

@@ -37,7 +37,7 @@ const mainController = {
                 products = products.slice((page - 1) * per_page, Math.min(page * per_page, products.length));
 
                 const cartProducts = (await cartData.get(id)).cart.product_cart;
-                if (cartProducts.length > 0) {
+                if (cartProducts && cartProducts.length > 0) {
                     const cartCategories = [];
                     for (let productId of cartProducts) {
                         const product = await productData.get(productId.product_id);
@@ -114,30 +114,30 @@ const mainController = {
             next(new MyError(error.status, error.message));
         }
     },
-
+    
     search: async (req, res, next) => {
         try {
             const page = parseInt(req.query.page) || 1;   
             if(page < 0) {
                 return next(new MyError(404, "The page you looking for can't be found!"));
             }
-
             const { query } = req.params;
-            const { maxPrice, minPrice, rateFilter } = req.query;
-            const per_page = 1;
+            const { maxPrice, minPrice, rateFilter, type } = req.query;
+            const per_page = 10;
             const filters = [];
             filters.push({ field: 'price', from: parseInt(minPrice, 10) || 0, to: parseInt(maxPrice, 10) || Infinity });
             filters.push({ field: 'rate', from: parseInt(rateFilter, 10) || 0, to: 5 });
             let products = await productData.searchAndFilter(query, 'all', filters);
-            
-            const total_page = Math.ceil(products.length / per_page);
+            switch (type)
+            {
+                case 'max':
+                    products.sort((a, b) => a.price - b.price);
+                    break;
+                case 'min':
+                    products.sort((a, b) => b.price - a.price);
+            }
 
-            // if(page > total_page) {
-            //     return next(new MyError(404, "The page you looking for can't be found!"));
-            // }
-            // products = products.slice((page - 1) * per_page, Math.min(page * per_page, products.length));
-
-            res.render('searchpage', { products, page, total_page, query });
+            res.render('searchpage', { products, query, type });
         } catch (error) {
             next(new MyError(error.status, error.message));
         }
@@ -215,6 +215,32 @@ const mainController = {
             res.status(500).json({ error: error.message });
         }
     },
+
+    getReport: async (req, res, next) => {
+        try {
+            const id = req.params.id;
+            res.render('reportStore', { storeID: id });
+        } catch (error) {
+            next(new MyError(error.status, error.message));
+        }
+    },
+
+    reportStore: async (req, res, next) => {
+        try {
+            const { criticize, customer_id, images, store_id, title } = req.body;
+            const report = {
+                criticize,
+                customer_id,
+                images,
+                store_id,
+                title
+            };
+            await reportData.addNew(report);
+            res.status(200).json({ success: true });
+        } catch (error) {
+            next(new MyError(error.status, error.message));
+        }
+    }
 
 };
 

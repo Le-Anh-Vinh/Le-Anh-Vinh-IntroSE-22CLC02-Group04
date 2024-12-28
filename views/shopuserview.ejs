@@ -27,12 +27,30 @@
       <!-- Header -->
       <%- include('header') %>
       <!-- Content -->
+
       <div class="app__container">
         <div class="grid wide">
           <div class="row sm-gutter app__content">
+
+            <!-- Shopheader -->
+            <div class="shop-info-container">
+            <div class="shop-avatar">
+                <img src="/img/shop_avatar.png" alt="Shop Avatar">
+            </div>
+
+              <div class="shop-info-details">
+                  <div class="shop-name"><%= store.name %></div>
+                  <div class="shop-contact">
+                    <span><strong>Email:</strong> <%= store.email %></span>
+                      <span><strong>SĐT:</strong> <%= store.info[0].phone %></span>
+                </div>
+              </div>
+              <!-- Nút Report Shop -->
+              <button id="report-shop-btn" class="report-shop-btn">Report Shop</button>
+          </div>
             
               <!-- Product -->
-              <div class="col l-10 m-12 c-12">
+              <div class="col l-12 m-12 c-12">
               <div class="home-product">
                 <% for (let rowIndex = 0; rowIndex < products.length; rowIndex += 5) { %>
                   <div class="row sm-gutter">
@@ -133,6 +151,12 @@
               console.log('User ID:', user.uid);
               console.log('User Role:', user.role);
           }
+
+          const reportShopBtn = document.getElementById('report-shop-btn');
+          reportShopBtn.addEventListener('click', function() {
+              const storeId = '<%= store.store_id %>';
+              window.location.href = `/reportStore/${storeId}`;
+          });
       });
   </script>
   </body>
