@@ -135,11 +135,22 @@ const productData = {
             const productRef = doc(db, 'product', id);
             await deleteDoc(productRef);
             
-            const cartQuery = query(collection(db, 'cart'), where('product_id', '==', id));
+            const cartQuery = query(collection(db, 'cart'));
             const cartSnapshot = await getDocs(cartQuery);
-            const deleteCartPromises = cartSnapshot.docs.map((cartDoc) => deleteDoc(doc(db, 'cart', cartDoc.id)));
 
-            await Promise.all(deleteCartPromises);
+            const updateCartPromises = cartSnapshot.docs.map(async (cartDoc) => {
+                const cartData = cartDoc.data();
+                const productCart = cartData.product_cart || [];
+
+                const updatedProductCart = productCart.filter(product => product.product_id !== id);
+
+                if (updatedProductCart.length !== productCart.length) {
+                    const cartRef = doc(db, 'cart', cartDoc.id);
+                    await updateDoc(cartRef, { product_cart: updatedProductCart });
+                }
+            });
+
+            await Promise.all(updateCartPromises);  
             
             return { status: true };
         } catch (e) {
