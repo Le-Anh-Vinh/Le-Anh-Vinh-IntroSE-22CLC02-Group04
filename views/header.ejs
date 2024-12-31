@@ -1,217 +1,214 @@
 <header class="header">
-    <div class="grid wide">
-        <nav class="header__navbar hide-on-mobile-tablet">
-            <ul class="header__navbar-list">
-                <li class="header__navbar-item header__navbar-item--separate">
-                    Chăm sóc khách hàng
-                </li>
-                <li class="header__navbar-item">
-                    <span class="header__navbar-title--no-pointer">Kết nối</span>
-                    <a href="" class="header__navbar-icon-link">
-                        <i class="header__navbar-icon fab fa-facebook"></i>
-                    </a>
-                    <a href="" class="header__navbar-icon-link">
-                        <i class="header__navbar-icon fab fa-instagram"></i>
-                    </a>
-                </li>
-            </ul>
-            <ul class="header__navbar-list">
-                <li class="header__navbar-item">
-                    <a href="#" id="homepage-link" class="header__navbar-item-non-link">
-                      <i class="header__navbar-icon fas fa-home"></i> Homepage
-                    </a>
-                </li>
-                <li class="header__navbar-item">
-                  <a href="#" id="cart-link" class="header__navbar-item-non-link">
-                      <i class="header__navbar-icon fas fa-shopping-cart"></i> Cart
+  <div class="grid wide">
+      <nav class="header__navbar hide-on-mobile-tablet">
+          <ul class="header__navbar-list">
+              <li class="header__navbar-item">
+                  <span class="header__navbar-title--no-pointer">Kết nối với trung tâm CSKH</span>
+                  <a href="https://www.facebook.com/nguyen.tanchau.1" class="header__navbar-icon-link">
+                      <i class="header__navbar-icon fab fa-facebook"></i>
                   </a>
-                </li>
-                <li class="header__navbar-item header__navbar-user">
-                    <img src="/img/user_img.png" alt="avatar" class="header__navbar-user-img" />
-                    <ul class="header__navbar-user-menu">
-                        <li class="header__navbar-user-item">
-                            <a href="#" id="profile-link">Tài khoản của tôi</a>
-                        </li>
-                        <li class="header__navbar-user-item">
-                            <a id = "order" href="">Đơn mua</a>
-                        </li>
-                        <li class="header__navbar-user-item header__navbar-user-item--separate">
-                            <a href="/logout">Đăng xuất</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-
-        <!-- Header with Search -->
-        <div class="header-with-search">
-            <label for="mobile-search-checkbox" class="header__mobile-search">
-                <i class="header__mobile-search-icon fas fa-search"></i>
-            </label>
-
-            <!-- Header Logo -->
-            <div class="header__logo hide-on-tablet">
-                <a href="#" id="logo-link" class="header__logo-link">
-                    <img class="header__logo-img" src="/img/logo_img.png" alt="Custom Logo" />
+                  <a href="https://www.instagram.com/nguyentan2553/" class="header__navbar-icon-link">
+                      <i class="header__navbar-icon fab fa-instagram"></i>
+                  </a>
+              </li>
+          </ul>
+          <ul class="header__navbar-list">
+              <li class="header__navbar-item">
+                  <a href="#" id="homepage-link" class="header__navbar-item-non-link">
+                    <i class="header__navbar-icon fas fa-home"></i> Homepage
+                  </a>
+              </li>
+              <li class="header__navbar-item">
+                <a href="#" id="cart-link" class="header__navbar-item-non-link">
+                    <i class="header__navbar-icon fas fa-shopping-cart"></i> Cart
                 </a>
-            </div>
+              </li>
+              <li class="header__navbar-item header__navbar-user">
+                  <img src="/img/user_img.png" alt="avatar" class="header__navbar-user-img" />
+                  <ul class="header__navbar-user-menu">
+                      <li class="header__navbar-user-item">
+                          <a href="#" id="profile-link">Tài khoản của tôi</a>
+                      </li>
+                      <li class="header__navbar-user-item">
+                          <a id = "order" href="">Đơn mua</a>
+                      </li>
+                      <li class="header__navbar-user-item header__navbar-user-item--separate">
+                          <a href="/logout">Đăng xuất</a>
+                      </li>
+                  </ul>
+              </li>
+          </ul>
+      </nav>
 
-            <input type="checkbox" hidden id="mobile-search-checkbox" class="header__search-checkbox" />
-            <!-- Header Search -->
-            <div class="header__search">
-                <div class="header__search-input-wrap">
-                    <input type="text" class="header__search-input" id="search-input" placeholder="Search" oninput="handleSearchInput()" />
-                    <div class="header__search-history" id="search-history">
-                        <h3 class="header__search-history-heading">Lịch sử tìm kiếm</h3>
-                        <ul class="header__search-history-list" id="search-history-list">
-                            <!-- Các mục tìm kiếm trước đây sẽ được hiển thị ở đây -->
-                        </ul>
-                    </div>
-                </div>
-                <button class="header__search-btn" id="search-btn">
-                    <i class="header__search-btn-icon fas fa-search"></i>
-                </button>
-            </div>
-        </div>
-    </div>
+      <!-- Header with Search -->
+      <div class="header-with-search">
+          <label for="mobile-search-checkbox" class="header__mobile-search">
+              <i class="header__mobile-search-icon fas fa-search"></i>
+          </label>
+
+          <!-- Header Logo -->
+          <div class="header__logo hide-on-tablet">
+              <a href="#" id="logo-link" class="header__logo-link">
+                  <img class="header__logo-img" src="/img/logo_img.png" alt="Custom Logo" />
+              </a>
+          </div>
+
+          <input type="checkbox" hidden id="mobile-search-checkbox" class="header__search-checkbox" />
+          <!-- Header Search -->
+          <div class="header__search">
+              <div class="header__search-input-wrap">
+                  <input type="text" class="header__search-input" id="search-input" placeholder="Search" oninput="handleSearchInput()" />
+                  <div class="header__search-history" id="search-history">
+                      <h3 class="header__search-history-heading">Lịch sử tìm kiếm</h3>
+                      <ul class="header__search-history-list" id="search-history-list">
+                          <!-- Các mục tìm kiếm trước đây sẽ được hiển thị ở đây -->
+                      </ul>
+                  </div>
+              </div>
+              <button class="header__search-btn" id="search-btn">
+                  <i class="header__search-btn-icon fas fa-search"></i>
+              </button>
+          </div>
+      </div>
+  </div>
 </header>
 
 <style>
-    .header__logo-img {
-        transform: translateY(-10px);
-    }
+  .header__logo-img {
+      transform: translateY(-10px);
+  }
 
-    .header__navbar-user-img {
-        margin-top: 5px;
-    }
+  .header__navbar-user-img {
+      margin-top: 5px;
+  }
 
-    .header__navbar-user-menu {
-        padding-top: 5px;
-    }
+  .header__navbar-user-menu {
+      padding-top: 5px;
+  }
 
-    .header__navbar-user-img {
-        transform: translateY(5px);
-    }
+  .header__navbar-user-img {
+      transform: translateY(5px);
+  }
 </style>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const user = JSON.parse(sessionStorage.getItem('user'));
-  
-      if (user && user.uid) {
-        const profileLink = document.getElementById('profile-link');
-        const homepageLink = document.getElementById('homepage-link');
-        const logoLink = document.getElementById('logo-link');
-        profileLink.href = `/profile/${user.uid}`;
-        homepageLink.href = `/${user.uid}`;
-        logoLink.href = `/${user.uid}`;
-      } else {
-        console.error('Can not find ID in session storage');
-      }
+  document.addEventListener('DOMContentLoaded', function() {
+    const user = JSON.parse(sessionStorage.getItem('user'));
 
-      const historyOrderLink = document.querySelector('.header__navbar-user-item a[href=""]');
-      if (historyOrderLink) {
-        historyOrderLink.href = `/historyOrder/${user.uid}`;
-      }
-
-      const cartLink = document.getElementById('cart-link');
-      const orderLink = document.getElementById('order');
-      if (user && user.role === 'store') {
-        if (cartLink) {
-            cartLink.style.display = 'none';
-        }
-        if (orderLink) {
-          orderLink.style.display = 'none';
-        }
-        else {
-          orderLink.href = `/historyOrder/${user.uid}`;
-        }
-      } 
-      else {
-        if (user && user.uid) {
-            cartLink.href = `/cart/${user.uid}`;
-        }
-      }
-    });
-
-    const savedSearchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
-  
-    const searchInput = document.getElementById('search-input');
-    const searchBtn = document.getElementById('search-btn');
-    const searchHistoryDiv = document.getElementById('search-history');
-    const searchHistoryList = document.getElementById('search-history-list');
-  
-    function addSearchHistory(query) {
-      if (!savedSearchHistory.includes(query)) {
-        savedSearchHistory.unshift(query);
-        if (savedSearchHistory.length > 5) { 
-          savedSearchHistory.pop();
-        }
-        localStorage.setItem('searchHistory', JSON.stringify(savedSearchHistory));
-      }
-    }
-  
-    function handleSearchInput() {
-      const query = searchInput.value.trim();
-  
-      if (query) {
-        searchHistoryDiv.style.display = 'block';
-        searchHistoryList.innerHTML = ''; 
-  
-        const filteredHistory = savedSearchHistory.filter(item => item.toLowerCase().includes(query.toLowerCase()));
-        filteredHistory.forEach(item => {
-          const listItem = document.createElement('li');
-          listItem.classList.add('header__search-history-item');
-          listItem.innerHTML = `<a href="#">${item}</a>`;
-          listItem.addEventListener('click', function () {
-            searchInput.value = item;
-            searchHistoryDiv.style.display = 'none';
-          });
-          searchHistoryList.appendChild(listItem);
-        });
-      } else {
-        searchHistoryDiv.style.display = 'none';
-      }
-    }
-  
-    searchBtn.addEventListener('click', function () {
-      const query = searchInput.value.trim();
-      if (query) {
-        addSearchHistory(query);
-        window.location.href = `/search/${encodeURIComponent(query)}`;
-      }
-    });
-  
-    searchInput.addEventListener('input', handleSearchInput);
-  
-    window.onload = function () {
-      if (savedSearchHistory.length > 0) {
-        searchHistoryDiv.style.display = 'none';
-        savedSearchHistory.forEach(item => {
-          const listItem = document.createElement('li');
-          listItem.classList.add('header__search-history-item');
-          listItem.innerHTML = `<a href="#">${item}</a>`;
-          listItem.addEventListener('click', function () {
-            searchInput.value = item;
-            searchHistoryDiv.style.display = 'none';
-          });
-          searchHistoryList.appendChild(listItem);
-        });
-      }
-    };
-    document.addEventListener('click', function (event) {
-      if (!searchInput.contains(event.target) && !searchHistoryDiv.contains(event.target)) {
-        searchHistoryDiv.style.display = 'none';
-      }
-    });
-  </script>
-  <script>
-    const userData = JSON.parse(sessionStorage.getItem('user'));
-
-    if (userData) {
-      const cartLink = document.getElementById('cart-link');
-      cartLink.href = `/cart/${userData.uid}`;
+    if (user && user.uid) {
+      const profileLink = document.getElementById('profile-link');
+      const homepageLink = document.getElementById('homepage-link');
+      const logoLink = document.getElementById('logo-link');
+      profileLink.href = `/profile/${user.uid}`;
+      homepageLink.href = `/${user.uid}`;
+      logoLink.href = `/${user.uid}`;
     } else {
-        console.log('No user data found.');
+      console.error('Can not find ID in session storage');
     }
-  </script>
+
+    const historyOrderLink = document.querySelector('.header__navbar-user-item a[href=""]');
+    if (historyOrderLink) {
+      historyOrderLink.href = `/historyOrder/${user.uid}`;
+    }
+
+    const cartLink = document.getElementById('cart-link');
+    const orderLink = document.getElementById('order');
+    if (user && user.role === 'store') {
+      if (cartLink) {
+          cartLink.style.display = 'none';
+      }
+      if (orderLink) {
+        orderLink.style.display = 'none';
+      }
+      else {
+        orderLink.href = `/historyOrder/${user.uid}`;
+      }
+    } 
+    else {
+      if (user && user.uid) {
+          cartLink.href = `/cart/${user.uid}`;
+      }
+    }
+  });
+
+  const savedSearchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+
+  const searchInput = document.getElementById('search-input');
+  const searchBtn = document.getElementById('search-btn');
+  const searchHistoryDiv = document.getElementById('search-history');
+  const searchHistoryList = document.getElementById('search-history-list');
+
+  function addSearchHistory(query) {
+    if (!savedSearchHistory.includes(query)) {
+      savedSearchHistory.unshift(query);
+      if (savedSearchHistory.length > 5) { 
+        savedSearchHistory.pop();
+      }
+      localStorage.setItem('searchHistory', JSON.stringify(savedSearchHistory));
+    }
+  }
+
+  function handleSearchInput() {
+    const query = searchInput.value.trim();
+
+    if (query) {
+      searchHistoryDiv.style.display = 'block';
+      searchHistoryList.innerHTML = ''; 
+
+      const filteredHistory = savedSearchHistory.filter(item => item.toLowerCase().includes(query.toLowerCase()));
+      filteredHistory.forEach(item => {
+        const listItem = document.createElement('li');
+        listItem.classList.add('header__search-history-item');
+        listItem.innerHTML = `<a href="#">${item}</a>`;
+        listItem.addEventListener('click', function () {
+          searchInput.value = item;
+          searchHistoryDiv.style.display = 'none';
+        });
+        searchHistoryList.appendChild(listItem);
+      });
+    } else {
+      searchHistoryDiv.style.display = 'none';
+    }
+  }
+
+  searchBtn.addEventListener('click', function () {
+    const query = searchInput.value.trim();
+    if (query) {
+      addSearchHistory(query);
+      window.location.href = `/search/${encodeURIComponent(query)}`;
+    }
+  });
+
+  searchInput.addEventListener('input', handleSearchInput);
+
+  window.onload = function () {
+    if (savedSearchHistory.length > 0) {
+      searchHistoryDiv.style.display = 'none';
+      savedSearchHistory.forEach(item => {
+        const listItem = document.createElement('li');
+        listItem.classList.add('header__search-history-item');
+        listItem.innerHTML = `<a href="#">${item}</a>`;
+        listItem.addEventListener('click', function () {
+          searchInput.value = item;
+          searchHistoryDiv.style.display = 'none';
+        });
+        searchHistoryList.appendChild(listItem);
+      });
+    }
+  };
+  document.addEventListener('click', function (event) {
+    if (!searchInput.contains(event.target) && !searchHistoryDiv.contains(event.target)) {
+      searchHistoryDiv.style.display = 'none';
+    }
+  });
+</script>
+<script>
+  const userData = JSON.parse(sessionStorage.getItem('user'));
+
+  if (userData) {
+    const cartLink = document.getElementById('cart-link');
+    cartLink.href = `/cart/${userData.uid}`;
+  } else {
+      console.log('No user data found.');
+  }
+</script>
