@@ -449,7 +449,7 @@
                                 radio.checked = false;
                             });
                         }, 1000);
-
+                        window.location.href = result.redirectURL;
                     }
                 } else {
                     const error = await response.json();
