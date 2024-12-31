@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style/addProduct.css" />
+    <link rel="stylesheet" href="/style/reviewProduct.css" />
+    <title>Add Product</title>
+  </head>
+
+  <body>
+    <!-- <header id="header"> -->
+    <!-- Add header here if needed -->
+    <!-- </header> -->
+    
+    <div class="add-product-container">
+      <h1>Review Product</h1>
+      <!-- Form with ID 'add-product-form' -->
+      <form id="add-product-form" class="add-product-form">
+        <!-- Store ID (Hidden) -->
+        <input type="hidden" name="store_id"/>
+
+        <!-- Rating -->
+        <h2>Đánh giá sản phẩm</h2>
+        <div id="rating" class="rating-container">
+          <!-- Các ngôi sao sẽ được tạo bằng JS -->
+        </div>
+        <div id="rating-value" class="rating-label">Chưa đánh giá</div>
+
+        <!-- Title -->
+        <div class="form-group">
+          <label>Tiêu đề</label>
+          <input type="text" name="title" placeholder="Title" required />
+        </div>
+
+        <!-- Description -->
+        <div class="form-group">
+          <label>Chi tiết đánh giá</label>
+          <textarea name="description" placeholder="Nhập nội dung đánh giá" rows="4" required></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn">
+          Đánh giá
+        </button>
+      </form>
+    </div>
+
+    <script>
+      document.getElementById('add-product-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        const formData = new FormData(e.target);
+        const title = formData.get('title');
+        const description = formData.get('description');
+        const rating = currentRating;
+
+        if (rating === 0) {
+          alert("Please rate the product!");
+          return;
+        }
+
+        const reviewData = {
+          product_id: "<%= productID %>",
+          review: {
+            title: title,
+            body: description,
+            value: rating,
+            customer_id: user.uid
+          }
+          
+        };
+
+        try {
+          const response = await fetch('/product/review', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(reviewData)
+          });
+          if (response.ok) {
+            const result = await response.json();
+            alert('Reviews was sent!');
+            window.location.href = `/historyOrder/${user.uid}`;
+          } else {
+            const error = await response.json();
+            alert(`Lỗi: ${error.message}`);
+            window.location.href = `/historyOrder/${user.uid}`;
+          }
+        }
+        catch (error) {
+          console.error('Error when rating:', error);
+          alert('There is an error when rating!');
+        }
+      });
+      document.addEventListener('DOMContentLoaded', function () {
+        const user = JSON.parse(sessionStorage.getItem('user'));
+
+        if (!user) {
+          window.location.href = '/auth';
+        } else {
+          console.log('User ID:', user.uid);
+          console.log('User Role:', user.role);
+        } 
+      });
+
+      const ratingContainer = document.getElementById("rating");
+      const ratingValue = document.getElementById("rating-value");
+      const maxStars = 5; 
+      let currentRating = 0;
+
+      // Tạo và gắn các ngôi sao vào ratingContainer
+      for (let i = 1; i <= maxStars; i++) {
+        const star = document.createElement("span");
+        star.classList.add("star");
+        star.dataset.value = i; 
+        star.innerHTML = "&#9733;"; 
+  
+        star.addEventListener("mouseover", () => highlightStars(i));
+
+        star.addEventListener("click", () => {
+          currentRating = i;
+          ratingValue.textContent = `Bạn đã đánh giá ${i} sao`;
+        });
+
+        star.addEventListener("mouseleave", () => highlightStars(currentRating));
+
+        ratingContainer.appendChild(star);
+      }
+
+      function highlightStars(value) {
+        const stars = document.querySelectorAll(".star");
+        stars.forEach((star, index) => {
+          if (index < value) {
+            star.classList.add("active");
+          } else {
+            star.classList.remove("active");
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

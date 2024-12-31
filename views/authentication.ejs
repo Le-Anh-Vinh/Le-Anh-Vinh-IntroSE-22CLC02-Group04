@@ -383,6 +383,8 @@
     </style>
 
     <script defer>
+        sessionStorage.removeItem('user');
+
         const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
         async function signup(event) {
@@ -430,11 +432,26 @@
                 });
 
                 if (response.ok) {
-                {   
-                    alert('Signup successfully!');
-                    const result = await response.json();
-                    window.location.href = result.redirectURL;
-                }
+                    {
+                        alert('Signup successfully!');
+                        const result = await response.json();
+                        document.querySelector('.cont').classList.remove('s--signup');
+                        setTimeout(() => {
+                            document.getElementById('signupEmail').value = '';
+                            document.getElementById('signupEmail').blur();
+                            document.getElementById('signupPassword').value = '';
+                            document.getElementById('signupPassword').blur();
+                            document.getElementById('ConfirmSignupPassword').value = '';
+                            document.getElementById('ConfirmSignupPassword').blur();
+                            document.getElementById('signupName').value = '';
+                            document.getElementById('signupName').blur();
+                            const radioButtons = document.querySelectorAll('input[name="option1"]');
+                            radioButtons.forEach(radio => {
+                                radio.checked = false;
+                            });
+                        }, 1000);
+
+                    }
                 } else {
                     const error = await response.json();
                     console.log(error)
@@ -482,7 +499,7 @@
                     console.log(role);
                     console.log(user.displayName);
                     alert('Login successfully!');
-                    sessionStorage.setItem('user', JSON.stringify({ uid: user.uid, role: role}));
+                    sessionStorage.setItem('user', JSON.stringify({ uid: user.uid, role: role }));
                     window.location.href = `/${user.uid}`;
                 } else {
                     const error = await response.json();

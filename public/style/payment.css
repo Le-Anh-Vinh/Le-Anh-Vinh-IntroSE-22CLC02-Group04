@@ -167,8 +167,6 @@
 
 .nav-bar label{
   position: relative;
-  font-size: 18px;
-  font-weight: 600;
 }
 
 .product_name{
@@ -241,6 +239,4 @@
     justify-content: space-evenly;
     font-size: 18px;
     padding: 8px 0;
-    border-top: 1px solid #FFE689;
-    border-bottom: 1px solid #FFE689;
 }

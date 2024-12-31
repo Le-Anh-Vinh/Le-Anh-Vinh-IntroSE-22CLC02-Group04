@@ -4,6 +4,10 @@ import orderData from '../models/oders.js';
 import categoryData from '../models/category.js';
 import userData from '../models/users.js';
 import MyError from '../cerror.js';
+import { Timestamp } from 'firebase/firestore';
+import db from '../config/db.js';
+import { query, collection, where, getDocs } from 'firebase/firestore';
+import reportData from '../models/reports.js';
 
 const mainController = {
     getAll: async (req, res, next) => {
@@ -31,12 +35,39 @@ const mainController = {
                     return next(new MyError(404, "The page you looking for can't be found!"));
                 }
                 products = products.slice((page - 1) * per_page, Math.min(page * per_page, products.length));
+
+                const cartProducts = (await cartData.get(id)).cart.product_cart;
+                if (cartProducts && cartProducts.length > 0) {
+                    const cartCategories = [];
+                    for (let productId of cartProducts) {
+                        const product = await productData.get(productId.product_id);
+                        if (product && product.category) {
+                            cartCategories.push(...product.category);
+                        }
+                    }
+
+                    products = products.filter(product => {
+                        if (product.category && cartCategories.length > 0) {
+                            return product.category.some(cat => cartCategories.includes(cat));
+                        }
+                        return false;
+                    });
+                } else {
+                    products = await productData.all();
+                }
+
                 const categories = await categoryData.getAll();
-                res.render('homepage', { products, page, total_page, catID, category: categories });
+                res.render('homepage', { products, page, total_page, catID, categories: categories });
+                // res.render('homepage', { products, categories: categories });
             }
             else if (user.role === 'store') {
                 const products = await productData.getByStore(user.store_id);
                 res.render('shopownerhomepage', { products: products });
+            }
+            else if (user.role === 'admin') {
+                const reports = await reportData.getPending();
+                const admin = await userData.get(id);
+                res.render('adminPage', { reports: reports, admin: admin });
             }
         } catch (error) {
             next(new MyError(error.status, error.message));
@@ -75,38 +106,38 @@ const mainController = {
 
             const productDoc = await productData.getByStore(storeID);
 
-            res.render('storePage', {
-                product: productDoc,
+            res.render('shopuserview', {
+                products: productDoc,
                 store: storeDoc
             });
         } catch (error) {
             next(new MyError(error.status, error.message));
         }
     },
-
+    
     search: async (req, res, next) => {
         try {
             const page = parseInt(req.query.page) || 1;   
             if(page < 0) {
                 return next(new MyError(404, "The page you looking for can't be found!"));
             }
-
             const { query } = req.params;
-            const { maxPrice, minPrice, rateFilter } = req.query;
-            const per_page = 1;
+            const { maxPrice, minPrice, rateFilter, type } = req.query;
+            const per_page = 10;
             const filters = [];
             filters.push({ field: 'price', from: parseInt(minPrice, 10) || 0, to: parseInt(maxPrice, 10) || Infinity });
             filters.push({ field: 'rate', from: parseInt(rateFilter, 10) || 0, to: 5 });
             let products = await productData.searchAndFilter(query, 'all', filters);
-            
-            const total_page = Math.ceil(products.length / per_page);
+            switch (type)
+            {
+                case 'min':
+                    products.sort((a, b) => a.price - b.price);
+                    break;
+                case 'max':
+                    products.sort((a, b) => b.price - a.price);
+            }
 
-            // if(page > total_page) {
-            //     return next(new MyError(404, "The page you looking for can't be found!"));
-            // }
-            // products = products.slice((page - 1) * per_page, Math.min(page * per_page, products.length));
-
-            res.render('searchpage', { products, page, total_page, query });
+            res.render('searchpage', { products, query, type });
         } catch (error) {
             next(new MyError(error.status, error.message));
         }
@@ -184,6 +215,33 @@ const mainController = {
             res.status(500).json({ error: error.message });
         }
     },
+
+    getReport: async (req, res, next) => {
+        try {
+            const id = req.params.id;
+            res.render('reportStore', { storeID: id });
+        } catch (error) {
+            next(new MyError(error.status, error.message));
+        }
+    },
+
+    reportStore: async (req, res, next) => {
+        try {
+            const { criticize, customer_id, images, store_id, title } = req.body;
+            const report = {
+                criticize,
+                customer_id,
+                images,
+                store_id,
+                title
+            };
+            await reportData.addNew(report);
+            res.status(200).json({ success: true });
+        } catch (error) {
+            next(new MyError(error.status, error.message));
+        }
+    }
+
 };
 
 export default mainController;

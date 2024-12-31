@@ -240,6 +240,18 @@
   left: -4px;
 }
 
+.product_name_confirm_product{
+left: 100px;
+}
+
+.product_price_confirm_product{
+right: 150px;
+}
+
+.product_quantity_confirm_product{
+left: -45px;
+}
+
 .confirm-section{
   border-top: 1px solid #FFE689;
   position: relative;
@@ -282,8 +294,48 @@
   background-color: #f4d154;
 }
 
+/* Accept Button */
+.accept-button {
+width: 45%; 
+height: 30px; 
+border-radius: 10px;
+cursor: pointer;
+background-color: #C8E6C9; 
+color: #388E3C; 
+font-weight: 700;
+font-size: 16px;
+border: none; 
+transition: background-color 0.3s ease;
+}
+
+.accept-button:hover {
+background-color: #A5D6A7; 
+}
+  
+/* Decline Button */
+.decline-button {
+width: 45%; 
+height: 30px; 
+border-radius: 10px;
+cursor: pointer;
+background-color: #FFCDD2; 
+color: #D32F2F; 
+font-weight: 700;
+font-size: 16px;
+border: none; 
+transition: background-color 0.3s ease;
+}
+
+.decline-button:hover {
+background-color: #EF9A9A; 
+}
+
 .product_unit-price{
   left: 54px;
+}
+
+.product_unit-price_confirm_product{
+    left: 20px;
 }
 
 .unit-price{
@@ -291,4 +343,3 @@
   margin-left: -70px;
   padding-top: 27px;
 }
-

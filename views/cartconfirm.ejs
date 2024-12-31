@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style/cart.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="shopping-cart">
+        <!-- Title -->
+        <div class="title">
+          Shopping Cart
+        </div>
+
+        <div class="nav-bar">
+          <label class="product_name_confirm_product">Name</label>
+          <label class="product_unit-price_confirm_product">Unit price</label>
+          <label class="product_quantity_confirm_product">Quantity</label>
+          <label class="product_price_confirm_product">Price</label>
+        </div>
+
+        <% products.forEach((item) => { %>
+            <div class="item" data-product-id="<%= item.id %>">
+                <div class="image">
+                    <img class="product-img" src="<%= item.image %>" alt="" />
+                </div>
+            
+                <div class="description">
+                    <span><%= item.name.length > 20 ? item.name.slice(0, 20) + '...' : item.name %></span>
+                    <span><%= item.variant %></span>
+                </div>
+            
+                <div class="unit-price">
+                    <%= item.price %> VNĐ
+                </div>
+            
+                <div class="quantity">
+                    <input type="text" name="name" value="<%= item.quantity %>" readonly>
+                </div>
+            
+                <div class="total-price">
+                    <%= item.price * item.quantity %> VNĐ
+                </div>
+            
+            </div>
+            
+        <% }); %>
+        <div class="confirm-section">
+          <div class="confirm-section__price">
+            <div class="label">TOTAL PRICE (0 Products)</div>
+            <div class="final-price">0 VNĐ</div>
+          </div>
+          <div class="confirm-section__btn">
+            <div class="action-buttons">
+              <button class="accept-button" data-id="<%= orderID %>" data-action="confirmed">Accept</button>
+              <button class="decline-button" data-id="<%= orderID %>" data-action="declined">Decline</button>
+            </div>
+          </div>          
+        </div>
+      </div>
+</body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const user = JSON.parse(sessionStorage.getItem('user'));
+
+        if (!user) {
+            window.location.href = '/auth';
+        } else {
+            console.log('User ID:', user.uid);
+            console.log('User Role:', user.role);
+        }
+
+        const buttons = document.querySelectorAll(".action-buttons button");
+        const handleAction = async (id, action) => {
+            try {
+                const response = await fetch('/order/status', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({id, action: action === "confirmed"})
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    alert("Updated");
+                    window.location.href = `/${user.uid}/order`;
+                } else {
+                    alert("Failed");
+                }
+            } catch {
+                console.error("Error:", error);
+                alert("An error occurred. Please try again.");
+            }
+        };
+        buttons.forEach((button) => {
+            button.addEventListener("click", () => {
+                const id = button.getAttribute("data-id");
+                const action = button.getAttribute("data-action");
+                handleAction(id, action);
+            });
+        });
+    });    
+</script>
+</html> 

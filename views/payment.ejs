@@ -26,7 +26,7 @@
         %>
 
         <% product.forEach(productTick => {
-            // Cộng dồn số lượng từng sản phẩm
+            <!-- Cộng dồn số lượng từng sản phẩm -->
             totalQuantity += productTick.quantity;    
         %>
           <div class="item" data-product-id="<%= productTick.product_id %>">
@@ -37,6 +37,7 @@
           
               <div class="description">
                 <span><%= productTick.productDetails.name.length > 20 ? productTick.productDetails.name.slice(0, 20) + '...' : productTick.productDetails.name %></span>
+                <!-- <span><%= productTick.productDetails.name %></span> -->
                 <span><%= productTick.variant %></span>
               </div>
               
@@ -85,9 +86,7 @@
 
         // Lấy toàn bộ danh sách sản phẩm từ product
         const products = JSON.parse('<%- JSON.stringify(product || []) %>');
-
         const user = JSON.parse(sessionStorage.getItem('user'));
-        
         // Tạo payload gửi lên server (bỏ `total` và trả về thông tin đầy đủ)
         const payload = {
             // address: address,
@@ -104,10 +103,11 @@
         });
         
         // Xử lý phản hồi từ server
-        if (response.ok) {
+        if (response.ok && response.status === 200) {
             const result = await response.json();
             alert('Purchase successful!'); // Hiển thị thông báo thành công
             console.log('Response from server:', result);
+            window.location.href = `/${user.uid}`;
         } else {
             alert('Purchase failed. Please try again!');
             console.error('Error:', response.statusText);

@@ -55,7 +55,23 @@
 
                     <div class="buttons <%= orders.status === 'confirmed' ? 'buttons-confirmed' : '' %>">
                         <div class="rating-btn">
-                            <button>Rating</button>
+                            <% if (orders.status === 'confirmed' && !product.isReviewed) { %>
+                                <div class="rating-btn">
+                                    <a class="rating-link" data-product-id="<%= product.id %>">
+                                        <button>Rate</button>
+                                    </a>
+                                </div>
+                            <% } else if (product.isReviewed) { %>
+                                <!-- Show disabled button if already rated -->
+                                <div class="rating-btn">
+                                    <button class="disabled" disabled>Rated</button>
+                                </div>
+                            <% } else { %>
+                                <!-- If not confirmed, show disabled rate button -->
+                                <div class="rating-btn">
+                                    <button disabled>Rate</button>
+                                </div>
+                            <% } %>
                         </div>
                     </div>
 
@@ -76,6 +92,12 @@
         } else {
             console.log('User ID:', user.uid);
             console.log('User Role:', user.role);
+
+            const ratingLinks = document.querySelectorAll('.rating-link');
+            ratingLinks.forEach(link => {
+                const productId = link.dataset.productId;
+                link.href = `/product/review/${productId}`;
+            });
         }
     });
 </script>
