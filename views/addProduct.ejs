@@ -78,19 +78,38 @@
     <script>
       document.getElementById('add-product-form').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const user = JSON.parse(sessionStorage.getItem('user'));
-        const formData = new FormData(e.target);
+
+        const form = e.target;
+        const formData = new FormData(form);
         const data = {};
         const categories = [];
+        let missingFields = []; // Array to track missing fields
+
+        // Collect form data
         formData.forEach((value, key) => {
           if (key === 'category') {
             categories.push(value);
           } else {
-            data[key] = value;
+            data[key] = value.trim(); // Trim to remove extra spaces
           }
         });
 
         data.category = categories;
+
+        // Check for missing fields
+        if (!data.name) missingFields.push('Product Name');
+        if (!data.price) missingFields.push('Price');
+        if (categories.length === 0) missingFields.push('Categories');
+        if (!data.varians) missingFields.push('Variations');
+        if (!data.images) missingFields.push('Product Images');
+        if (!data.description) missingFields.push('Description');
+
+        // If there are missing fields, show alert and stop submission
+        if (missingFields.length > 0) {
+          alert(`Please fill in the following fields:\n- ${missingFields.join('\n- ')}`);
+          return;
+        }
+
         try {
           const response = await fetch(`/${data.store_id}/add`, {
             method: 'POST',
@@ -106,12 +125,14 @@
 
           const result = await response.json();
           alert(result.message);
+          const user = JSON.parse(sessionStorage.getItem('user'));
           window.location.href = `/${user.uid}`;
         } catch (error) {
           console.error('Error:', error);
           alert('There was an error adding the product');
         }
       });
+
       document.addEventListener('DOMContentLoaded', function () {
         const user = JSON.parse(sessionStorage.getItem('user'));
 
