@@ -49,6 +49,7 @@
         const reportBtn = document.getElementById('report-btn');
 
         reportBtn.addEventListener('click', async function() {
+          event.preventDefault();
           const criticize = document.getElementById('criticize').value;
           const customer_id = JSON.parse(sessionStorage.getItem('user')).uid;
           const store_id = document.getElementById('store-id').value;

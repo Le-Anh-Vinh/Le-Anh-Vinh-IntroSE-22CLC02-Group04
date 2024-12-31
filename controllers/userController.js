@@ -66,8 +66,12 @@ const mainController = {
             }
             else if (user.role === 'admin') {
                 const reports = await reportData.getPending();
+                const sortedReports = reports.sort((a, b) => {
+                    const statusOrder = { pending: 0, confirmed: 1, declined: 2 };
+                    return statusOrder[a.status] - statusOrder[b.status];
+                });
                 const admin = await userData.get(id);
-                res.render('adminPage', { reports: reports, admin: admin });
+                res.render('adminPage', { reports: sortedReports, admin: admin });
             }
         } catch (error) {
             next(new MyError(error.status, error.message));

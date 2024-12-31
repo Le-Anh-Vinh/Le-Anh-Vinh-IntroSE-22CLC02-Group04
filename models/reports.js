@@ -1,6 +1,7 @@
 import db from '../config/db.js';
 import { getDoc, collection, addDoc, doc, getDocs, query, where, updateDoc } from 'firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
+import productData from './products.js';
 
 
 const reportData = {
@@ -37,28 +38,26 @@ const reportData = {
             // if there are 3 confirmed reports for the store, delete all products from the store
             const report = reportSnapshot.data();
             const store_id = report.store_id;
-
-            if (status === "accepted") {
-                const storeRef = doc(db, 'store', store_id);
+            if (status == "accepted") {
+                const storeRef = doc(db, 'user', store_id);
                 const storeSnapshot = await getDoc(storeRef);
-
                 if (!storeSnapshot.exists()) {
                     return { status: false, error: "Store not found" };
                 }
-
                 const confirmedReportsQuery = query(collection(db, 'report'),
                     where('store_id', '==', store_id),
                     where('status', '==', 'accepted')
                 );
                 const confirmedReportsSnapshot = await getDocs(confirmedReportsQuery);
-
                 if (confirmedReportsSnapshot.size >= 3) {
                     const productQuery = query(collection(db, 'product'), where('store_id', '==', store_id));
                     const productSnapshot = await getDocs(productQuery);
 
-                    productSnapshot.forEach(async (productDoc) => {
-                        await deleteDoc(productDoc.ref);
+                    const deleteProductPromises = productSnapshot.docs.map(async (productDoc) => {
+                        await productData.delete(productDoc.id);
                     });
+
+                    await Promise.all(deleteProductPromises);
                 }
             }
             return { status: true };
