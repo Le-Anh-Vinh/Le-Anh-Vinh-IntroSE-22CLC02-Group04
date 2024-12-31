@@ -19,16 +19,16 @@
     <!-- Header -->
     <%- include('header') %>
       <!-- Content -->
-      <div class="app__container" style="height: 55vh">
+      <div class="home-product" style="max-height: 55vh; overflow: auto;">
         <div class="grid wide">
           <div class="row sm-gutter app__content">
             <!-- Filter -->
-            <div class="col l-10 m-12 c-12">
+            <div class="col l-12 m-12 c-12">
               <div class="home-filter hide-on-mobile-tablet" id="filter-header">
                 <span class="home-filter__label">Sắp xếp theo</span>
                 <button class="home-filter__btn btn <%= type === 'new' ? 'btn--primary' : '' %>" onclick="window.location.href = '/search/<%= query %>?type=new';"> Mới nhất </button>
                 <div class="select-input">
-                  <span class="select-input__label">Giá <%= type === 'min' ? 'Thấp đến cao' : type === 'max' ? 'Cao đến Thấp' : '' %></span>
+                  <span class="select-input__label">Giá: <%= type === 'min' ? 'Thấp đến Cao' : type === 'max' ? 'Cao đến Thấp' : '' %></span>
                   <i class="select-input__icon fas fa-angle-down"></i>
                   <!-- List option -->
                   <ul class="select-input__list">
@@ -123,8 +123,7 @@
         <div class="footer__bottom">
           <div class="grid wide">
             <p class="footer__text">
-              © 2024 Triết lí cuộc sống - Đời là bể khổ, qua được bể khổ là qua đời
-            </p>
+              © 2024 SHOPEASE Online. Mọi quyền được bảo lưu.
           </div>
         </div>
       </footer>

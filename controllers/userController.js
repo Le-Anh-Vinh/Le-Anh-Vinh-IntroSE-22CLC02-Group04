@@ -130,10 +130,10 @@ const mainController = {
             let products = await productData.searchAndFilter(query, 'all', filters);
             switch (type)
             {
-                case 'max':
+                case 'min':
                     products.sort((a, b) => a.price - b.price);
                     break;
-                case 'min':
+                case 'max':
                     products.sort((a, b) => b.price - a.price);
             }
 

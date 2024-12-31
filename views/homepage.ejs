@@ -30,16 +30,6 @@
       <div class="app__container">
         <div class="grid wide">
           <div class="row sm-gutter app__content">
-            <!-- <div class="col l-12 m-12 c-12">
-              
-              <div class="home-filter hide-on-mobile-tablet">
-                <span class="home-filter__label">CATEGORY</span>
-                <% categories.forEach((category, index) => { %>
-                    <button class="home-filter__btn btn" data-category="<%= category.name %>">
-                        <%= category.name %>
-                    </button>
-                <% }); %>
-            </div> -->
             <!-- Category -->
             <div class="col l-2 m-0 c-0">
               <nav class="category">
@@ -53,12 +43,12 @@
                         <%= category.name %>
                       </a>
                     </li>
-                  <% }); %>
+                    <% }); %>
                   </ul>
                 </nav>
               </div>
-
-
+              
+              <div class="col l-10 m-12 c-12">
               <!-- Product -->
               <div class="home-product">
                 <% for (let rowIndex = 0; rowIndex < products.length; rowIndex += 5) { %>
@@ -91,6 +81,7 @@
                   </div>
                 <% } %>
               </div>
+            </div>
               
               <!-- <ul class="pagination home-product__pagination">
                 <li class="pagination-item <%= page === 1 ? 'disabled' : '' %>">
@@ -176,7 +167,7 @@
         <div class="footer__bottom">
           <div class="grid wide">
             <p class="footer__text">
-              © 2024 Triết lí cuộc sống - Đời là bể khổ, qua được bể khổ là qua đời
+              © 2024 SHOPEASE Online. Mọi quyền được bảo lưu.
             </p>
           </div>
         </div>
