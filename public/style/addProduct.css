@@ -1,0 +1,80 @@
+.add-product-container {
+    width: 60%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff8dc; /* Light yellow */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+  
+  .add-product-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #333;
+  }
+  
+  .add-product-form .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .add-product-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+  }
+  
+  .add-product-form input[type="text"],
+  .add-product-form input[type="number"],
+  .add-product-form input[type="file"],
+  .add-product-form textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .add-product-form input[type="file"] {
+    padding: 5px;
+  }
+  
+  .add-product-form textarea {
+    resize: none;
+  }
+  
+  .add-product-form .submit-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 1.1rem;
+    background-color: #ff9800; /* Orange */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+  
+  .add-product-form .submit-btn:hover {
+    background-color: #e68900; /* Darker orange */
+  }
+  
+  .category-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px 20px;
+    padding-left: 0;
+    list-style-type: none;
+  }
+
+  .category-list li {
+    width: 48%;
+  }
+
+  .category-list input[type="checkbox"] {
+    margin-right: 10px;
+  }

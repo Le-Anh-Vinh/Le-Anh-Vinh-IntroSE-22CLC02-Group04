@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/style/main.css" />
+    <link rel="stylesheet" href="/style/base.css" />
+    <link rel="stylesheet" href="/style/grid.css" />
+    <link rel="stylesheet" href="/style/responsive.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="app">
+      <!-- Header -->
+      <%- include('header') %>
+      <!-- Content -->
+      <div class="app__container">
+        <div class="grid wide">
+          <div class="row sm-gutter app__content">
+
+            <!-- Label -->
+            <div class="col l-2 m-0 c-0"> 
+                <nav class="category">
+                  <h3 class="category__heading">
+                    LABEL
+                  </h3>
+                  <ul class="category-list">
+                    <div class="price-options">
+                      <div class="price-option active" onclick="selectOption(this)">Price ascending</div>
+                      <div class="price-option" onclick="selectOption(this)">Price descending</div>
+                    </div>
+                    <a href="#" id="add-product-link" class="add-product-btn">
+                      <i class="fas fa-check"></i>
+                      <span>Add product</span>
+                    </a>
+                    <a href= "#" id ="view-order-link" class="add-product-btn">
+                      <i class="fas fa-cog"></i>
+                      <span>View order</span>
+                    </a>
+                    <a href="#" id="shop-profile-link" class="add-product-btn">
+                      <i class="fas fa-eye"></i>
+                      <span>Shop profile</span>
+                  </a>
+                  </ul>
+                </nav>
+              </div>
+
+              <div class="col l-10 m-12 c-12">
+              <!-- Product -->
+              <div class="home-product">
+                <% for (let rowIndex = 0; rowIndex < products.length; rowIndex += 5) { %>
+                  <div class="row sm-gutter">
+                    <% products.slice(rowIndex, rowIndex + 5).forEach(product => { %>
+                      <div class="col l-2-4 m-4 c-6">
+                        <a href="/<%= product.id %>/update" class="home-product-item">
+                          <div class="home-product-item__img" style="background-image: url('<%= product.images[0] %>');"></div>
+                          <h4 class="home-product-item__name"><%= product.name %></h4>
+                          <div class="home-product-item__price">
+                            <span class="home-product-item__price-current">$<%= product.price %></span>
+                          </div>
+                          <!-- <div class="remove-product-btn"> -->
+                          <div class="remove-product-btn" onclick="confirmRemoveProduct(event, '<%= product.id %>', '<%= product.name %>')">
+                            <i class="fas fa-times"></i>
+                            <span>Remove</span>
+                          </div>
+                        </a>
+                      </div>
+                    <% }); %> 
+                  </div>
+                <% } %>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="grid wide footer__content">
+          <div class="row">
+            <div class="col l-2-8 m-4 c-6">
+              <h3 class="footer__heading">CHĂM SÓC KHÁCH HÀNG</h3>
+              <ul class="footer-list">
+                <li class="footer-item">
+                  <a href="#" class="footer-item__link">Trung Tâm Trợ Giúp</a>
+                </li>
+                <li class="footer-item">
+                  <a href="#" class="footer-item__link">Hướng Dẫn Mua Hàng</a>
+                </li>
+                <li class="footer-item">
+                  <a href="#" class="footer-item__link"
+                    >Chính Sách Vận Chuyển</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="col l-2-8 m-4 c-6">
+              <h3 class="footer__heading">VỀ CHÚNG TÔI</h3>
+              <ul class="footer-list">
+                <li class="footer-item">
+                  <a href="#" class="footer-item__link">Giới Thiệu Về Shop</a>
+                </li>
+                <li class="footer-item">
+                  <a href="#" class="footer-item__link">Tuyển Dụng</a>
+                </li>
+                <li class="footer-item">
+                  <a href="#" class="footer-item__link">Điều Khoản Shop</a>
+                </li>
+              </ul>
+            </div>
+            <div class="col l-2-4 m-8 c-12">
+              <h3 class="footer__heading">ĐỊA CHỈ CỦA TRANG WEB</h3>
+              <div class="footer__download">
+                <img
+                  src="/img/qr_code.png"
+                  alt="Download QR"
+                  class="footer__dowload-qr"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer__bottom">
+          <div class="grid wide">
+            <p class="footer__text">
+              © 2024 SHOPEASE Online. Mọi quyền được bảo lưu.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script>
+      const user = JSON.parse(sessionStorage.getItem('user'));
+  
+      const shopProfileLink = document.getElementById('shop-profile-link');
+      const addProductLink = document.getElementById('add-product-link');
+      const viewOrderLink = document.getElementById('view-order-link');
+      if (user && user.uid) {
+        shopProfileLink.href = `/profile/${user.uid}`;
+        addProductLink.href = `/${user.uid}/add`;
+        viewOrderLink.href = `/${user.uid}/order`;
+      } else {
+          console.error('Can not find UID');
+      }
+
+      function confirmRemoveProduct(event, productId, productName) {
+        const confirmation = confirm(`Are you sure you want to remove "${productName}"?`);
+        if (confirmation) {
+          fetch(`/product/${productId}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',  
+            },
+            body: JSON.stringify({ id: productId })
+          })
+          .then((response) => {
+            if (response.ok) {
+              alert('Product was removed successfully');
+              location.reload();
+            } else {
+              alert('Remove unsuccessfully');
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert('Error');
+          });
+        }
+        event.preventDefault();
+      }
+    </script>
+  </body>
+</html>

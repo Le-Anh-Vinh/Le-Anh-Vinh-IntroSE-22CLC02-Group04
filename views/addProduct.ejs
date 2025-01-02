@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style/addProduct.css" />
+    <title>Add Product</title>
+  </head>
+
+  <body>
+    <!-- <header id="header"> -->
+    <!-- Add header here if needed -->
+    <!-- </header> -->
+
+    <div class="add-product-container">
+      <h1>Add New Product</h1>
+      <!-- Form with ID 'add-product-form' -->
+      <form id="add-product-form" class="add-product-form">
+        <!-- Store ID (Hidden) -->
+        <input type="hidden" name="store_id" value="<%= storeID %>" />
+
+        <!-- Product Name -->
+        <div class="form-group">
+          <label>Product Name</label>
+          <input type="text" name="name" placeholder="Enter product name" required />
+        </div>
+
+        <!-- Price -->
+        <div class="form-group">
+          <label>Price ($)</label>
+          <input type="number" name="price" placeholder="Enter product price" step="10" required />
+        </div>
+
+        <!-- Categories -->
+        <div class="form-group">
+          <label>Categories</label>
+          <ul class="category-list">
+            <% categories.forEach(category => { %>
+              <li>
+                <label>
+                  <input type="checkbox" name="category" value="<%= category.name %>" />
+                  <%= category.name %>
+                </label>
+              </li>
+            <% }) %>
+          </ul>
+        </div>
+
+        <!-- Variations -->
+        <div class="form-group">
+          <label>Variations</label>
+          <textarea
+            name="varians"
+            placeholder="Enter variations (for example: &#10; Blue XL &#10; Red L &#10; Green L &#10;)"
+            rows="5"
+          ></textarea>
+        </div>
+
+        <!-- Product Images -->
+        <div class="form-group">
+          <label>Product Images</label>
+          <input type="text" name="images" placeholder="Enter image URLs, separated by commas" required />
+        </div>
+
+        <!-- Description -->
+        <div class="form-group">
+          <label>Description</label>
+          <textarea name="description" placeholder="Enter product description" rows="4" required></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn">
+          Add Product
+        </button>
+      </form>
+    </div>
+
+    <script>
+      document.getElementById('add-product-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const form = e.target;
+        const formData = new FormData(form);
+        const data = {};
+        const categories = [];
+        let missingFields = []; // Array to track missing fields
+
+        // Collect form data
+        formData.forEach((value, key) => {
+          if (key === 'category') {
+            categories.push(value);
+          } else {
+            data[key] = value.trim(); // Trim to remove extra spaces
+          }
+        });
+
+        data.category = categories;
+
+        // Check for missing fields
+        if (!data.name) missingFields.push('Product Name');
+        if (!data.price) missingFields.push('Price');
+        if (categories.length === 0) missingFields.push('Categories');
+        if (!data.varians) missingFields.push('Variations');
+        if (!data.images) missingFields.push('Product Images');
+        if (!data.description) missingFields.push('Description');
+
+        // If there are missing fields, show alert and stop submission
+        if (missingFields.length > 0) {
+          alert(`Please fill in the following fields:\n- ${missingFields.join('\n- ')}`);
+          return;
+        }
+
+        try {
+          const response = await fetch(`/${data.store_id}/add`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to add product');
+          }
+
+          const result = await response.json();
+          alert(result.message);
+          const user = JSON.parse(sessionStorage.getItem('user'));
+          window.location.href = `/${user.uid}`;
+        } catch (error) {
+          console.error('Error:', error);
+          alert('There was an error adding the product');
+        }
+      });
+
+      document.addEventListener('DOMContentLoaded', function () {
+        const user = JSON.parse(sessionStorage.getItem('user'));
+
+        if (!user) {
+          window.location.href = '/auth';
+        } else {
+          console.log('User ID:', user.uid);
+          console.log('User Role:', user.role);
+        }
+      });
+    </script>
+  </body>
+</html>

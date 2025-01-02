@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta 
+      name="viewport" 
+      content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../style/reportDetail.css" />  
+    <title>Admin Home Page</title>
+  </head>
+
+  <body>
+    <!-- <header id="header">
+
+
+    </header> -->
+
+    <div class="report-detail">
+      <!-- Report Image -->
+      <div class="report-images">
+        <% if (report.images && report.images.length > 0) { %>
+          <% report.images.forEach(function(image, index) { %>
+            <div class="report-image">
+              <img src="<%= image %>" alt="Report Image <%= index + 1 %>" />
+            </div>
+          <% }); %>
+        <% } else { %>
+          <p>No images available for this report.</p>
+        <% } %>
+      </div>
+    
+      <!-- Report Details -->
+      <div class="report-fields">
+        <div class="field-group">
+          <label>Customer ID</label>
+          <div class="field-value"><%= report.customer_id %></div>
+        </div>
+        <div class="field-group">
+          <label>Date</label>
+          <div class="field-value"><%= (() => {
+            const timestamp = report.date.seconds * 1000;
+            const date = new Date(timestamp);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+    
+            return `${day}/${month}/${year}`;
+            })() %>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Store ID</label>
+          <div class="field-value"><%= report.store_id %></div>
+        </div>
+        <div class="field-group">
+          <label>Title</label>
+          <div class="field-value"><%= report.title %></div>
+        </div>
+        <div class="field-group description-group">
+          <label>Critique</label>
+          <textarea readonly><%= report.criticize %></textarea>
+        </div>
+      </div>
+    
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button id="accept-btn" class="accept-btn">Accept</button>
+        <button id="decline-btn" class="decline-btn">Decline</button>
+      </div>
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const user = JSON.parse(sessionStorage.getItem('user'));
+    
+        if (!user) {
+          window.location.href = '/auth';
+        } else {
+          console.log('User ID:', user.uid);
+          console.log('User Role:', user.role);
+        }
+
+        const reportID = "<%= report.id %>";
+        const updateReportStatus = async (id, action) => {
+          try {
+              const response = await fetch('/report', {
+                  method: 'PUT',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({id, action})
+              });
+
+              if (response.ok) {
+                  const result = await response.json();
+                  alert("Updated");
+                  window.location.href = `/${user.uid}`
+              } else {
+                  alert("Failed");
+              }
+          } catch {
+              console.error("Error:", error);
+              alert("An error occurred. Please try again.");
+          }
+        };
+        const acceptBtn = document.getElementById('accept-btn');
+        const declineBtn = document.getElementById('decline-btn');
+        
+        acceptBtn.addEventListener('click', function () {
+          updateReportStatus(reportID, 1);
+        });
+    
+        declineBtn.addEventListener('click', function () {
+          updateReportStatus(reportID, 0);
+        });
+      });
+
+      
+    </script>
+  </body>
+</html>

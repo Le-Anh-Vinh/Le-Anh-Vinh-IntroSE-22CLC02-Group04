@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta 
+      name="viewport" 
+      content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style/updateProduct.css" />  
+    <title>Update Product</title>
+  </head>
+
+  <body>
+    <!-- <header id="header">
+
+
+    </header> -->
+
+    <div class="update-product-container">
+      <h2>Update Product</h2>
+      <form id="update-product-form" method="POST" enctype="multipart/form-data" class="update-product-form">
+        <!-- Product ID (hidden) -->
+        <input type="hidden" name="product_id" value="<%= product.product_id %>">
+    
+        <!-- Product Name -->
+        <label for="product-name">Product Name</label>
+        <input
+          type="text"
+          id="product-name"
+          name="name"
+          value="<%= product.name %>"
+          required
+        />
+    
+        <!-- Product Price -->
+        <label for="product-price">Price ($)</label>
+        <input
+          type="number"
+          id="product-price"
+          name="price"
+          value="<%= product.price %>"
+          step="0.01"
+          required
+        />
+    
+        <!-- Product Variations -->
+        <label for="product-variations">Variations (comma-separated)</label>
+        <input
+          type="text"
+          id="product-variations"
+          name="varians"
+          value="<%= product.varians.join(', ') %>"
+        />
+        
+    
+        <!-- Product Images -->
+        <div class="form-group">
+          <label>Product Images</label>
+          <input 
+            type="text" 
+            name="images" 
+            placeholder="Enter image URLs, separated by commas" required 
+            value="<%= product.images.join(', ') %>"/>
+        </div>
+        <div class="current-pictures">
+          <h4>Current Pictures</h4>
+          <div class="pictures-gallery">
+            <% product.images.forEach(function (picture) { %>
+              <img src="<%= picture %>" alt="Product Picture" class="thumbnail" />
+            <% }); %>
+          </div>
+        </div>
+    
+        <!-- Product Description -->
+        <label for="product-description">Description</label>
+        <textarea
+          id="product-description"
+          name="description"
+          rows="5"
+          required
+        ><%= product.description %></textarea>
+    
+        <!-- Submit Button -->
+        <button type="submit" class="update-button">Update Product</button>
+      </form>
+    </div>
+    <script>
+      document.getElementById("update-product-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        const formData = new FormData(this);
+
+        const data = {};
+        formData.forEach((value, key) => {
+          data[key] = value;
+        });
+
+        fetch('/product/update', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+        .then((response) => {
+            if (response.ok) {
+              alert('Product was updated successfully');
+              window.location.href = `/${user.uid}`;
+
+            } else {
+              alert('Update unsuccessfully');
+            }
+          })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred while updating the product.');
+        });
+      });
+      document.addEventListener('DOMContentLoaded', function () {
+        const user = JSON.parse(sessionStorage.getItem('user'));
+
+        if (!user) {
+          window.location.href = '/auth';
+        } else {
+          console.log('User ID:', user.uid);
+          console.log('User Role:', user.role);
+        }
+      });
+    </script>    
+  </body>
+</html>

@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import config from "./config/config.js";
-import authRouter from "./routes/authRouter.js";
+import router from "./routes/router.js";
 
 const app = express();
 
@@ -16,10 +16,18 @@ app.set("views", "./views");
 
 app.use(express.static("./public"));
 
-app.use('/', authRouter);
+app.use('/', router);
 
+app.use((req, res, next) => {
+    const err = new Error("Page Not Found");
+    err.statusCode = 404;
+    err.desc = "The page you are looking for does not exist.";
+    next(err);
+});
+
+// Global error handler
 app.use((err, req, res, next) => {
-    const status = err.statusCode || 404;
+    const status = err.statusCode || 500;
     res.status(status).render(`error/error${status}`, {
         statusCode: status,
         message: err.message,
@@ -28,5 +36,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(config.port, () => {
-    console.log(`App is running on url http://localhost:${config.port}`);
+    console.log(`App is running on url http://localhost:${config.port}/auth`);
 });

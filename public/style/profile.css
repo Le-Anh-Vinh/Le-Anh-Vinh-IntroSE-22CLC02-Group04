@@ -1,0 +1,173 @@
+html, body{
+    height: 100%;
+}
+
+body{
+    margin-top:20px;
+    color: #1a202c;
+    text-align: left;
+    background: rgba(202, 202, 202, 0.786);
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+}
+
+.grid{
+    width: 1200px;
+    max-width: 100%;
+
+    margin: 0 auto;
+}
+
+.main-body {
+    padding: 15px;
+    margin-left: 150px;
+    margin-right: 150px;
+    display: flex;
+    background-color: #e9d17b;
+    border-radius: 20px;
+}
+
+.main-card {
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+}
+
+.main-card__content{
+    margin-top: 10px;
+}
+
+.second-card {
+    flex: 3;
+    margin-left: 30px;
+}
+
+.label h4{
+    margin: 16px 0px 4px 0px;
+}
+
+.display{
+    margin-bottom: -6px;
+    margin-top: 15px;
+    flex: 2;
+}
+
+.label{
+    flex: 1;
+}
+
+.current_address{
+    margin-top: -10px;
+    font-size: 15px;
+}
+
+.user-name{
+    font-size: 20px;
+}
+
+.button{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 86px;
+}
+
+.button__purchased-history{
+    background-color: #edc26d;
+    height: 38px;
+    border-color: #e7ac37;
+    border-radius: 20px;
+    border-width: 2px;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: 600;
+    width: 206px;
+}
+
+.button__purchased-history:hover{
+    background-color: #e3b250;
+}
+
+/* .button__delete_acc--user{
+    background-color: #ffa0a0;
+    height: 30px;
+    border-color: #fc8989;
+    border-width: 2px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+.button__delete_acc--shop{
+    background-color: #ffa0a0;
+    height: 36px;
+    border-color: #fc8989;
+    border-width: 2px;
+    font-size: 18px;
+    margin-top: 50px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.button__delete_acc--shop:hover{
+    background-color: #fa8282
+}
+
+.button__delete_acc--user:hover{
+    background-color: #fa8282
+} */
+
+.avatar{
+    display: flex;
+    background-color: #fff;
+    width: 151px;
+    height: 150px;
+    margin: auto;
+    border-radius: 86px;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.change-infor-btn-container{
+    margin-top: 23px;
+}
+
+.change-infor{
+    width: 100%;
+    height: 36px;
+    margin-top: 14px;
+    font-size: 20px;
+    font-weight: 600;
+    background-color: #edc26d;
+    border-color: #e7ac37;
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+.change-infor:hover{
+    background-color: #e3b250;
+}
+
+.row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    font-size: 15px;
+    
+}
+
+.rating {
+    flex: 2;
+    gap: 5px;
+  }
+
+.star {
+    font-size: 30px;
+    color: rgb(255, 255, 255);
+  }
+
+.star.selected {
+    color: #daa90b;
+  }

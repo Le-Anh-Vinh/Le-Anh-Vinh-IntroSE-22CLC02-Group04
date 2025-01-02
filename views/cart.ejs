@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style/cart.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="shopping-cart">
+        <!-- Title -->
+        <div class="title">
+          Shopping Cart
+        </div>
+
+        <div class="nav-bar">
+          <label class="product_name">Name</label>
+          <label class="product_unit-price">Unit price</label>
+          <label class="product_quantity">Quantity</label>
+          <label class="product_price">Price</label>
+        </div>
+
+        <% products.forEach((item) => { %>
+          <div class="item" data-product-id="<%= item.product_id %>">
+              <input type="checkbox" name="example" value="option1" style="cursor: pointer;" <%= item.tick ? 'checked' : '' %>>
+  
+              <div class="image">
+                  <img class="product-img" src="<%= item.image %>" alt="" />
+              </div>
+          
+              <div class="description">
+                  <span><%= item.productDetails.name.length > 20 ? item.productDetails.name.slice(0, 20) + '...' : item.productDetails.name %></span>
+                  <!-- <span><%= item.productDetails.name %></span> -->
+                  <span><%= item.variant %></span>
+              </div>
+              
+              <div class="unit-price">
+                <%= item.productDetails.price %> VNĐ
+              </div>
+
+              <div class="quantity">
+                  <button class="minus-btn" type="button" name="button">
+                      <img class="minus-btn__img" src="/img/minus-svgrepo-com.svg" alt="" />
+                  </button>
+  
+                  <input type="text" name="name" value="<%= item.quantity %>">
+  
+                  <button class="plus-btn" type="button" name="button">
+                      <img class="plus-btn__img" src="/img/plus-svgrepo-com.svg" alt="" />
+                  </button>
+  
+              </div>
+          
+              <div class="total-price"><%= item.productDetails.price * item.quantity %> VNĐ</div>
+  
+              <div class="buttons">
+                  <span class="delete-btn"></span>
+              </div>
+          </div>
+        <% }); %>
+        <div class="confirm-section">
+          <div class="confirm-section__price">
+            <div class="label">TOTAL PRICE (0 Products)</div>
+            <div class="final-price">0 VNĐ</div>
+          </div>
+          <div class="confirm-section__btn">
+            <button id="checkout-btn" class="checkout-button">CHECKOUT</button>
+          </div>
+        </div>
+      </div>
+</body>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+  // Lấy tất cả các item
+  const items = document.querySelectorAll(".item");
+  const totalPriceLabel = document.querySelector(".confirm-section__price .label");
+  const finalPrice = document.querySelector(".confirm-section__price .final-price");
+
+  const checkboxes = document.querySelectorAll(".item input[type='checkbox']");
+  const checkoutButton = document.querySelector('.checkout-button');
+  let totalProducts = 0; // Tổng số sản phẩm
+  let totalPrice = 0; // Tổng giá tiền
+
+  // Cập nhật tổng số sản phẩm và giá
+  function updateSummary() {
+    totalProducts = 0;
+    totalPrice = 0;
+
+    checkboxes.forEach((checkbox) => {
+      if (checkbox.checked) {
+        const item = checkbox.closest(".item");
+        const quantityInput = item.querySelector("input[name='name']");
+        const price = parseFloat(item.querySelector(".unit-price").textContent.replace("VNĐ", ""));
+
+        totalProducts += parseInt(quantityInput.value, 10);
+        totalPrice += price * parseInt(quantityInput.value, 10)
+        ;
+      }
+    });
+
+    totalPriceLabel.textContent = `TOTAL PRICE (${totalProducts} Products)`;
+    finalPrice.textContent = `${totalPrice.toFixed(0)} VNĐ`;
+  }
+
+  // Thêm sự kiện thay đổi cho các checkbox
+  checkboxes.forEach((checkbox) => {
+    checkbox.addEventListener("change", updateSummary);
+  });
+
+  items.forEach((item) => {
+    const minusBtn = item.querySelector(".minus-btn"); // Nút giảm
+    const plusBtn = item.querySelector(".plus-btn");  // Nút tăng
+    const ticked = item.querySelector("input[type='checkbox']"); //checkbox
+    const quantityInput = item.querySelector("input[name='name']"); // Input số lượng
+    const deleteBtn = item.querySelector(".delete-btn"); // Nút xóa
+
+    // Xử lý sự kiện nút giảm
+    minusBtn.addEventListener("click", function () {
+      let currentQuantity = parseInt(quantityInput.value, 10); // Lấy giá trị hiện tại
+      if (currentQuantity > 1) { // Giảm nhưng không nhỏ hơn 1
+        quantityInput.value = currentQuantity - 1;
+
+        //cập nhật tổng giá của sản phẩm
+        const price = parseFloat(item.querySelector(".unit-price").textContent.replace("VNĐ", ""));
+        const newTotalPrice = price * parseInt(quantityInput.value, 10);
+        item.querySelector(".total-price").textContent = `${newTotalPrice.toFixed(0)} VNĐ`;
+
+        updateSummary(); // Cập nhật tổng
+        updateCart(item, quantityInput.value, ticked.checked);
+      }
+    });
+
+    // Xử lý sự kiện nút tăng
+    plusBtn.addEventListener("click", function () {
+      let currentQuantity = parseInt(quantityInput.value, 10); // Lấy giá trị hiện tại
+      quantityInput.value = currentQuantity + 1; // Tăng số lượng
+
+      //cập nhật tổng giá của sản phẩm
+      const price = parseFloat(item.querySelector(".unit-price").textContent.replace("VNĐ", ""));
+      const newTotalPrice = price * parseInt(quantityInput.value, 10);
+      item.querySelector(".total-price").textContent = `${newTotalPrice.toFixed(0)} VNĐ`;
+
+      updateSummary(); // Cập nhật tổng
+      updateCart(item, quantityInput.value, ticked.checked);
+    });
+
+    // Cập nhật trạng thái của checkbox khi thay đổi
+    ticked.addEventListener("change", function () {
+      let currentQuantity = parseInt(quantityInput.value, 10); // Lấy giá trị hiện tại
+      updateCart(item, currentQuantity, ticked.checked);
+    });
+
+    // Xử lý sự kiện nút xóa
+    deleteBtn.addEventListener("click", function () {
+      const productId = item.getAttribute("data-product-id");
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      const variant = item.querySelector(".description span:nth-child(2)").textContent; // Lấy variant
+
+      const requestBody = {
+        product_id: productId,
+        variant: variant
+      };
+
+      // Gửi yêu cầu xóa lên server
+      fetch(`/cart/${user.uid}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      })
+        .then((response) => {
+          if (response.ok) {
+            console.log("Product deleted successfully");
+            // Xóa sản phẩm khỏi giao diện
+            item.remove();
+            updateSummary(); // Cập nhật tổng
+          } else {
+            console.error("Failed to delete product");
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting product:", error);
+        });
+    });
+
+  });
+
+  // Cập nhật giỏ hàng
+  function updateCart(item, newQuantity, ticked) {
+  const productId = item.getAttribute("data-product-id");
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  const variant = item.querySelector(".description span:nth-child(2)").textContent;
+
+  const productData = {
+    product_id: productId,
+    quantity: newQuantity,
+    tick: ticked,
+    variant: variant,
+  };
+
+  // Gửi yêu cầu PUT để cập nhật số lượng sản phẩm lên server
+  fetch(`/cart/${user.uid}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(productData),
+  })
+    .then((response) => {
+      if (response.ok) {
+        console.log("Cart updated successfully");
+      } else {
+        console.error("Failed to update cart");
+      }
+    })
+    .catch((error) => {
+      console.error("Error updating cart:", error);
+    });
+}
+  checkoutButton.addEventListener('click', () => {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    window.location.href = `/payment/${user.uid}`;
+    
+  });
+
+  // Cập nhật lần đầu khi trang tải xong
+  updateSummary();
+});
+
+
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const user = JSON.parse(sessionStorage.getItem('user'));
+
+        if (!user) {
+            window.location.href = '/auth';
+        } else {
+            console.log('User ID:', user.uid);
+            console.log('User Role:', user.role);
+        }
+    });
+</script>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta 
+      name="viewport" 
+      content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../style/adminPage.css" />  
+    <title>Admin Home Page</title>
+  </head>
+
+  <body>
+    <!-- <header id="header">
+
+
+    </header> -->
+
+    <div class="admin-page">
+      <!-- Admin Info Section -->
+      <div class="admin-info">
+        <div class="admin-avatar">
+          <img src="/img/user_img.png" alt="Admin Avatar" />
+        </div>
+        <div class="admin-details">
+          <h2>Admin Profile</h2>
+          <p>Name: <%= admin.name %></p>
+          <p>Email: <%= admin.email %></p>
+          <p>Phone number: <%= admin.info[0].phone %></p>
+          <p>Join date: <%= (() => {
+            const timestamp = admin.join_date.seconds * 1000;
+            const date = new Date(timestamp);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+    
+            return `${day}/${month}/${year}`;
+            })() %>
+          </p>
+        </div>
+      </div>
+    
+      <!-- Report List Section -->
+      <div class="report-list">
+        <h3>Report List</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% reports.forEach(function (report) { %>
+              <tr>
+                <td><a href="/report/<%= report.id %>"><%= report.title %></a></td>
+                <td><%= (() => {
+                  const timestamp = report.date.seconds * 1000;
+                  const date = new Date(timestamp);
+                  const day = String(date.getDate()).padStart(2, '0');
+                  const month = String(date.getMonth() + 1).padStart(2, '0');
+                  const year = date.getFullYear();
+          
+                  return `${day}/${month}/${year}`;
+                  })() %></td>
+                <td class="<%= report.status.toLowerCase() %>"><%= report.status %></td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const user = JSON.parse(sessionStorage.getItem('user'));
+    
+        if (!user) {
+          window.location.href = '/auth';
+        } else {
+          console.log('User ID:', user.uid);
+          console.log('User Role:', user.role);
+        }
+      });
+    </script>
+  </body>
+</html>
