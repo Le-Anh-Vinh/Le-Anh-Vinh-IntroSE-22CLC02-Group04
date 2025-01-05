@@ -12,7 +12,7 @@ body {
 }
 
 .shopping-history {
-  width: 1000px;
+  width: 1100px;
   height: fit-content;
   margin: 50px auto;
   background: #FFFFFF;
@@ -106,6 +106,7 @@ body {
 
 .quantity {
   padding-top: 27px;
+  width: 20px;
 }
  
 button[class*=btn] {
@@ -138,6 +139,7 @@ input:focus {
   left: 200px;
   top: 27px;
   height: fit-content;
+  width: 90px;
 }
 
 @media (max-width: 800px) {
@@ -184,7 +186,15 @@ left: 102px;
 }
 
 .product_quantity{
-left: 46px;
+left: 20px;
+}
+
+.product_date{
+  right: 76px;
+}
+
+.product_status{
+  right: 117px;
 }
 
 .confirm-section{
@@ -233,6 +243,10 @@ background-color: #f4d154;
 left: 54px;
 }
 
+.product_price{
+  right: 45px;
+}
+
 .unit-price{
 position: relative;
 margin-left: -48px;
@@ -251,7 +265,7 @@ padding-top: 27px;
 
 .status{
 position: relative;
-left: 312px;
+left: 284px;
 top: 25px;
 height: fit-content;
 }
@@ -265,8 +279,8 @@ color: rgb(198, 183, 18);
 }
 
 .buttons{
-top: 79px;
-right: -260px;
+top: 15px;
+right: -342px;
 position: relative;
 display: flex;
 justify-content: space-evenly;
@@ -275,7 +289,7 @@ height: fit-content;
 }
 
 .buttons-confirmed{
-right: -245px;
+right: -326px;
 }
 
 .buttons button{

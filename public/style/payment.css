@@ -105,6 +105,7 @@
   .quantity {
     padding-top: 27px;
     margin-left: 100px;
+    width: 5px;
   }
    
   button[class*=btn] {
@@ -196,9 +197,10 @@
 }
 
 .final-price{
-  left: 64px;
+  left: 20px;
   position: relative;
   padding-top: 10px;
+  width: 100px;
 }
 
 .confirm-section__btn{
@@ -229,8 +231,9 @@
 
 .unit-price{
   position: relative;
-  margin-left: -48px;
+  margin-left: -26px;
   padding-top: 27px;
+  width: 69px;
 }
 
 .address{

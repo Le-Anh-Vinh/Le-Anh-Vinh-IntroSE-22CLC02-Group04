@@ -35,7 +35,7 @@
               </div>
               
               <div class="unit-price">
-                <%= item.productDetails.price %> VNĐ
+                <%= item.productDetails.price %> USD
               </div>
 
               <div class="quantity">
@@ -51,7 +51,7 @@
   
               </div>
           
-              <div class="total-price"><%= item.productDetails.price * item.quantity %> VNĐ</div>
+              <div class="total-price"><%= item.productDetails.price * item.quantity %> USD</div>
   
               <div class="buttons">
                   <span class="delete-btn"></span>
@@ -61,7 +61,7 @@
         <div class="confirm-section">
           <div class="confirm-section__price">
             <div class="label">TOTAL PRICE (0 Products)</div>
-            <div class="final-price">0 VNĐ</div>
+            <div class="final-price">0 USD</div>
           </div>
           <div class="confirm-section__btn">
             <button id="checkout-btn" class="checkout-button">CHECKOUT</button>
@@ -92,7 +92,7 @@
       if (checkbox.checked) {
         const item = checkbox.closest(".item");
         const quantityInput = item.querySelector("input[name='name']");
-        const price = parseFloat(item.querySelector(".unit-price").textContent.replace("VNĐ", ""));
+        const price = parseFloat(item.querySelector(".unit-price").textContent.replace("USD", ""));
 
         totalProducts += parseInt(quantityInput.value, 10);
         totalPrice += price * parseInt(quantityInput.value, 10)
@@ -101,7 +101,7 @@
     });
 
     totalPriceLabel.textContent = `TOTAL PRICE (${totalProducts} Products)`;
-    finalPrice.textContent = `${totalPrice.toFixed(0)} VNĐ`;
+    finalPrice.textContent = `${totalPrice.toFixed(0)} USD`;
   }
 
   // Thêm sự kiện thay đổi cho các checkbox
@@ -123,9 +123,9 @@
         quantityInput.value = currentQuantity - 1;
 
         //cập nhật tổng giá của sản phẩm
-        const price = parseFloat(item.querySelector(".unit-price").textContent.replace("VNĐ", ""));
+        const price = parseFloat(item.querySelector(".unit-price").textContent.replace("USD", ""));
         const newTotalPrice = price * parseInt(quantityInput.value, 10);
-        item.querySelector(".total-price").textContent = `${newTotalPrice.toFixed(0)} VNĐ`;
+        item.querySelector(".total-price").textContent = `${newTotalPrice.toFixed(0)} USD`;
 
         updateSummary(); // Cập nhật tổng
         updateCart(item, quantityInput.value, ticked.checked);
@@ -138,9 +138,9 @@
       quantityInput.value = currentQuantity + 1; // Tăng số lượng
 
       //cập nhật tổng giá của sản phẩm
-      const price = parseFloat(item.querySelector(".unit-price").textContent.replace("VNĐ", ""));
+      const price = parseFloat(item.querySelector(".unit-price").textContent.replace("USD", ""));
       const newTotalPrice = price * parseInt(quantityInput.value, 10);
-      item.querySelector(".total-price").textContent = `${newTotalPrice.toFixed(0)} VNĐ`;
+      item.querySelector(".total-price").textContent = `${newTotalPrice.toFixed(0)} USD`;
 
       updateSummary(); // Cập nhật tổng
       updateCart(item, quantityInput.value, ticked.checked);
