@@ -61,7 +61,7 @@
                                         <button>Rate</button>
                                     </a>
                                 </div>
-                            <% } else if (product.isReviewed) { %>
+                            <% } else if (product.isReviewed && orders.status === 'confirmed') { %>
                                 <!-- Show disabled button if already rated -->
                                 <div class="rating-btn">
                                     <button class="disabled" disabled>Rated</button>
