@@ -138,7 +138,7 @@
   .quantity {
     padding-top: 20px;
     margin-right: 60px;
-    margin-left: 56px;
+    margin-left: 62px;
   }
   .quantity input {
     -webkit-appearance: none;
@@ -340,6 +340,8 @@ background-color: #EF9A9A;
 
 .unit-price{
   position: relative;
-  margin-left: -70px;
+  margin-left: -76px;
   padding-top: 27px;
+  width: 90px;
+  text-align: center;
 }
