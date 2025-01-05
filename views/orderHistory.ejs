@@ -36,14 +36,14 @@
                     </div>
                     
                     <!-- <div class="unit-price">
-                      <%= product.price %> VNĐ
+                      <%= product.price %> USD
                     </div> -->
       
                     <div class="quantity">
                       <%= product.quantity %>
                     </div>
                 
-                    <div class="total-price"><%= product.price * product.quantity%> VNĐ</div>
+                    <div class="total-price"><%= product.price * product.quantity%> USD</div>
 
                     <div class="date">
                         <%= new Date(orders.date * 1000).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) %>
