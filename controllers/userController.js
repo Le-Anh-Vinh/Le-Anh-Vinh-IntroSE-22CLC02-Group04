@@ -67,7 +67,7 @@ const mainController = {
             else if (user.role === 'admin') {
                 const reports = await reportData.getPending();
                 const sortedReports = reports.sort((a, b) => {
-                    const statusOrder = { pending: 0, confirmed: 1, declined: 2 };
+                    const statusOrder = { pending: 0, accepted: 1, declined: 2 };
                     return statusOrder[a.status] - statusOrder[b.status];
                 });
                 const admin = await userData.get(id);

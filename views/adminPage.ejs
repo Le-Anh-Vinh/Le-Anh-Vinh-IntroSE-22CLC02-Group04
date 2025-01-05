@@ -53,7 +53,13 @@
           <tbody>
             <% reports.forEach(function (report) { %>
               <tr>
-                <td><a href="/report/<%= report.id %>"><%= report.title %></a></td>
+                <td>
+                  <% if (report.status.toLowerCase() === 'pending') { %>
+                    <a href="/report/<%= report.id %>"><%= report.title %></a>
+                  <% } else { %>
+                    <span><%= report.title %></span>
+                  <% } %>
+                </td>
                 <td><%= (() => {
                   const timestamp = report.date.seconds * 1000;
                   const date = new Date(timestamp);
@@ -62,7 +68,7 @@
                   const year = date.getFullYear();
           
                   return `${day}/${month}/${year}`;
-                  })() %></td>
+                })() %></td>
                 <td class="<%= report.status.toLowerCase() %>"><%= report.status %></td>
               </tr>
             <% }); %>
