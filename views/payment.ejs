@@ -42,14 +42,14 @@
               </div>
               
               <div class="unit-price">
-                <%= productTick.productDetails.price %> VNĐ
+                <%= productTick.productDetails.price %> USD
               </div>
 
               <div class="quantity">
                 <%= productTick.quantity %>
               </div>
           
-              <div class="total-price"><%= productTick.productDetails.price * productTick.quantity %> VNĐ</div>
+              <div class="total-price"><%= productTick.productDetails.price * productTick.quantity %> USD</div>
           </div>
         <% }); %>
 
@@ -60,8 +60,8 @@
 
         <div class="confirm-section">
           <div class="confirm-section__price">
-            <div class="label">TOTAL PRICE (<%= totalQuantity %> Products)</div>
-            <div class="final-price"><%= total %> VNĐ</div>
+            <div class="label">TOTAL PRICE</div>
+            <div class="final-price"><%= total %> USD</div>
           </div>
           <div class="confirm-section__btn">
             <button class="purchase-button" id="purchase-btn">PURCHASE</button>
